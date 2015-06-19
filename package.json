@@ -1,0 +1,22 @@
+{
+  "name": "times-trailers",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/skortchmark9/times-trailers.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/skortchmark9/times-trailers/issues"
+  },
+  "homepage": "https://github.com/skortchmark9/times-trailers",
+  "dependencies": {
+    "fluent-ffmpeg": "^2.0.1"
+  }
+}
