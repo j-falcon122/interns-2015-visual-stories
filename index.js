@@ -1,9 +1,8 @@
 var ffmpeg = require('fluent-ffmpeg');
 
-var proc = ffmpeg('tmp/%d.jpg')
-  .size('400x400')
-  // using 25 fps
-  .fps(25)
+var proc = ffmpeg('tmp/%d.png')
+  .videoCodec('libx264')
+  .outputOptions(['-pix_fmt yuv420p'])
   // setup event handlers
   .on('end', function() {
 	      console.log('file has been converted succesfully');
@@ -12,4 +11,4 @@ var proc = ffmpeg('tmp/%d.jpg')
 	      console.log('an error happened: ' + err.message);
   })
   // save to file
-  .save('output.m4v');
+  .save('output.mp4');

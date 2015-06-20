@@ -1,0 +1,10 @@
+#!/bin/bash
+DIR=${1:-.} #defaults to current directory (.)
+extension=${2:-png} #defaults to png if arg 1 unset or empty string
+echo "renaming all .$extension files"
+i=1
+for file in $DIR/*.$extension; do
+  new=$(printf "$DIR/%0d.$extension" "$i") #assign output of printf to new, pad w/one 0
+  mv -- "$file" "$new" #rename file $i to $new
+  let i=i+1
+done

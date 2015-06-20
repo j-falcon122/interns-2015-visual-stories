@@ -1,11 +1,3 @@
-<script>
-var fontsLoaded = false;
-function fonta() {
-    console.log('fontsLoaded');
-    fontsLoaded = true;
-}
-</script>
-
 <link rel="stylesheet" onload="fonta()" href="http://typeface.nytimes.com/css/zam5nzz.css"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <style>
@@ -22,6 +14,8 @@ function initialize() {
         .mousedown(function(){this.play();})
         .mouseup(function(){this.pause();})
         .dblclick(function(){window.open('http://google.com');});
+
+    $video[0].playbackRate = .1;
 
     $newtext = $('#new-text').keypress(function(e) {
         if (e.which == 13) {
@@ -72,7 +66,7 @@ function sup() {
 </script>
 
 
-<video id="video" src="1 Minute Countdown Film Style-Mobile.mp4"></video>
+<video id="video" src="tmp/output.mp4"></video>
 <button onclick="play()">PLAY</button>
 <input id="fps" type="text" placeholder="fps"/>
 <canvas id="canvas"></canvas>
