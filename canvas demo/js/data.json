@@ -1,0 +1,44 @@
+results = {
+	"article1": {
+		"source": "http://www.nytimes.com/2015/06/22/us/california-golf-trip-lands-obama-in-a-water-use-debate.html?ref=us&_r=0",
+		"headline": "California Golf Trip Lands \nObama in a Water-Use Debate",
+		"photo": "http://static01.nyt.com/images/2015/06/22/us/21OBAMA/21OBAMA-master675-v3.jpg",
+		"photo_tagline": "President Obama at the airport in Palm Springs, Calif., on Saturday, before going to the Sunnylands estate in Rancho Mirage. Credit Zach Gibson/The New York Times",
+		"date": "JUNE 21, 2015",
+		"author": "By GARDINER HARRIS",
+		"section": "POLITICS",
+		"kicker": "WHITE HOUSE MEMO"
+	},
+	"article2": {
+		"source": "from article: << http://local.sbx.nytimes.com/2015/06/22/fashion/mens-style/in-milan-the-mens-fashion-crowd-practices-magazine-diplomacy.html",
+		"headline": "In Milan, the Men’s Fashion Crowd Practices Magazine Diplomacy",
+		"photo":[
+			"http://static01.nyt.com/images/2015/06/22/fashion/Scene-CITY-gq-slide-BJB3/Scene-CITY-gq-slide-BJB3-articleLarge.jpg",
+			"http://static01.nyt.com/images/2015/06/22/fashion/Scene-CITY-gq-slide-D4NP/Scene-CITY-gq-slide-D4NP-articleLarge.jpg",
+			"http://static01.nyt.com/images/2015/06/22/fashion/Scene-CITY-gq-slide-82GI/Scene-CITY-gq-slide-82GI-articleLarge.jpg",
+			"http://static01.nyt.com/images/2015/06/22/fashion/Scene-CITY-gq-slide-3N9C/Scene-CITY-gq-slide-3N9C-articleLarge.jpg",
+			"http://static01.nyt.com/images/2015/06/22/fashion/Scene-CITY-gq-slide-0Q6E/Scene-CITY-gq-slide-0Q6E-articleLarge.jpg",
+			"http://static01.nyt.com/images/2015/06/22/fashion/Scene-CITY-gq-slide-TKR8/Scene-CITY-gq-slide-TKR8-articleLarge.jpg"
+		],
+		"photo_tagline": [
+			"Miguel performing during the GQ party for Jim Moore.",
+			"Jim Nelson, right, and Jim Moore at the GQ party.",
+			"Neil Barrett and Thom Browne at the GQ party.",
+			"Dan Peres, right, and Tomas Maier, center at the Details party.",
+			"The Details magazine party.",
+			"Dan Peres, Constanza Etro and Kean Etro at the Details party."
+		],
+		"photographer": [
+			"JACOPO RAULE / GETTY IMAGES FOR GQ",
+			"JACOPO RAULE / GETTY IMAGES FOR GQ",
+			"JACOPO RAULE / GETTY IMAGES FOR GQ",
+			"VITTORIO ZUNINO CELOTTO / GETTY IMAGES FOR DETAILS MAGAZINE",
+			"VITTORIO ZUNINO CELOTTO / GETTY IMAGES FOR DETAILS MAGAZINE",
+			"VITTORIO ZUNINO CELOTTO / GETTY IMAGES FOR DETAILS MAGAZINE"
+		],
+		"date": "JUNE 21, 2015",
+		"author": "By GARDINER HARRIS",
+		"section": "POLITICS",
+		"kicker": "WHITE HOUSE MEMO"
+	}
+}
