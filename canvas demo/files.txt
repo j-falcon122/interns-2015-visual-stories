@@ -1,0 +1,147 @@
+-------------FONTS-------------
+@font-face {
+	font-family: 'NYTCheltenhamBdCon';
+	src: url('./fonts/NYTCheltenhamBdCon')
+}
+@font-face {
+	font-family: 'NYTCheltenhamBdXCon';
+	src: url('./fonts/NYTCheltenhamBdXCon')
+}
+@font-face {
+	font-family: 'NYTCheltenhamBold';
+	src: url('./fonts/NYTCheltenhamBold')
+}
+@font-face {
+	font-family: 'NYTCheltenhamBook';
+	src: url('./fonts/NYTCheltenhamBook')
+}
+@font-face {
+	font-family: 'NYTCheltenhamExtBd';
+	src: url('./fonts/NYTCheltenhamExtBd')
+}
+@font-face {
+	font-family: 'NYTCheltenhamExtLt';
+	src: url('./fonts/NYTCheltenhamExtLt')
+}
+@font-face {
+	font-family: 'NYTCheltenhamLt';
+	src: url('./fonts/NYTCheltenhamLt')
+}
+@font-face {
+	font-family: 'NYTCheltenhamLtCon';
+	src: url('./fonts/NYTCheltenhamLtCon')
+}
+@font-face {
+	font-family: 'NYTCheltenhamLtSC';
+	src: url('./fonts/NYTCheltenhamLtSC')
+}
+@font-face {
+	font-family: 'NYTCheltenhamMedCon';
+	src: url('./fonts/NYTCheltenhamMedCon')
+}
+@font-face {
+	font-family: 'NYTCheltenhamMedium';
+	src: url('./fonts/NYTCheltenhamMedium')
+}
+@font-face {
+	font-family: 'NYTCheltenhamWide';
+	src: url('./fonts/NYTCheltenhamWide')
+}
+@font-face {
+	font-family: 'NYTFranklinBold';
+	src: url('./fonts/NYTFranklinBold')
+}
+@font-face {
+	font-family: 'NYTFranklinExtraBd';
+	src: url('./fonts/NYTFranklinExtraBd')
+}
+@font-face {
+	font-family: 'NYTFranklinHeadline';
+	src: url('./fonts/NYTFranklinHeadline')
+}
+@font-face {
+	font-family: 'NYTFranklinLight';
+	src: url('./fonts/NYTFranklinLight')
+}
+@font-face {
+	font-family: 'NYTFranklinMedium';
+	src: url('./fonts/NYTFranklinMedium')
+}
+@font-face {
+	font-family: 'NYTFranklinSemiBold';
+	src: url('./fonts/NYTFranklinSemiBold')
+}
+@font-face {
+	font-family: 'NYTImperial';
+	src: url('./fonts/NYTImperial')
+}
+@font-face {
+	font-family: 'NYTImperialSemiBold';
+	src: url('./fonts/NYTImperialSemiBold')
+}
+@font-face {
+	font-family: 'NYTKarnakDisplay';
+	src: url('./fonts/NYTKarnakDisplay')
+}
+@font-face {
+	font-family: 'NYTKarnakText';
+	src: url('./fonts/NYTKarnakText')
+}
+@font-face {
+	font-family: 'NYTStymieLight';
+	src: url('./fonts/NYTStymieLight')
+}
+@font-face {
+	font-family: 'NYTStymieMedium';
+	src: url('./fonts/NYTStymieMedium')
+}
+-------------CSS-------------
+#loadfonts p:nth-child(1){font-family: 'NYTCheltenhamBdCon';}
+#loadfonts p:nth-child(2){font-family: 'NYTCheltenhamBdXCon';}
+#loadfonts p:nth-child(3){font-family: 'NYTCheltenhamBold';}
+#loadfonts p:nth-child(4){font-family: 'NYTCheltenhamBook';}
+#loadfonts p:nth-child(5){font-family: 'NYTCheltenhamExtBd';}
+#loadfonts p:nth-child(6){font-family: 'NYTCheltenhamExtLt';}
+#loadfonts p:nth-child(7){font-family: 'NYTCheltenhamLt';}
+#loadfonts p:nth-child(8){font-family: 'NYTCheltenhamLtCon';}
+#loadfonts p:nth-child(9){font-family: 'NYTCheltenhamLtSC';}
+#loadfonts p:nth-child(10){font-family: 'NYTCheltenhamMedCon';}
+#loadfonts p:nth-child(11){font-family: 'NYTCheltenhamMedium';}
+#loadfonts p:nth-child(12){font-family: 'NYTCheltenhamWide';}
+#loadfonts p:nth-child(13){font-family: 'NYTFranklinBold';}
+#loadfonts p:nth-child(14){font-family: 'NYTFranklinExtraBd';}
+#loadfonts p:nth-child(15){font-family: 'NYTFranklinHeadline';}
+#loadfonts p:nth-child(16){font-family: 'NYTFranklinLight';}
+#loadfonts p:nth-child(17){font-family: 'NYTFranklinMedium';}
+#loadfonts p:nth-child(18){font-family: 'NYTFranklinSemiBold';}
+#loadfonts p:nth-child(19){font-family: 'NYTImperial';}
+#loadfonts p:nth-child(20){font-family: 'NYTImperialSemiBold';}
+#loadfonts p:nth-child(21){font-family: 'NYTKarnakDisplay';}
+#loadfonts p:nth-child(22){font-family: 'NYTKarnakText';}
+#loadfonts p:nth-child(23){font-family: 'NYTStymieLight';}
+#loadfonts p:nth-child(24){font-family: 'NYTStymieMedium';}
+-------------HTML-------------
+<p>NYTCheltenhamBdCon</p>
+<p>NYTCheltenhamBdXCon</p>
+<p>NYTCheltenhamBold</p>
+<p>NYTCheltenhamBook</p>
+<p>NYTCheltenhamExtBd</p>
+<p>NYTCheltenhamExtLt</p>
+<p>NYTCheltenhamLt</p>
+<p>NYTCheltenhamLtCon</p>
+<p>NYTCheltenhamLtSC</p>
+<p>NYTCheltenhamMedCon</p>
+<p>NYTCheltenhamMedium</p>
+<p>NYTCheltenhamWide</p>
+<p>NYTFranklinBold</p>
+<p>NYTFranklinExtraBd</p>
+<p>NYTFranklinHeadline</p>
+<p>NYTFranklinLight</p>
+<p>NYTFranklinMedium</p>
+<p>NYTFranklinSemiBold</p>
+<p>NYTImperial</p>
+<p>NYTImperialSemiBold</p>
+<p>NYTKarnakDisplay</p>
+<p>NYTKarnakText</p>
+<p>NYTStymieLight</p>
+<p>NYTStymieMedium</p>
