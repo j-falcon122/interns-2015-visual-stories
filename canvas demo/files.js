@@ -8,7 +8,7 @@ fs.readdirSync('./fonts').forEach(function(name){
 
 css += "-------------CSS-------------\n"
 fs.readdirSync('./fonts').forEach(function(name, it){
-	css += "#loadfonts p:nth-child("+(it+1)+"){font-family: '"+name+"';}\n";
+	css += "#loadfonts p:nth-child("+(it+1)+"){font-family: '"+name+"';font-style:italic;}\n";
 })
 
 css += "-------------HTML-------------\n"

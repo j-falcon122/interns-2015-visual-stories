@@ -11796,6 +11796,7 @@ var SVGStyles = Base.each({
 	dashArray: ['stroke-dasharray', 'array'],
 	dashOffset: ['stroke-dashoffset', 'number'],
 	fontFamily: ['font-family', 'string'],
+	fontStyle: ['font-style', 'string'],
 	fontWeight: ['font-weight', 'string'],
 	fontSize: ['font-size', 'number'],
 	justification: ['text-anchor', 'lookup', {
