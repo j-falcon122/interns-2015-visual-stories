@@ -1,10 +1,3 @@
-/*
-Todo:
-Designs for slides
-API calls
-Functions to decide slides
-*/
-
 var tests = {
 	"articleTop": false,
 	"fontTest": false,
@@ -56,13 +49,19 @@ results = {
 	}
 };
 
+var mouse = false;
+var count = 0;
+var watchdog = 0;
+var iterator = 0;
+var flag = true;
+
 var path = new Path.Rectangle(new Point(0,0), new Size(view.size)).fillColor = "#000000";
 
 function imageSize(raster){
 	if(raster.width > raster.height){
 		var ratio = (view.size._width)/raster.width;
-		// raster.position = new Point(raster.width*ratio/2, raster.height*ratio/2); //borders top
-		raster.position = new Point(raster.width*ratio/2, view.size._height/2); //centered
+		raster.position = new Point(raster.width*ratio/2, view.size._height/2);
+		if(tests.articleTop) raster.position = new Point(raster.width*ratio/2, raster.height*ratio/2);
 		raster.scale(ratio);
 	} else {
 		var ratio = (view.size._height)/raster.height;
@@ -72,32 +71,26 @@ function imageSize(raster){
 };
 
 function fadeIn(object, ticks, end){
-	if (typeof ticks === "undefined") {ticks = 60;};
-	if (typeof end === "undefined") {end = 60};
+	ticks = ticks || 60;
+	end = end || 60;
 	if(count < end){
-		if(count!=0) {
-			object.opacity = ((count)/ticks)
-		};
-		if (object.opacity > 1) {
-			object.opacity = 1;
-		};
+		if(count != 0) object.opacity = ((count)/ticks);
+		if (object.opacity > 1) object.opacity = 1;
 	};
 };
 
 function fadeOut(object, ticks, end){
-	if (typeof ticks === "undefined") {ticks = 60;};
-	if (typeof end === "undefined") {end = 60};
+	ticks = ticks || 60;
+	end = end || 60;
 	if(count < end){
 		object.opacity = 1 - ((count)/ticks);
-		if (object.opacity < 0) {
-			object.opacity = 0;
-		};
+		if (object.opacity < 0) object.opacity = 0;
 	};
 };
 
 function slideOut(object, ticks, end){
-	if (typeof ticks === "undefined") {ticks = 120;};
-	if (typeof end === "undefined") {end = 120};
+	ticks = ticks || 60;
+	end = end || 60;
 	var destination = new Point(0-object.position._x,object.position._y);
 	if(count < end){
 		object.opacity = 1;
@@ -159,15 +152,14 @@ if(tests.fontTest){
 	});
 };
 
-
 if(tests.styles){
 	var images = [];
 	var descriptions = [];
+	var directions;
 
 	var teaser = new Raster('logo');
 	imageSize(teaser);
 	teaser.scale(0.5);
-	var directions;
 
 	function reset(){
 		teaser.opacity = 1;
@@ -201,19 +193,11 @@ if(tests.styles){
 			content: "Hold down to watch trailer",
 			fontFamily: "NYTCheltenhamLtSC",
 			opacity: 1
-		})
+		});
 	};
 	//initial page load:
 	reset();
 };
-
-
-//	clicking interface
-var mouse = false;
-var count = 0;
-var watchdog = 0;
-var iterator = 0;
-var flag = true;
 
 function onMouseDown(event){
 	mouse = true;
@@ -227,21 +211,15 @@ function onMouseUp(event){
 	flag = true;
 };
 
-//	onFrame refreshes 60 times a second
-//	You can use the event "event.count" as a counter,
-//	or manually make a counter
 function onFrame(event){
 	if(tests.articleTop){
 		if(mouse){
 			watchdog += 1;
 			count += 1;
-			image.opacity = (count/90);
-			text1.opacity = (count/120);
-			text2.opacity = (count/150);
-			teaser.opacity = 1 - (count/30);
-			// if(teaser.opacity < 0){
-			// 	teaser.opacity = 0;
-			// };
+			fadeIn(image);
+			fadeIn(text1);
+			fadeIn(text2);
+			fadeOut(teaser,15);
 		} else {
 			teaser.opacity = 1;
 			image.opacity = 0;
@@ -249,6 +227,7 @@ function onFrame(event){
 			text2.opacity = 0;
 		};
 	};
+
 	if(tests.styles){
 		if(mouse){
 			watchdog += 1;

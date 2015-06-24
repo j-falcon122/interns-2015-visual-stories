@@ -7,7 +7,7 @@ img{
 	font-size:40px;
 }
 canvas{
-	/*border:2px dotted black;*/
+/*	border:2px dotted black;*/
 }
 .wrapper{
 	margin:auto;
@@ -15,6 +15,7 @@ canvas{
 }
 
 #loadfonts{
+	display:none;
 	font-size:30px;
 	position:absolute;
 	color:#666666;
