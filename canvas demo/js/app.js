@@ -54,10 +54,59 @@ results = {
 		"section": "POLITICS",
 		"kicker": "WHITE HOUSE MEMO"
 	}
-}
+};
 
 var path = new Path.Rectangle(new Point(0,0), new Size(view.size)).fillColor = "#000000";
 
+function imageSize(raster){
+	if(raster.width > raster.height){
+		var ratio = (view.size._width)/raster.width;
+		// raster.position = new Point(raster.width*ratio/2, raster.height*ratio/2); //borders top
+		raster.position = new Point(raster.width*ratio/2, view.size._height/2); //centered
+		raster.scale(ratio);
+	} else {
+		var ratio = (view.size._height)/raster.height;
+		raster.position = new Point(view.size._width/2, raster.height*ratio/2);
+		raster.scale(ratio);
+	};
+};
+
+function fadeIn(object, ticks, end){
+	if (typeof ticks === "undefined") {ticks = 60;};
+	if (typeof end === "undefined") {end = 60};
+	if(count < end){
+		if(count!=0) {
+			object.opacity = ((count)/ticks)
+		};
+		if (object.opacity > 1) {
+			object.opacity = 1;
+		};
+	};
+};
+
+function fadeOut(object, ticks, end){
+	if (typeof ticks === "undefined") {ticks = 60;};
+	if (typeof end === "undefined") {end = 60};
+	if(count < end){
+		object.opacity = 1 - ((count)/ticks);
+		if (object.opacity < 0) {
+			object.opacity = 0;
+		};
+	};
+};
+
+function slideOut(object, ticks, end){
+	if (typeof ticks === "undefined") {ticks = 120;};
+	if (typeof end === "undefined") {end = 120};
+	var destination = new Point(0-object.position._x,object.position._y);
+	if(count < end){
+		object.opacity = 1;
+		object.position -= (new Point(1,0)*view.size/ticks);
+	} else {
+		imageSize(object);
+		object.opacity = 0;
+	};
+};
 
 if(tests.articleTop){
 
@@ -87,7 +136,7 @@ if(tests.articleTop){
 		content: results.article1.author + "\n" + results.article1.date,
 		fontFamily: "Times New Roman"
 	});
-}
+};
 
 if(tests.fontTest){
 	var nyt = new PointText({
@@ -98,7 +147,7 @@ if(tests.fontTest){
 		content: "italic",
 		fontFamily: "NYTCheltenhamBold",
 		fontStyle: "italic"
-	})
+	});
 
 	var times = new PointText({
 		point: new Point(view.size._width/2,200),
@@ -107,74 +156,64 @@ if(tests.fontTest){
 		fillColor: "#FFFFFF",
 		content: "normal",
 		fontFamily: "NYTCheltenhamBold"
-	})
-}
+	});
+};
+
 
 if(tests.styles){
 	var images = [];
-	results.article2.photo.forEach(function(photo, it){
-		images[it] = new Raster('results.article2.photo['+it+']');
-		imageSize(images[it]);
-	});
-
-	var text = new Path.Rectangle(new Point(0,465), new Size(view.size)).fillColor = "#FFFFFF";	
 	var descriptions = [];
-	results.article2.photo_tagline.forEach(function(photo, it){
-		descriptions[it] = new PointText({
+
+	var teaser = new Raster('logo');
+	imageSize(teaser);
+	teaser.scale(0.5);
+	var directions;
+
+	function reset(){
+		teaser.opacity = 1;
+		images = [];
+		results.article2.photo.forEach(function(photo, it){
+			images[it] = new Raster('results.article2.photo['+it+']');
+			imageSize(images[it]);
+			images[it].opacity = 0;
+		});
+
+		var text = new Path.Rectangle(new Point(0,465), new Size(view.size)).fillColor = "#FFFFFF";
+		// var text = new Path.Rectangle(new Point(0,0), new Size(view.size._width,35)).fillColor = "#FFFFFF";
+		descriptions = [];
+		results.article2.photo_tagline.forEach(function(photo, it){
+			descriptions[it] = new PointText({
+				point: new Point(view.size._width/2,490),
+				justification: 'center',
+				fontSize: 15,
+				fillColor: '#333333',
+				content: results.article2.photo_tagline[it],
+				fontFamily: "NYTCheltenhamLtSC",
+				opacity:0
+			});
+		});
+
+		directions = new PointText({
 			point: new Point(view.size._width/2,490),
 			justification: 'center',
-			fontSize: 20,
-			fillColor: '#666666',
-			content: results.article2.photo_tagline[it],
+			fontSize: 15,
+			fillColor: '#333333',
+			content: "Hold down to watch trailer",
 			fontFamily: "NYTCheltenhamLtSC",
-			opacity:0
-		});
-	});
-}
-
-function imageSize(raster){
-	if(raster.width > raster.height){
-		var ratio = (view.size._width)/raster.width;
-		// raster.position = new Point(raster.width*ratio/2, raster.height*ratio/2);
-		raster.position = new Point(raster.width*ratio/2, view.size._height/2);
-		raster.scale(ratio);
-	} else {
-		var ratio = (view.size._height)/raster.height;
-		raster.position = new Point(view.size._width/2, raster.height*ratio/2);
-		raster.scale(ratio);
+			opacity: 1
+		})
 	};
-}
-
-function fadeIn(object, ticks, end){
-	if (typeof ticks === "undefined") {ticks = 60;};
-	if (typeof end === "undefined") {end = 60};
-	if(count < end){
-		object.opacity = ((count)/ticks);
-		if (object.opacity > 1) {
-			object.opacity = 1;
-		};
-	};
+	//initial page load:
+	reset();
 };
 
-function slideOut(object, ticks, end){
-	if (typeof ticks === "undefined") {ticks = 120;};
-	if (typeof end === "undefined") {end = 120};
-	var destination = new Point(0-object.position._x,object.position._y);
-
-	if(count < end){
-		object.opacity = 1;
-		object.position -= (new Point(1,0)*view.size/ticks);
-	} else {
-		imageSize(object);
-		object.opacity = 0;
-	}
-};
 
 //	clicking interface
 var mouse = false;
 var count = 0;
 var watchdog = 0;
 var iterator = 0;
+var flag = true;
 
 function onMouseDown(event){
 	mouse = true;
@@ -182,9 +221,10 @@ function onMouseDown(event){
 
 function onMouseUp(event){
 	mouse = false;
-	count = 0;
+	count = -1;
 	watchdog = 0;
 	iterator = 0;
+	flag = true;
 };
 
 //	onFrame refreshes 60 times a second
@@ -199,16 +239,16 @@ function onFrame(event){
 			text1.opacity = (count/120);
 			text2.opacity = (count/150);
 			teaser.opacity = 1 - (count/30);
-			if(teaser.opacity < 0){
-				teaser.opacity = 0;
-			}
+			// if(teaser.opacity < 0){
+			// 	teaser.opacity = 0;
+			// };
 		} else {
 			teaser.opacity = 1;
 			image.opacity = 0;
 			text1.opacity = 0;
 			text2.opacity = 0;
-		}
-	}
+		};
+	};
 	if(tests.styles){
 		if(mouse){
 			watchdog += 1;
@@ -217,11 +257,18 @@ function onFrame(event){
 				count = 0;
 			}
 			if(watchdog % 240 === 0) {
-				watchdog = 0
+				watchdog = 0;
 				iterator += 1;
 				descriptions.forEach(function(photo){
 					photo.opacity = 0;
 				})
+			}
+			if(flag){
+				fadeOut(teaser,30);
+				directions.opacity = 0;
+				if(count === 100){
+					flag = false;
+				}
 			}
 			if (watchdog <= 120) {
 				fadeIn(images[iterator],100,120);
@@ -238,6 +285,10 @@ function onFrame(event){
 			descriptions.forEach(function(thing){
 				thing.opacity = 0;
 			})
-		}
-	}
-}
+			if(count === -1){
+				reset();
+			}
+			count = 0;
+		};
+	};
+};
