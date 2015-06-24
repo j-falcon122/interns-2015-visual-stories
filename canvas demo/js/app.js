@@ -23,7 +23,7 @@ results = {
 		"kicker": "WHITE HOUSE MEMO"
 	},
 	article2: {
-		// from article: << http://local.sbx.nytimes.com/2015/06/22/fashion/mens-style/in-milan-the-mens-fashion-crowd-practices-magazine-diplomacy.html >>
+		"source": "http://local.sbx.nytimes.com/2015/06/22/fashion/mens-style/in-milan-the-mens-fashion-crowd-practices-magazine-diplomacy.html",
 		"headline": "In Milan, the Men’s Fashion Crowd Practices Magazine Diplomacy",
 		"photo":[
 			"http://static01.nyt.com/images/2015/06/22/fashion/Scene-CITY-gq-slide-BJB3/Scene-CITY-gq-slide-BJB3-articleLarge.jpg",
@@ -57,6 +57,7 @@ results = {
 }
 
 var path = new Path.Rectangle(new Point(0,0), new Size(view.size)).fillColor = "#000000";
+
 
 if(tests.articleTop){
 
@@ -115,16 +116,27 @@ if(tests.styles){
 		images[it] = new Raster('results.article2.photo['+it+']');
 		imageSize(images[it]);
 	});
-}
 
-images.forEach(function(photo, it){
-	photo.opacity = 0;
-})
+	var text = new Path.Rectangle(new Point(0,465), new Size(view.size)).fillColor = "#FFFFFF";	
+	var descriptions = [];
+	results.article2.photo_tagline.forEach(function(photo, it){
+		descriptions[it] = new PointText({
+			point: new Point(view.size._width/2,490),
+			justification: 'center',
+			fontSize: 20,
+			fillColor: '#666666',
+			content: results.article2.photo_tagline[it],
+			fontFamily: "NYTCheltenhamLtSC",
+			opacity:0
+		});
+	});
+}
 
 function imageSize(raster){
 	if(raster.width > raster.height){
 		var ratio = (view.size._width)/raster.width;
-		raster.position = new Point(raster.width*ratio/2, raster.height*ratio/2);
+		// raster.position = new Point(raster.width*ratio/2, raster.height*ratio/2);
+		raster.position = new Point(raster.width*ratio/2, view.size._height/2);
 		raster.scale(ratio);
 	} else {
 		var ratio = (view.size._height)/raster.height;
@@ -133,11 +145,10 @@ function imageSize(raster){
 	};
 }
 
-function fadeIn(object, ticks, delay){
+function fadeIn(object, ticks, end){
 	if (typeof ticks === "undefined") {ticks = 60;};
-	if (typeof delay === "undefined") {delay = 0};
-	if(count > delay){
-		console.log(object.opacity);
+	if (typeof end === "undefined") {end = 60};
+	if(count < end){
 		object.opacity = ((count)/ticks);
 		if (object.opacity > 1) {
 			object.opacity = 1;
@@ -145,28 +156,36 @@ function fadeIn(object, ticks, delay){
 	};
 };
 
-function fadeOut(object, ticks, delay){
-	if (typeof ticks === "undefined") {ticks = 60;};
-	if (typeof delay === "undefined") {delay = 0};
-	if(count > delay){
-		object.opacity = (1 - (count)/ticks);
-		if (object.opacity < 0) {
-			object.opacity = 0;
-		}
+function slideOut(object, ticks, end){
+	if (typeof ticks === "undefined") {ticks = 120;};
+	if (typeof end === "undefined") {end = 120};
+	var destination = new Point(0-object.position._x,object.position._y);
+
+	if(count < end){
+		object.opacity = 1;
+		object.position -= (new Point(1,0)*view.size/ticks);
+	} else {
+		imageSize(object);
+		object.opacity = 0;
 	}
-}
+};
+
 //	clicking interface
 var mouse = false;
 var count = 0;
+var watchdog = 0;
+var iterator = 0;
 
 function onMouseDown(event){
 	mouse = true;
-}
+};
 
 function onMouseUp(event){
 	mouse = false;
 	count = 0;
-}
+	watchdog = 0;
+	iterator = 0;
+};
 
 //	onFrame refreshes 60 times a second
 //	You can use the event "event.count" as a counter,
@@ -174,6 +193,7 @@ function onMouseUp(event){
 function onFrame(event){
 	if(tests.articleTop){
 		if(mouse){
+			watchdog += 1;
 			count += 1;
 			image.opacity = (count/90);
 			text1.opacity = (count/120);
@@ -191,8 +211,33 @@ function onFrame(event){
 	}
 	if(tests.styles){
 		if(mouse){
+			watchdog += 1;
 			count += 1;
-			fadeIn(images[2],undefined,60);
+			if(count % 120 === 0){
+				count = 0;
+			}
+			if(watchdog % 240 === 0) {
+				watchdog = 0
+				iterator += 1;
+				descriptions.forEach(function(photo){
+					photo.opacity = 0;
+				})
+			}
+			if (watchdog <= 120) {
+				fadeIn(images[iterator],100,120);
+				fadeIn(descriptions[iterator],30,120);
+			}
+			if (watchdog > 120 && watchdog <= 240){
+				descriptions[iterator].opacity=1;
+				slideOut(images[iterator],120,120);
+			}
+		} else {
+			images.forEach(function(photo){
+				photo.opacity = 0;
+			})
+			descriptions.forEach(function(thing){
+				thing.opacity = 0;
+			})
 		}
 	}
 }

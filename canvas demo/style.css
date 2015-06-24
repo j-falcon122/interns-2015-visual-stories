@@ -1,7 +1,9 @@
 img{
 	display:none;
 }
-
+canvas{
+	/*border:2px dotted black;*/
+}
 .wrapper{
 	margin:auto;
 	text-align:center;
@@ -11,30 +13,31 @@ img{
 	font-size:50px;
 }
 
-#loadfonts p:nth-child(1){font-family: 'NYTCheltenhamBdCon';font-style:italic;}
-#loadfonts p:nth-child(2){font-family: 'NYTCheltenhamBdXCon';font-style:italic;}
-#loadfonts p:nth-child(3){font-family: 'NYTCheltenhamBold';font-style:italic;}
-#loadfonts p:nth-child(4){font-family: 'NYTCheltenhamBook';font-style:italic;}
-#loadfonts p:nth-child(5){font-family: 'NYTCheltenhamExtBd';font-style:italic;}
-#loadfonts p:nth-child(6){font-family: 'NYTCheltenhamExtLt';font-style:italic;}
-#loadfonts p:nth-child(7){font-family: 'NYTCheltenhamLt';font-style:italic;}
-#loadfonts p:nth-child(8){font-family: 'NYTCheltenhamLtCon';font-style:italic;}
-#loadfonts p:nth-child(9){font-family: 'NYTCheltenhamLtSC';font-style:italic;}
-#loadfonts p:nth-child(10){font-family: 'NYTCheltenhamMedCon';font-style:italic;}
-#loadfonts p:nth-child(11){font-family: 'NYTCheltenhamMedium';font-style:italic;}
-#loadfonts p:nth-child(12){font-family: 'NYTCheltenhamWide';font-style:italic;}
-#loadfonts p:nth-child(13){font-family: 'NYTFranklinBold';font-style:italic;}
-#loadfonts p:nth-child(14){font-family: 'NYTFranklinExtraBd';font-style:italic;}
-#loadfonts p:nth-child(15){font-family: 'NYTFranklinHeadline';font-style:italic;}
-#loadfonts p:nth-child(16){font-family: 'NYTFranklinLight';font-style:italic;}
-#loadfonts p:nth-child(17){font-family: 'NYTFranklinMedium';font-style:italic;}
-#loadfonts p:nth-child(18){font-family: 'NYTFranklinSemiBold';font-style:italic;}
-#loadfonts p:nth-child(19){font-family: 'NYTImperial';font-style:italic;}
-#loadfonts p:nth-child(20){font-family: 'NYTImperialSemiBold';font-style:italic;}
-#loadfonts p:nth-child(21){font-family: 'NYTKarnakDisplay';font-style:italic;}
-#loadfonts p:nth-child(22){font-family: 'NYTKarnakText';font-style:italic;}
-#loadfonts p:nth-child(23){font-family: 'NYTStymieLight';font-style:italic;}
-#loadfonts p:nth-child(24){font-family: 'NYTStymieMedium';font-style:italic;}
+#loadfonts p:nth-child(1){font-family: 'NYTCheltenhamBdCon';}
+#loadfonts p:nth-child(2){font-family: 'NYTCheltenhamBdXCon';}
+#loadfonts p:nth-child(3){font-family: 'NYTCheltenhamBold';}
+#loadfonts p:nth-child(4){font-family: 'NYTCheltenhamBook';}
+#loadfonts p:nth-child(5){font-family: 'NYTCheltenhamExtBd';}
+#loadfonts p:nth-child(6){font-family: 'NYTCheltenhamExtLt';}
+#loadfonts p:nth-child(7){font-family: 'NYTCheltenhamLt';}
+#loadfonts p:nth-child(8){font-family: 'NYTCheltenhamLtCon';}
+#loadfonts p:nth-child(9){font-family: 'NYTCheltenhamLtSC';}
+#loadfonts p:nth-child(10){font-family: 'NYTCheltenhamMedCon';}
+#loadfonts p:nth-child(11){font-family: 'NYTCheltenhamMedium';}
+#loadfonts p:nth-child(12){font-family: 'NYTCheltenhamWide';}
+#loadfonts p:nth-child(13){font-family: 'NYTFranklinBold';}
+#loadfonts p:nth-child(14){font-family: 'NYTFranklinExtraBd';}
+#loadfonts p:nth-child(15){font-family: 'NYTFranklinHeadline';}
+#loadfonts p:nth-child(16){font-family: 'NYTFranklinLight';}
+#loadfonts p:nth-child(17){font-family: 'NYTFranklinMedium';}
+#loadfonts p:nth-child(18){font-family: 'NYTFranklinSemiBold';}
+#loadfonts p:nth-child(19){font-family: 'NYTImperial';}
+#loadfonts p:nth-child(20){font-family: 'NYTImperialSemiBold';}
+#loadfonts p:nth-child(21){font-family: 'NYTKarnakDisplay';}
+#loadfonts p:nth-child(22){font-family: 'NYTKarnakText';}
+#loadfonts p:nth-child(23){font-family: 'NYTStymieLight';}
+#loadfonts p:nth-child(24){font-family: 'NYTStymieMedium';}
+
 @font-face {
 	font-family: 'NYTCheltenhamBdCon';
 	src: url('./fonts/NYTCheltenhamBdCon')
