@@ -1,7 +1,8 @@
 var tests = {
 	"articleTop": false,
 	"fontTest": false,
-	"styles": true
+	"styles": true,
+	"imageExport": false
 }
 
 results = {
@@ -199,6 +200,18 @@ if(tests.styles){
 	reset();
 };
 
+if(tests.imageExport){
+	var testing = new PointText({
+		point: new Point(view.size._width/2,view.size._height/2),
+		justification: 'center',
+		fontSize: 60,
+		fillColor: "#FFFFFF",
+		content: "This is a test\nDON'T PANIC",
+		fontFamily: "NYTCheltenhamBold"
+	});
+	toPNG = $('#myCanvas')[0];
+}
+
 function onMouseDown(event){
 	mouse = true;
 };
@@ -227,6 +240,12 @@ function onFrame(event){
 			text2.opacity = 0;
 		};
 	};
+	if(tests.imageExport){
+		if (mouse) {
+			console.log(toPNG.toDataURL("image/png"))
+		}
+		// if(mouse) window.location = $('#myCanvas').toDataURL("image/png");
+	}
 
 	if(tests.styles){
 		if(mouse){

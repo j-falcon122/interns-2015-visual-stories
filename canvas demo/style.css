@@ -15,9 +15,11 @@ canvas{
 }
 
 #loadfonts{
-	display:none;
+	/*display:none;*/
 	font-size:30px;
 	position:absolute;
+	right:0;
+	text-align:right;
 	color:#666666;
 }
 

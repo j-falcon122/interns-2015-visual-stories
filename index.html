@@ -44,9 +44,9 @@ function drawCanvas(text) {
 
     ctx.fillStyle = "#333";
     ctx.fillText(fillText, canvas.width/2, parseInt($textPosition.val()));
-    while (!fontsLoaded) {
-        console.log('mmwahahaha');
-    }
+    // while (!fontsLoaded) {
+    //     console.log('mmwahahaha');
+    // }
     window.location = canvas.toDataURL();
 
 }
