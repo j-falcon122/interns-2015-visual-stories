@@ -1,6 +1,7 @@
 var express 		= require('express');
 var app 			= express();
 var bodyParser 		= require('body-parser');
+
 var port 			= process.env.PORT || 8080;
 var router 			= express.Router();
 var ffmpeg 			= require('fluent-ffmpeg');
@@ -8,7 +9,7 @@ var parser 			= require('./js/parser.js');
 
 
 //middleware
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(bodyParser.json());
 app.use('/', express.static(__dirname+'/'));
 
