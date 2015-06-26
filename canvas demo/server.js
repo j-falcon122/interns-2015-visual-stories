@@ -8,10 +8,6 @@ var parser 			= require('./js/parser.js');
 //middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-// app.use(function(req, res, next) {
-// 	console.log('call was made!');
-// 	next();
-// })
 app.use('/', express.static(__dirname+'/'));
 
 var raw;
