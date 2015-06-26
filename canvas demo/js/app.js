@@ -114,15 +114,22 @@ function createText(options) {
         }));
 }
 
-function sendData(toSend){
+function sendFrames(){
+
     $.ajax({
         url: '/api/data',
         method: 'POST',
-        data: toSend,
+        data: cached_frames,
         success: function(res){
             console.log(res);
         }
     });
+
+    cached_frames = [];
+}
+
+function finish() {
+    $.ajax({method: 'GET', url : '/api/get/done'});
 }
 
 var nyt, times;
@@ -261,12 +268,20 @@ function onFrameDefault(event) {
 
     if (count % 240 === 0) {
         iterator += 1;
+        finish();
+    }
+
+    cached_frames.push({frame : toPNG.toDataURL("image/png"), number : count});
+    if (count % 60 === 0) {
+        sendData(cached_frames);
     }
 }
 
 
 
 var TICK_TIME = 1;
+var num_frames_in_package;
+var cached_frames = [];
 
 var mouse = false;
 var count = 1;
