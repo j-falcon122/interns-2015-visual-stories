@@ -12,17 +12,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use('/', express.static(__dirname+'/'));
 
-var raw;
 router.route('/data')
 	.post(function(req, res){
 		res.json({ message: 'received'})
-		console.log("raw ", raw);
+		req.forEach(function(data,it){
+			toPNG(data.frame,data.number,function(){
+				console.log("working on frame" + data.number);
+			});
+		});
 	})
-
 	.get(function(req, res){
-		raw = raw || 'none'
-		res.json({ message: raw })
-	})
+		res.json({ message: 'hello' })
+	});
+
 
 router.route('/done')
 	.get(function(req, res) {
