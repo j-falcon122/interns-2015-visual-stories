@@ -1,7 +1,7 @@
 var tests = {
-    articleTop: true,
+    articleTop: false,
     fontTest : false,
-    styles: false
+    styles: true
 };
 
 
@@ -129,7 +129,13 @@ function sendFrames(){
 }
 
 function finish() {
-    $.ajax({method: 'GET', url : '/api/get/done'});
+    $.ajax({
+        method: 'GET',
+        url : '/api/get/done',
+        success : function(res) {
+            console.log(res);
+        }
+    });
 }
 
 var nyt, times;
@@ -266,15 +272,16 @@ function onFrameDefault(event) {
         fadeIn(images[iterator + 1], 90);
     }
 
+    cached_frames.push({frame : canvas.toDataURL("image/png"), number : count});
+    if (count % 60 === 0) {
+        sendFrames();
+    }
+
     if (count % 240 === 0) {
         iterator += 1;
         finish();
     }
 
-    cached_frames.push({frame : toPNG.toDataURL("image/png"), number : count});
-    if (count % 60 === 0) {
-        sendFrames();
-    }
 }
 
 
@@ -290,6 +297,7 @@ var images = [];
 var descriptions = [];
 var directions;
 var image, text1, text2, teaser;
+var canvas = $('#myCanvas')[0];
 
 
 //initial page load:

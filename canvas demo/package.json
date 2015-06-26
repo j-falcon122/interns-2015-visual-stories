@@ -18,6 +18,7 @@
   "homepage": "https://github.com/nytm/interns-2015-visual-stories#readme",
   "dependencies": {
     "body-parser": "^1.13.1",
-    "express": "^4.13.0"
+    "express": "^4.13.0",
+    "fluent-ffmpeg": "^2.0.1"
   }
 }

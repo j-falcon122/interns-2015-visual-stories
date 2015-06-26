@@ -17,12 +17,12 @@ router.route('/data')
 	.post(function(req, res){
 		res.json({ message: 'received'})
 		console.log("raw ", raw);
-	});
+	})
 
 	.get(function(req, res){
 		raw = raw || 'none'
 		res.json({ message: raw })
-	});
+	})
 
 router.route('/done')
 	.get(function(req, res) {
@@ -34,7 +34,7 @@ router.route('/done')
 			      req.json({message : 'file has been converted succesfully'});
 		  })
 		  .on('error', function(err) {
-			      req.json(message : 'failed conversion.');
+			      req.json({message : 'failed conversion.'});
 		  })
 		  // save to file
 		  .save('output.mp4');
