@@ -273,7 +273,7 @@ function onFrameDefault(event) {
 
     cached_frames.push({frame : toPNG.toDataURL("image/png"), number : count});
     if (count % 60 === 0) {
-        sendData(cached_frames);
+        sendFrames();
     }
 }
 
