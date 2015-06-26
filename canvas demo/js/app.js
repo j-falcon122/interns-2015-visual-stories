@@ -58,7 +58,6 @@ function imageSize(raster) {
 		raster.position = new Point(view.size._width / 2, raster.height * ratio/2);
 		raster.scale(ratio);
 	}
-
 }
 
 function hide(images) {
@@ -71,37 +70,29 @@ function hide(images) {
 	}
 }
 
-function fadeIn(object, ticks, end) {
+function fadeIn(object, ticks) {
 	ticks = ticks || 60;
-	end = end || 60;
 
-	if (count >= end) return;
-
-	if (count != 0) object.opacity = (count / ticks);
-	if (object.opacity > 1) object.opacity = 1;
+	if (count != 0) {
+		object.opacity += (1 / ticks);
+	}
+	if (object.opacity > 1) {
+		object.opacity = 1;
+	}
 }
 
-function fadeOut(object, ticks, end){
+function fadeOut(object, ticks){
 	ticks = ticks || 60;
-	end = end || 60;
 
-	if (count >= end) return;
+	if (object.opacity <= 0) return;
 
 	object.opacity = 1 - ((count)/ticks);
 	if (object.opacity < 0) hide(object);
 }
 
-function slideOut(object, ticks, end) {
+function slideOut(object, ticks) {
 	ticks = ticks || 60;
-	end = end || 60;
-	var destination = new Point(object.position._x, object.position._y);
-	if (count < end) {
-		object.opacity = 1;
-		object.position -= (new Point(1,0) * view.size / ticks);
-	} else {
-		imageSize(object);
-		hide(object);
-	}
+	object.position -= (new Point(1,0) * view.size / ticks);
 }
 
 function createText(options) {
@@ -130,8 +121,8 @@ function reset() {
 	results.article2.photo.forEach(function(photo, it) {
 		images[it] = new Raster('results.article2.photo[' + it +']');
 		imageSize(images[it]);
-		hide(images[it]);
 	});
+	hide(images);
 
 	results.article2.photo_tagline.forEach(function(photo, it){
 		descriptions[it] = createText({
@@ -186,58 +177,48 @@ function onMouseDown(event) {
 
 function onMouseUp(event) {
 	mouse = false;
-	count = -1;
-	watchdog = 0;
-	iterator = 0;
 }
+
+var fadeInCurrentFrame = false;
+var fadeOutLastFrame = false;
 
 function onFrame(event) {
-	watchdog += mouse ? 1 : 0;
-	count += mouse ? 1 : 0;
+	var shouldPlay = mouse && (iterator < images.length - 1);
+	watchdog += shouldPlay ? TICK_TIME : 0;
+	count += shouldPlay ? TICK_TIME : 0;
+	if (!shouldPlay) return;
+	hide(directions);
+	fadeOut(teaser, 15);
 
-	if (tests.articleTop && count > 1) {
-
-			fadeIn(image);
-			fadeIn(text1);
-			fadeIn(text2);
-			fadeOut(teaser, 15);
-			fadeOut(directions);
+	if (count % 240 < 30) {
+		fadeIn(images[iterator], 30);
+		fadeIn(descriptions[iterator], 30);
 	}
 
-	if (tests.styles) {
-		if (count % 120 === 0) {
-			count = 0;
-		}
+	if (count % 240 > 120) {
+		slideOut(images[iterator], 60);
+		hide(descriptions[iterator]);
+	}
 
-		if (watchdog % 240 === 0) {
-			watchdog = 0;
-			console.log('iterator', iterator);
-			iterator += 1;
-			descriptions.forEach(function(photo) {
-				photo.opacity = 0;
-			});
-		}
+	if (count % 240 > 180) {
+		fadeIn(images[iterator + 1], 90);
+	}
 
-		if (watchdog <= 120) {
-			fadeIn(images[iterator],100,120);
-			fadeIn(descriptions[iterator],30,120);
-		}
-
-		if (watchdog > 120 && watchdog <= 240){
-			descriptions[iterator].opacity = 1;
-			slideOut(images[iterator],120,120);
-		}
+	if (count % 240 === 0) {
+		iterator += 1;
 	}
 }
 
+var TICK_TIME = 1;
+
 var tests = {
-	articleTop: true,
+	articleTop: false,
 	fontTest : false,
-	styles: false
+	styles: true
 }
 
 var mouse = false;
-var count = 0;
+var count = 1;
 var watchdog = 0;
 var iterator = 0;
 var images = [];
