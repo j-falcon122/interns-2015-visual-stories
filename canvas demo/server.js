@@ -14,32 +14,32 @@ app.use('/', express.static(__dirname+'/'));
 
 router.route('/data')
 	.post(function(req, res){
-		res.json({ message: 'received'})
-		req.forEach(function(data,it){
-			toPNG(data.frame,data.number,function(){
-				console.log("working on frame" + data.number);
+		req.body.frames.forEach(function(data,it){
+			parser.toPNG(data.frame,data.number,function(){
+				console.log("working on frame: " + data.number);
 			});
 		});
+		res.json({ message: 'received'});
 	})
 	.get(function(req, res){
-		res.json({ message: 'hello' })
+		res.json({ message: 'hello' });
 	});
 
 
 router.route('/done')
 	.get(function(req, res) {
-		var proc = ffmpeg('tmp/%d.png')
+		var proc = ffmpeg('frames/%d.png')
 		  .videoCodec('libx264')
 		  .outputOptions(['-pix_fmt yuv420p'])
 		  // setup event handlers
 		  .on('end', function() {
-			      req.json({message : 'file has been converted succesfully'});
+			      res.json({message : 'file has been converted succesfully'});
 		  })
 		  .on('error', function(err) {
-			      req.json({message : 'failed conversion.'});
+			      res.json({message : 'failed conversion.'});
 		  })
 		  // save to file
-		  .save('output.mp4');
+		  .save('exported_video/output.mp4');
 	});
 
 // http://localhost:8080/api

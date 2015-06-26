@@ -115,11 +115,11 @@ function createText(options) {
 }
 
 function sendFrames(){
-
+    console.log('sendFrames');
     $.ajax({
         url: '/api/data',
         method: 'POST',
-        data: cached_frames,
+        data: {frames : cached_frames},
         success: function(res){
             console.log(res);
         }
@@ -131,7 +131,7 @@ function sendFrames(){
 function finish() {
     $.ajax({
         method: 'GET',
-        url : '/api/get/done',
+        url : '/api/done',
         success : function(res) {
             console.log(res);
         }
@@ -245,8 +245,13 @@ function onFrame(event) {
     }
 
     if (tests.fontTest) {
+        count++;
         fadeIn(nyt);
         fadeIn(times);
+        cached_frames.push({frame : canvas.toDataURL("image/png"), number : count});
+        if (count % 3 === 0) {
+            sendFrames();
+        }
     }
 }
 
@@ -273,13 +278,12 @@ function onFrameDefault(event) {
     }
 
     cached_frames.push({frame : canvas.toDataURL("image/png"), number : count});
-    if (count % 60 === 0) {
+    if (count % num_frames_in_package === 0) {
         sendFrames();
     }
 
     if (count % 240 === 0) {
         iterator += 1;
-        finish();
     }
 
 }
@@ -287,7 +291,7 @@ function onFrameDefault(event) {
 
 
 var TICK_TIME = 1;
-var num_frames_in_package;
+var num_frames_in_package = 3;
 var cached_frames = [];
 
 var mouse = false;
