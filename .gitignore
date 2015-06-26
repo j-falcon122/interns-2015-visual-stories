@@ -57,3 +57,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+canvas_demo/frames
+canvas_demo/frames/*
+canvas\ demo/frames/*
