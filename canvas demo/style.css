@@ -15,7 +15,7 @@ canvas{
 }
 
 #loadfonts{
-	/*display:none;*/
+	display:none;
 	font-size:30px;
 	position:absolute;
 	right:0;

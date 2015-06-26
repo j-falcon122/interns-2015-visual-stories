@@ -1,8 +1,8 @@
 var tests = {
 	"articleTop": false,
 	"fontTest": false,
-	"styles": true,
-	"imageExport": false
+	"styles": false,
+	"imageExport": true
 }
 
 results = {
@@ -57,6 +57,7 @@ var iterator = 0;
 var flag = true;
 
 var path = new Path.Rectangle(new Point(0,0), new Size(view.size)).fillColor = "#000000";
+
 
 function imageSize(raster){
 	if(raster.width > raster.height){
@@ -206,7 +207,7 @@ if(tests.imageExport){
 		justification: 'center',
 		fontSize: 60,
 		fillColor: "#FFFFFF",
-		content: "This is a test\nDON'T PANIC",
+		content: "This is a test\nDO PANIC",
 		fontFamily: "NYTCheltenhamBold"
 	});
 	toPNG = $('#myCanvas')[0];
@@ -223,6 +224,20 @@ function onMouseUp(event){
 	iterator = 0;
 	flag = true;
 };
+
+var url = "/api/data";
+var dataToPass = 'hello world';
+
+function sendData(toSend){
+	$.ajax({
+		url: url,
+		method: 'POST',
+		data: toSend,
+		success: function(res){
+			console.log(res);
+		}
+	});
+}
 
 function onFrame(event){
 	if(tests.articleTop){
@@ -241,10 +256,18 @@ function onFrame(event){
 		};
 	};
 	if(tests.imageExport){
-		if (mouse) {
-			console.log(toPNG.toDataURL("image/png"))
+		if(mouse) {
+			console.log('working!')
+			console.log(count)
+
+			if(count === 0){
+				var frame = {frame: toPNG.toDataURL("image/png")};
+				sendData(frame);
+
+				count++;
+			}
+			// window.location = toPNG.toDataURL("image/png");
 		}
-		// if(mouse) window.location = $('#myCanvas').toDataURL("image/png");
 	}
 
 	if(tests.styles){
