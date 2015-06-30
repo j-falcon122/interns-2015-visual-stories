@@ -1,53 +1,41 @@
-var raster = new Raster('stars');
-raster.position = view.center;
+var content = $("#content");
+var images = [];
+var article;
+var Top
 
-raster.visible = false;
-var gridSize = 10;
-var spacing = 1.1;
+$.getJSON( "../articles/article1.json", function(data) {
+	article = data;
+	var headline = data.result.headline;
+	var summary = data.result.summary;
+	var author = data.result.authors[0].title_case_name;
+	var date = data.result.publication_iso_date;
+	Top = data.result.regions.Top.modules[0].modules;
+	var Embedded = data.result.regions.Embedded.modules[0].modules;
 
-raster.on('load', function(){
-	raster.size = new Size(40, 25);
+	content.append(headline + "<br>");
+	content.append(author + "<br>");
+	content.append(date + "<br>");
+	content.append(summary + "<br><br>");
 
-	for (var y = 0; y < raster.height; y++) { 
-		for (var x = 0; x < raster.width; x++) {
-			var color = raster.getPixel(x,y);
-			var path = new Path.Circle({
-				center: new Point(x, y) * gridSize,
-				radius: gridSize / 2 / spacing,
-				fillColor: 'black'
-			})
-			path.fillColor = color;
-			// path.scale(1 - color.gray);
-		}
-	}
-	project.activeLayer.position = view.center;
-})
+	getImages(Top);
+	getImages(Embedded);
 
-var text = new PointText({
-	point: view.center,
-	justification: 'center',
-	fontSize: 30,
-	fillColor:'red'
+	images.forEach(function(pic, it){
+		content.append("<img src='" + pic.url + "'><br><p>"+ pic.credit + "</p>");
+	})
+	console.log(images.length)
+
 });
 
-var destination = Point.random() * view.size;
-
-function onFrame(event) {
-	// if (event.count%60 === 0) {
-	// 	console.log("time = " + event.time);
-	// 	console.log("count = " + event.count);
-	// 	console.log("delta = " + event.delta);
-	// }
-	var vector = destination - text.position;
-	text.position += vector/30;
-	
-	if(event.count % 2 === 0 ){
-		text.content = Math.round(vector.length);
-	}
-
-	if (vector.length < 1) {
-		destination = Point.random() * view.size;
-	}
-
+function getImages(section){
+	$.each(section, function(id){
+		if(typeof(section[id].image) !== "undefined"){
+			if(section[id].display_size !== "SMALL"){
+				images.push({
+					"credit": section[id].image.credit,
+					"url": section[id].image.image_crops.articleLarge.url
+				});
+			}
+		}
+	});
 }
-
