@@ -1,15 +1,9 @@
 var canvas;
-var width;
-var height;
+var width = 512;
+var height = 288;
 
 function initialize() {
-    canvas = $('#canvas')[0];
-    width = canvas.width;
-    height = canvas.height;
-}
-
-function clearCanvas(context) {
-    context.clearRect(0, 0, width, height);
+    canvas = new fabric.Canvas('canvas');
 }
 
 function getRectangle(type, spec_width, spec_height) {
@@ -50,7 +44,6 @@ function getRectangle(type, spec_width, spec_height) {
 }
 
 function drawAll() {
-    clearCanvas(canvas.getContext('2d'));
     var positionType = $('#position').val();
     var spec_width = parseInt($('#width').val());
     var spec_height = parseInt($('#height').val());
@@ -68,21 +61,16 @@ function drawAll() {
 }
 
 function createOverlay(rect) {
+    var rectangle = new fabric.Rect({
+        left: rect[0],
+        top: rect[1],
+        width: rect[2],
+        height: rect[3],
+        fill: 'red',
+    });
+    canvas.add(rectangle);
 
-    drawRectangle(rect);
-    var ctx = canvas.getContext('2d');
-    ctx.textAlign = 'center';
-    ctx.textBaseline = "top";
-    ctx.font = "italic bold 10pt nyt-cheltenham";
-
-    var text = "HEY MAN WHAT IS UP WITH YOU TODAY I HEAR YOU WERE ABLE TO DO SOME COOL STUFF WITH TTHE THITNGNGNLS"
-    wrapText(ctx, text, positions[0], positions[1], positions[2], positions[3]/2);
-}
-
-function drawRectangle(positions) {
-    var ctx = canvas.getContext('2d');
-    ctx.rect(positions[0], positions[1], positions[2], positions[3]);
-    ctx.stroke();
+    // wrapText(ctx, text, positions[0], positions[1], positions[2], positions[3]/2);
 }
 
 function wrapText(context, text, x, y, maxWidth, lineHeight) {
