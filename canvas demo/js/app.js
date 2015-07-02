@@ -281,9 +281,9 @@ function onFrameDefault(event) {
         fadeIn(images[iterator + 1], 90);
     }
 
-    cached_frames.push({frame : canvas.toDataURL("image/png"), number : count});
+    // cached_frames.push({frame : canvas.toDataURL("image/png"), number : count});
     if (count % num_frames_in_package === 0) {
-        sendFrames();
+        // sendFrames();
     }
 
     if (count % 240 === 0) {
