@@ -1,4 +1,4 @@
-img{
+#loadphotos{
 	display:none;
 }
 
@@ -6,6 +6,7 @@ img{
 	font-family:'NYTKarnakDisplay';
 	font-size:40px;
 }
+
 canvas{
 /*	border:2px dotted black;*/
 }

@@ -1,9 +1,13 @@
+// Things to look into
+// sending photos linked in website
+// speeding up speed of data -> canvas
+
 var tests = {
     articleTop: false,
     fontTest : false,
-    styles: true
+    styles: false,
+    preprocess: true
 };
-
 
 results = {
     article1: {
@@ -102,7 +106,6 @@ function slideOut(object, ticks) {
 }
 
 function createText(options) {
-
     return new PointText(_.defaults(options, {
             point: new Point(view.size._width/2,100),
             justification: 'center',
@@ -111,7 +114,7 @@ function createText(options) {
             content: "no text specified",
             fontFamily: "NYTCheltenhamBold",
             opacity : 1
-        }));
+    }));
 }
 
 function sendFrames(){
@@ -216,8 +219,6 @@ function reset() {
             fontFamily: "NYTCheltenhamBold"
         });
     }
-
-
 }
 
 function onMouseDown(event) {
@@ -230,8 +231,11 @@ function onMouseUp(event) {
 
 function onFrame(event) {
     if (!mouse) return;
-    hide(directions);
-    fadeOut(teaser, 15);
+
+    if(tests.styles){
+        hide(directions);
+        fadeOut(teaser, 15);
+    }
 
 
     if (tests.styles) {
@@ -277,18 +281,15 @@ function onFrameDefault(event) {
         fadeIn(images[iterator + 1], 90);
     }
 
-    cached_frames.push({frame : canvas.toDataURL("image/png"), number : count});
+    // cached_frames.push({frame : canvas.toDataURL("image/png"), number : count});
     if (count % num_frames_in_package === 0) {
-        sendFrames();
+        // sendFrames();
     }
 
     if (count % 240 === 0) {
         iterator += 1;
     }
-
 }
-
-
 
 var TICK_TIME = 1;
 var num_frames_in_package = 3;
@@ -304,5 +305,14 @@ var image, text1, text2, teaser;
 var canvas = $('#myCanvas')[0];
 
 
+if (tests.preprocess) {
+    $.getJSON( "../articles/article1.json", function(data) {
+        var testing = data;
+        // console.log(testing)
+    })
+}
+
 //initial page load:
-reset();
+if (tests.styles){
+    reset();
+}
