@@ -1,3 +1,14 @@
+* {
+ -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+         box-sizing: border-box;
+}
+
+.wrapper{
+	margin:auto;
+	text-align:center;
+}
+
 #loadphotos{
 	display:none;
 }
@@ -7,12 +18,23 @@
 	font-size:40px;
 }
 
-canvas{
-	border:2px dotted black;
+#content{
+	width:50%;
+	float:right;
+	border:2px dotted red;
 }
-.wrapper{
+
+#timeline{
+	width:50%;
+	float:left;
+	border: 2px blue dotted;
+}
+
+.element{
+	background-color: #ffffaa;
+	height:400px;
+	width:400px;
 	margin:auto;
-	text-align:center;
 }
 
 #loadfonts{

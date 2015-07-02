@@ -2,7 +2,6 @@ var content = $("#content");
 var images = [];
 var slideshow = [];
 var article;
-var Top
 
 $.getJSON( "../articles/article0.json", function(data) {
 	article = data;
@@ -14,27 +13,26 @@ $.getJSON( "../articles/article0.json", function(data) {
 	var byline = data.result.byline
 	var date = data.result.publication_iso_date;
 	var kicker = data.result.kicker;
-	Top = data.result.regions.Top.modules[0].modules;
+	var Top = data.result.regions.Top.modules[0].modules;
 	var Embedded = data.result.regions.Embedded.modules[0].modules;
-
-	content.append(headline + "<br>");
-	content.append(author + "<br>");
-	content.append(date + "<br>");
-	content.append(summary + "<br><br>");
 
 	getImages(Top);
 	getImages(Embedded);
 
-	content.append("<h1>-------- Images --------</h1>")
 	images.forEach(function(pic, it){
 		content.append("<img src='" + pic.url + "'><p>" + pic.caption +"</p><p>" + pic.credit + "</p>");
 	})
-	content.append("<h1>-------- Slideshow Content --------</h1>")
 	slideshow.forEach(function(pic, it){
 		content.append("<img src='" + pic.url + "'><p>" + pic.caption +"</p><p>" + pic.credit + "</p>");
 	})
 });
 
+function addItem(object, type, options){
+	content.append("<div class='element'>");
+	if (type === 'photo') {
+		content.append("<img src='" + object.url + "'><p>" + object.caption +"</p><p>" + object.credit + "</p>");
+	}
+}
 // finds images that are not small
 function getImages(section){
 	$.each(section, function(id){
@@ -61,5 +59,4 @@ function getImages(section){
 		}
 	});
 }
-
 
