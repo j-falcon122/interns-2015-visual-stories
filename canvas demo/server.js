@@ -32,6 +32,7 @@ router.route('/done')
 		var proc = ffmpeg('frames/%d.png')
 		  .videoCodec('libx264')
 		  .outputOptions(['-pix_fmt yuv420p'])
+		  .fps(60)
 		  // setup event handlers
 		  .on('end', function() {
 			      res.json({message : 'file has been converted succesfully'});
@@ -47,6 +48,8 @@ router.route('/done')
 router.get('/',function(req, res) {
 	res.json({ message: 'API is workin!'});
 });
+
+
 
 app.use('/api', router);
 app.listen(port);
