@@ -24,6 +24,11 @@
 	border:2px dotted red;
 }
 
+#content img{
+	height:200px;
+	width:auto;
+}
+
 #timeline{
 	width:50%;
 	float:left;

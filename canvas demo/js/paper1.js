@@ -4,7 +4,6 @@
 window.onload = function() {
     var canvas = document.getElementById('myCanvas');
     var tool = new paper.Tool();
-    // var paper.view =paper.view;
     paper.setup(canvas);
 
     var tests = {
@@ -287,6 +286,7 @@ window.onload = function() {
         }
 
         // cached_frames.push({frame : finalCanvas.toDataURL("image/png"), number : count});
+        console.log(finalCanvas.toDataURL("image/png"));
         if (count % num_frames_in_package === 0) {
             // sendFrames();
         }

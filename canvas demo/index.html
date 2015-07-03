@@ -1,57 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="timesTrailer">
 <head>
-	<title>Paper JS Sandbox</title>
-	<link rel="stylesheet" type="text/css" href="style.css">
-	<script type="text/javascript" src="js/jquery.js"></script>
-	<script type="text/javascript" src="js/paper.js"></script>
+	<title>Times Trailer</title>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+
 </head>
-<body>
+<body ng-controller="importData">
 	<div class="wrapper">
-		<p id="title">Times Trailer</p>
-		<div id="timeline">
-			<h1>Hello there</h1>
-			<div class="element"></div>
+		<div id="content">
+			<h1>Hello is this http request working?</h1>
+			<p>{{article.result.url}}</p>
+			<p>{{headline}}</p>
+			<div ng-repeat="(index, image) in images">
+				<img id="image{{index}}" ng-src="{{image.url}}">
+				<h3 id="imageCaption{{index}}">{{image.caption}}</h3>
+				<p id="imageCredit{{index}}"> {{image.credit}}</p>
+			</div>
+			<div ng-repeat="image in slideshow">
+				<img id="slideshow{{index}}" ng-src="{{image.url}}">
+				<h3 id="slideshowCaption{{index}}" ng-bind-html="trustHTML(image.caption)"></h3>
+				<p id="slideshowCredit{{index}}">{{image.credit}}</p>
+			</div>
 		</div>
-		<div id="content"></div>
-		<canvas id="myCanvas" width="500" height="500"></canvas>
 	</div>
-	<div id="loadfonts">
-		<p>NYTCheltenhamBdCon</p>
-		<p>NYTCheltenhamBdXCon</p>
-		<p>NYTCheltenhamBold</p>
-		<p>NYTCheltenhamBook</p>
-		<p>NYTCheltenhamExtBd</p>
-		<p>NYTCheltenhamExtLt</p>
-		<p>NYTCheltenhamLt</p>
-		<p>NYTCheltenhamLtCon</p>
-		<p>NYTCheltenhamLtSC</p>
-		<p>NYTCheltenhamMedCon</p>
-		<p>NYTCheltenhamMedium</p>
-		<p>NYTCheltenhamWide</p>
-		<p>NYTFranklinBold</p>
-		<p>NYTFranklinExtraBd</p>
-		<p>NYTFranklinHeadline</p>
-		<p>NYTFranklinLight</p>
-		<p>NYTFranklinMedium</p>
-		<p>NYTFranklinSemiBold</p>
-		<p>NYTImperial</p>
-		<p>NYTImperialSemiBold</p>
-		<p>NYTKarnakDisplay</p>
-		<p>NYTKarnakText</p>
-		<p>NYTStymieLight</p>
-		<p>NYTStymieMedium</p>
-	</div>
-	<div id="loadphotos">
-		<img id="results.article2.photo[0]" src="./photos/1.jpg">
-		<img id="results.article2.photo[1]" src="./photos/2.jpg">
-		<img id="results.article2.photo[2]" src="./photos/3.jpg">
-		<img id="results.article2.photo[3]" src="./photos/4.jpg">
-		<img id="results.article2.photo[4]" src="./photos/5.jpg">
-		<img id="results.article2.photo[5]" src="./photos/6.jpg">
-	</div>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-<script type="text/javascript" src="js/app.js"></script>
-<script type="text/javascript" src="js/testing.js"></script>
+	<script type="text/javascript" src="js/app.js"></script>
 </body>
+
 </html>

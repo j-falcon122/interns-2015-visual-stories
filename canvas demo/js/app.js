@@ -1,46 +1,59 @@
-var content = $("#content");
-var images = [];
-var slideshow = [];
-var article;
 
-$.getJSON( "../articles/article0.json", function(data) {
-	article = data;
-	console.log(article)
-	var headline = data.result.headline;
-	var summary = data.result.summary;
-	var section = data.result.section.display_name;
-	var author = data.result.authors[0].title_case_name;
-	var byline = data.result.byline
-	var date = data.result.publication_iso_date;
-	var kicker = data.result.kicker;
-	var Top = data.result.regions.Top.modules[0].modules;
-	var Embedded = data.result.regions.Embedded.modules[0].modules;
 
-	getImages(Top);
-	getImages(Embedded);
 
-	images.forEach(function(pic, it){
-		content.append("<img src='" + pic.url + "'><p>" + pic.caption +"</p><p>" + pic.credit + "</p>");
-	})
-	slideshow.forEach(function(pic, it){
-		content.append("<img src='" + pic.url + "'><p>" + pic.caption +"</p><p>" + pic.credit + "</p>");
-	})
+
+	// images.forEach(function(pic, it){
+	// 	content.append("<img src='" + pic.url + "'><p>" + pic.caption +"</p><p>" + pic.credit + "</p>");
+	// })
+	// slideshow.forEach(function(pic, it){
+	// 	content.append("<img src='" + pic.url + "'><p>" + pic.caption +"</p><p>" + pic.credit + "</p>");
+	// })
+
+var loadData = angular.module ('timesTrailer', []);
+loadData.controller ("importData", function ($scope, $sce) {
+	$scope.trustHTML = function(string) {
+		return $sce.trustAsHtml(string);
+	};
+	loadXMLDoc(function(data){
+		$scope.images = [];
+		$scope.slideshow = [];
+		$scope.article = JSON.parse(data);
+		createItems($scope.article, $scope);
+		console.log($scope.article.result.headline);
+		$scope.$apply();
+	});
 });
 
-function addItem(object, type, options){
-	content.append("<div class='element'>");
-	if (type === 'photo') {
-		content.append("<img src='" + object.url + "'><p>" + object.caption +"</p><p>" + object.credit + "</p>");
-	}
+function loadXMLDoc(callback) {
+	var req = new XMLHttpRequest();
+		req.onload = function() {
+			console.log("loaded");
+			callback(req.response);
+		}
+	req.open("GET", "/articles/article0.json", true);
+	req.send();
 }
-// finds images that are not small
-function getImages(section){
-	$.each(section, function(id){
 
+function createItems(data, $scope){
+	$scope.article.headline = data.result.headline;
+	$scope.article.summary = data.result.summary;
+	$scope.article.section = data.result.section.display_name;
+	$scope.article.author = data.result.authors[0].title_case_name;
+	$scope.article.byline = data.result.byline
+	$scope.article.date = data.result.publication_iso_date;
+	$scope.article.kicker = data.result.kicker;
+	$scope.article.Top = data.result.regions.Top.modules[0].modules;
+	$scope.article.Embedded = data.result.regions.Embedded.modules[0].modules;
+	getImages($scope.article.Top, $scope);
+	getImages($scope.article.Embedded, $scope);
+	$scope.$apply();
+}
+
+function getImages(section, $scope){
+	$.each(section, function(id){
 		if(typeof(section[id].image) !== "undefined"){
 			if(section[id].display_size !== "SMALL"){
-				console.log(id + " " + section[id].data_type)
-				images.push({
+				$scope.images.push({
 					"url": section[id].image.image_crops.articleLarge.url,
 					"credit": section[id].image.credit,
 					"caption": section[id].image.caption.full
@@ -48,9 +61,8 @@ function getImages(section){
 			}
 		}
 		if(typeof(section[id].imageslideshow) !== "undefined"){
-			console.log(id + " " + section[id].data_type)
 			section[id].imageslideshow.slides.forEach(function(slide){
-				slideshow.push({
+				$scope.slideshow.push({
 					"url": slide.image_crops.articleLarge.url,
 					"credit": slide.credit,
 					"caption": slide.caption.full
