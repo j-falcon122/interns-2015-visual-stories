@@ -6,60 +6,70 @@
     <script type="text/javascript" src="js/fabric.js"></script>
     <script type="text/javascript" src="js/editor_app.js"></script>
     <style>
-        #canvas {
-            border: 1px solid black;
-        }
+    #canvas {
+        border: 1px solid black;
+    }
     </style>
 </head>
-
 <canvas id="canvas" width="512" height="288" id="canvas"></canvas>
+<div id="loadfonts">
+    <p>NYTCheltenhamBdCon</p>
+    <p>NYTCheltenhamBdXCon</p>
+    <p>NYTCheltenhamBold</p>
+    <p>NYTCheltenhamBook</p>
+    <p>NYTCheltenhamExtBd</p>
+    <p>NYTCheltenhamExtLt</p>
+    <p>NYTCheltenhamLt</p>
+    <p>NYTCheltenhamLtCon</p>
+    <p>NYTCheltenhamLtSC</p>
+    <p>NYTCheltenhamMedCon</p>
+    <p>NYTCheltenhamMedium</p>
+    <p>NYTCheltenhamWide</p>
+    <p>NYTFranklinBold</p>
+    <p>NYTFranklinExtraBd</p>
+    <p>NYTFranklinHeadline</p>
+    <p>NYTFranklinLight</p>
+    <p>NYTFranklinMedium</p>
+    <p>NYTFranklinSemiBold</p>
+    <p>NYTImperial</p>
+    <p>NYTImperialSemiBold</p>
+    <p>NYTKarnakDisplay</p>
+    <p>NYTKarnakText</p>
+    <p>NYTStymieLight</p>
+    <p>NYTStymieMedium</p>
+</div>
 <form>
-<div id="loadfonts" style="display:none">
-        <p>NYTCheltenhamBdCon</p>
-        <p>NYTCheltenhamBdXCon</p>
-        <p>NYTCheltenhamBold</p>
-        <p>NYTCheltenhamBook</p>
-        <p>NYTCheltenhamExtBd</p>
-        <p>NYTCheltenhamExtLt</p>
-        <p>NYTCheltenhamLt</p>
-        <p>NYTCheltenhamLtCon</p>
-        <p>NYTCheltenhamLtSC</p>
-        <p>NYTCheltenhamMedCon</p>
-        <p>NYTCheltenhamMedium</p>
-        <p>NYTCheltenhamWide</p>
-        <p>NYTFranklinBold</p>
-        <p>NYTFranklinExtraBd</p>
-        <p>NYTFranklinHeadline</p>
-        <p>NYTFranklinLight</p>
-        <p>NYTFranklinMedium</p>
-        <p>NYTFranklinSemiBold</p>
-        <p>NYTImperial</p>
-        <p>NYTImperialSemiBold</p>
-        <p>NYTKarnakDisplay</p>
-        <p>NYTKarnakText</p>
-        <p>NYTStymieLight</p>
-        <p>NYTStymieMedium</p>
-    </div>
-<div class="editor">
-    <select id="position">
-        <option value="">none</option>
-        <option value="tb">top banner</option>
-        <option value="tli">top left inset</option>
-        <option value="tri">top right inset</option>
-        <option value="cb">centered banner</option>
-        <option value="bli">bottom left inset</option>
-        <option value="bri">bottom right inset</option>
-        <option value="bb">bottom banner</option>
-    </select>
-    <label for="overlay">Overlay? </label><input id="overlay" type="checkbox"/>
-    <div id="size">
-    SIZE: <input id="width" type="text"/><span>x</span><input id="height" type="text"/>
-    </div>
-</div>
-<div id="text" class="editor">
-    <input placeholder="text here" id="text-content" type="text"/>
-
-</div>
-<input id="draw" value="draw" type="button" onclick="drawAll()"/>
-<a href="">Download image</a>
+    <fieldset class="editor">
+    <legend>Overlay</legend>
+        <label for="overlay">Overlay? </label>
+        <input id="overlay" type="checkbox" />
+        <br>
+    Automatic Placement
+        <select id="position">
+            <option value="">none</option>
+            <option value="tb">top banner</option>
+            <option value="tli">top left inset</option>
+            <option value="tri">top right inset</option>
+            <option value="cb">centered banner</option>
+            <option value="bli">bottom left inset</option>
+            <option value="bri">bottom right inset</option>
+            <option value="bb">bottom banner</option>
+        </select>
+        <input placeholder="opacity" type="text" id="overlay-opacity" />
+        <input type="color" id="overlay-color" />
+        <div id="size">
+            Manual Placement: Top Left Corner X:
+            <input type="text" id="manual-x" /> Y:
+            <input type="text" id="manual-y" /> SIZE:
+            <input id="width" type="text" placeholder="width" /><span>x</span>
+            <input id="height" type="text" placeholder="height" />
+        </div>
+    </fieldset>
+    <fieldset id="text" class="editor">
+        <legend>Text</legend>
+        <input placeholder="text here" id="text-content" type="text" />
+        <input type="color" id="text-color" />
+    </fieldset>
+    <input id="draw" value="draw" type="button" onclick="drawAll()" />
+    <a id="download-link" href="">Download image</a>
 </form>
