@@ -10,18 +10,14 @@ function initialize() {
     canvas.on('mouse:up', dragEnd);
 }
 
-function choose(id) {
+function chooseImage(id) {
     var img = new fabric.Image(id);
     canvas.add(img);
 }
 
 function selectFont(div) {
-    $('.font-style').toggleClass('active', false);
+    $('.font-family').toggleClass('active', false);
     $(div).toggleClass('active', true);
-}
-
-function getCurrentFont() {
-    console.log($('.font-style .active'));
 }
 
 function dragStart(event) {
@@ -156,8 +152,9 @@ function getConfigs() {
             content: $('#text-content').val(),
             justify: 'center',
             color: $('#text-color').val(),
-            fontFamily: $('.font-style.active').text(),
+            fontFamily: $('.font-family.active').text(),
             fontSize:$('#font-size').val(),
+            fontStyle: $('#font-style')
         };
     }
     return configs;
@@ -170,6 +167,7 @@ function createText(rect, options) {
         top: rect[1],
         fontFamily: options.fontFamily,
         fontSize: options.fontSize,
+        fontStyle: options.fontStyle,
         originY:'top',
         originX:'left',
         fill: options.color

@@ -11,13 +11,13 @@
         border: 1px solid black;
     }
 
-    #font-family {
+    #font-holder {
         display: inline-block;
         max-height: 40px;
         overflow-y: scroll;
     }
 
-    .font-style {
+    .font-family {
         background-color: white;
         padding: 5px;
     }
@@ -62,31 +62,31 @@
             <input placeholder="text here" id="text-content" type="text" />
             <input type="color" id="text-color" />
             <input placeholder="font-size" id="font-size" type="text" />
-            <div id="font-family">
-                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTCheltenhamBdCon" value="NYTCheltenhamBdCon">NYTCheltenhamBdCon</div>
-                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTCheltenhamBdXCon" value="NYTCheltenhamBdXCon">NYTCheltenhamBdXCon</div>
-                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTCheltenhamBold" value="NYTCheltenhamBold">NYTCheltenhamBold</div>
-                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTCheltenhamBook" value="NYTCheltenhamBook">NYTCheltenhamBook</div>
-                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTCheltenhamExtBd" value="NYTCheltenhamExtBd">NYTCheltenhamExtBd</div>
-                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTCheltenhamExtLt" value="NYTCheltenhamExtLt">NYTCheltenhamExtLt</div>
-                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTCheltenhamLt" value="NYTCheltenhamLt">NYTCheltenhamLt</div>
-                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTCheltenhamLtCon" value="NYTCheltenhamLtCon">NYTCheltenhamLtCon</div>
-                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTCheltenhamLtSC" value="NYTCheltenhamLtSC">NYTCheltenhamLtSC</div>
-                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTCheltenhamMedCon" value="NYTCheltenhamMedCon">NYTCheltenhamMedCon</div>
-                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTCheltenhamMedium" value="NYTCheltenhamMedium">NYTCheltenhamMedium</div>
-                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTCheltenhamWide" value="NYTCheltenhamWide">NYTCheltenhamWide</div>
-                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTFranklinBold" value="NYTFranklinBold">NYTFranklinBold</div>
-                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTFranklinExtraBd" value="NYTFranklinExtraBd">NYTFranklinExtraBd</div>
-                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTFranklinHeadline" value="NYTFranklinHeadline">NYTFranklinHeadline</div>
-                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTFranklinLight" value="NYTFranklinLight">NYTFranklinLight</div>
-                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTFranklinMedium" value="NYTFranklinMedium">NYTFranklinMedium</div>
-                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTFranklinSemiBold" value="NYTFranklinSemiBold">NYTFranklinSemiBold</div>
-                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTImperial" value="NYTImperial">NYTImperial</div>
-                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTImperialSemiBold" value="NYTImperialSemiBold">NYTImperialSemiBold</div>
-                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTKarnakDisplay" value="NYTKarnakDisplay">NYTKarnakDisplay</div>
-                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTKarnakText" value="NYTKarnakText">NYTKarnakText</div>
-                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTStymieLight" value="NYTStymieLight">NYTStymieLight</div>
-                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTStymieMedium" value="NYTStymieMedium">NYTStymieMedium</div>
+            <div id="font-holder">
+                <div class="font-family" onclick="selectFont(this)" style="font-family:NYTCheltenhamBdCon" value="NYTCheltenhamBdCon">NYTCheltenhamBdCon</div>
+                <div class="font-family" onclick="selectFont(this)" style="font-family:NYTCheltenhamBdXCon" value="NYTCheltenhamBdXCon">NYTCheltenhamBdXCon</div>
+                <div class="font-family" onclick="selectFont(this)" style="font-family:NYTCheltenhamBold" value="NYTCheltenhamBold">NYTCheltenhamBold</div>
+                <div class="font-family" onclick="selectFont(this)" style="font-family:NYTCheltenhamBook" value="NYTCheltenhamBook">NYTCheltenhamBook</div>
+                <div class="font-family" onclick="selectFont(this)" style="font-family:NYTCheltenhamExtBd" value="NYTCheltenhamExtBd">NYTCheltenhamExtBd</div>
+                <div class="font-family" onclick="selectFont(this)" style="font-family:NYTCheltenhamExtLt" value="NYTCheltenhamExtLt">NYTCheltenhamExtLt</div>
+                <div class="font-family" onclick="selectFont(this)" style="font-family:NYTCheltenhamLt" value="NYTCheltenhamLt">NYTCheltenhamLt</div>
+                <div class="font-family" onclick="selectFont(this)" style="font-family:NYTCheltenhamLtCon" value="NYTCheltenhamLtCon">NYTCheltenhamLtCon</div>
+                <div class="font-family" onclick="selectFont(this)" style="font-family:NYTCheltenhamLtSC" value="NYTCheltenhamLtSC">NYTCheltenhamLtSC</div>
+                <div class="font-family" onclick="selectFont(this)" style="font-family:NYTCheltenhamMedCon" value="NYTCheltenhamMedCon">NYTCheltenhamMedCon</div>
+                <div class="font-family" onclick="selectFont(this)" style="font-family:NYTCheltenhamMedium" value="NYTCheltenhamMedium">NYTCheltenhamMedium</div>
+                <div class="font-family" onclick="selectFont(this)" style="font-family:NYTCheltenhamWide" value="NYTCheltenhamWide">NYTCheltenhamWide</div>
+                <div class="font-family" onclick="selectFont(this)" style="font-family:NYTFranklinBold" value="NYTFranklinBold">NYTFranklinBold</div>
+                <div class="font-family" onclick="selectFont(this)" style="font-family:NYTFranklinExtraBd" value="NYTFranklinExtraBd">NYTFranklinExtraBd</div>
+                <div class="font-family" onclick="selectFont(this)" style="font-family:NYTFranklinHeadline" value="NYTFranklinHeadline">NYTFranklinHeadline</div>
+                <div class="font-family" onclick="selectFont(this)" style="font-family:NYTFranklinLight" value="NYTFranklinLight">NYTFranklinLight</div>
+                <div class="font-family" onclick="selectFont(this)" style="font-family:NYTFranklinMedium" value="NYTFranklinMedium">NYTFranklinMedium</div>
+                <div class="font-family" onclick="selectFont(this)" style="font-family:NYTFranklinSemiBold" value="NYTFranklinSemiBold">NYTFranklinSemiBold</div>
+                <div class="font-family" onclick="selectFont(this)" style="font-family:NYTImperial" value="NYTImperial">NYTImperial</div>
+                <div class="font-family" onclick="selectFont(this)" style="font-family:NYTImperialSemiBold" value="NYTImperialSemiBold">NYTImperialSemiBold</div>
+                <div class="font-family" onclick="selectFont(this)" style="font-family:NYTKarnakDisplay" value="NYTKarnakDisplay">NYTKarnakDisplay</div>
+                <div class="font-family" onclick="selectFont(this)" style="font-family:NYTKarnakText" value="NYTKarnakText">NYTKarnakText</div>
+                <div class="font-family" onclick="selectFont(this)" style="font-family:NYTStymieLight" value="NYTStymieLight">NYTStymieLight</div>
+                <div class="font-family" onclick="selectFont(this)" style="font-family:NYTStymieMedium" value="NYTStymieMedium">NYTStymieMedium</div>
             </div>
         </fieldset>
         <input id="draw" value="draw" type="button" onclick="drawAll()" />
@@ -102,14 +102,14 @@
             <div ng-repeat="(index, image) in images">
                 <hr>
                 <h2> IMAGE {{index}} </h2>
-                <img crossorigin="anonymous" onclick="choose(this.id)" id="image{{index}}" ng-src="{{image.url}}">
+                <img crossorigin="anonymous" onclick="chooseImage(this.id)" id="image{{index}}" ng-src="{{image.url}}">
                 <h3 id="imageCaption{{index}}">{{image.caption}}</h3>
                 <p id="imageCredit{{index}}"> {{image.credit}}</p>
             </div>
             <div ng-repeat="(index, image) in slideshow">
                 <hr>
                 <h2> SLIDESHOW {{index}} </h2>
-                <img crossorigin="anonymous" onclick="choose(this.id)" id="slideshow{{index}}" ng-src="{{image.url}}">
+                <img crossorigin="anonymous" onclick="chooseImage(this.id)" id="slideshow{{index}}" ng-src="{{image.url}}">
                 <h3 id="slideshowCaption{{index}}" ng-bind-html="trustHTML(image.caption)"></h3>
                 <p id="slideshowCredit{{index}}">{{image.credit}}</p>
             </div>
