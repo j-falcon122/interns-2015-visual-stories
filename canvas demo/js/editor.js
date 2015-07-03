@@ -1,6 +1,6 @@
 var canvas;
-var width = 512;
-var height = 288;
+var width = 600;
+var height = 400;
 var newBox;
 var download_no = 0;
 
@@ -11,7 +11,17 @@ function initialize() {
 }
 
 function choose(id) {
-    canvas.add(new fabric.Image(id));
+    var img = new fabric.Image(id);
+    canvas.add(img);
+}
+
+function selectFont(div) {
+    $('.font-style').toggleClass('active', false);
+    $(div).toggleClass('active', true);
+}
+
+function getCurrentFont() {
+    console.log($('.font-style .active'));
 }
 
 function dragStart(event) {
@@ -108,6 +118,11 @@ function drawAll() {
         console.log(rect);
     }
 
+    if (!_.some(rect)) {
+        alert("Must at least select a top left corner for text");
+        return;
+    }
+
     if (configs.overlay) {
         canvas.add(createOverlay(rect, configs.overlay));
     }
@@ -140,26 +155,29 @@ function getConfigs() {
         configs.text = {
             content: $('#text-content').val(),
             justify: 'center',
-            color: $('#text-color').val()
+            color: $('#text-color').val(),
+            fontFamily: $('.font-style.active').text(),
+            fontSize:$('#font-size').val(),
         };
     }
     return configs;
 }
 
 function createText(rect, options) {
+    console.log(options);
     var text = new fabric.Text(options.content, {
         left: rect[0],
         top: rect[1],
-        fontFamily: 'NYTCheltenhamExtBd',
-        fontStyle: 'italic',
-        fontSize: 10,
+        fontFamily: options.fontFamily,
+        fontSize: options.fontSize,
         originY:'top',
         originX:'left',
         fill: options.color
-
     });
 
-    text = wrapCanvasText(text, canvas, rect[2], rect[3], options.justify);
+    if (rect[2] && rect[3]) {
+        return wrapCanvasText(text, canvas, rect[2], rect[3], options.justify);
+    }
 
     return text;
 }

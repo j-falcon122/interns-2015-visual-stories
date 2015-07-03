@@ -1,5 +1,5 @@
 <head>
-    <title>Times Trailer</title>
+    <h1 id="title">Times Trailer</h1>
     <link rel="stylesheet" type="text/css" href="style.css">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular.min.js"></script>
@@ -10,37 +10,26 @@
     #canvas {
         border: 1px solid black;
     }
+
+    #font-family {
+        display: inline-block;
+        max-height: 40px;
+        overflow-y: scroll;
+    }
+
+    .font-style {
+        background-color: white;
+        padding: 5px;
+    }
+
+    .active {
+        background-color: red;
+    }
     </style>
 </head>
 <body>
-<div class="content left">
-    <canvas id="canvas" width="512" height="288" id="canvas"></canvas>
-    <div id="loadfonts">
-        <p>NYTCheltenhamBdCon</p>
-        <p>NYTCheltenhamBdXCon</p>
-        <p>NYTCheltenhamBold</p>
-        <p>NYTCheltenhamBook</p>
-        <p>NYTCheltenhamExtBd</p>
-        <p>NYTCheltenhamExtLt</p>
-        <p>NYTCheltenhamLt</p>
-        <p>NYTCheltenhamLtCon</p>
-        <p>NYTCheltenhamLtSC</p>
-        <p>NYTCheltenhamMedCon</p>
-        <p>NYTCheltenhamMedium</p>
-        <p>NYTCheltenhamWide</p>
-        <p>NYTFranklinBold</p>
-        <p>NYTFranklinExtraBd</p>
-        <p>NYTFranklinHeadline</p>
-        <p>NYTFranklinLight</p>
-        <p>NYTFranklinMedium</p>
-        <p>NYTFranklinSemiBold</p>
-        <p>NYTImperial</p>
-        <p>NYTImperialSemiBold</p>
-        <p>NYTKarnakDisplay</p>
-        <p>NYTKarnakText</p>
-        <p>NYTStymieLight</p>
-        <p>NYTStymieMedium</p>
-    </div>
+<div class="left">
+    <canvas id="canvas" width="600" height="400" id="canvas"></canvas>
     <form>
         <fieldset class="editor">
         <legend>Overlay</legend>
@@ -72,6 +61,33 @@
             <legend>Text</legend>
             <input placeholder="text here" id="text-content" type="text" />
             <input type="color" id="text-color" />
+            <input placeholder="font-size" id="font-size" type="text" />
+            <div id="font-family">
+                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTCheltenhamBdCon" value="NYTCheltenhamBdCon">NYTCheltenhamBdCon</div>
+                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTCheltenhamBdXCon" value="NYTCheltenhamBdXCon">NYTCheltenhamBdXCon</div>
+                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTCheltenhamBold" value="NYTCheltenhamBold">NYTCheltenhamBold</div>
+                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTCheltenhamBook" value="NYTCheltenhamBook">NYTCheltenhamBook</div>
+                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTCheltenhamExtBd" value="NYTCheltenhamExtBd">NYTCheltenhamExtBd</div>
+                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTCheltenhamExtLt" value="NYTCheltenhamExtLt">NYTCheltenhamExtLt</div>
+                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTCheltenhamLt" value="NYTCheltenhamLt">NYTCheltenhamLt</div>
+                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTCheltenhamLtCon" value="NYTCheltenhamLtCon">NYTCheltenhamLtCon</div>
+                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTCheltenhamLtSC" value="NYTCheltenhamLtSC">NYTCheltenhamLtSC</div>
+                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTCheltenhamMedCon" value="NYTCheltenhamMedCon">NYTCheltenhamMedCon</div>
+                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTCheltenhamMedium" value="NYTCheltenhamMedium">NYTCheltenhamMedium</div>
+                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTCheltenhamWide" value="NYTCheltenhamWide">NYTCheltenhamWide</div>
+                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTFranklinBold" value="NYTFranklinBold">NYTFranklinBold</div>
+                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTFranklinExtraBd" value="NYTFranklinExtraBd">NYTFranklinExtraBd</div>
+                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTFranklinHeadline" value="NYTFranklinHeadline">NYTFranklinHeadline</div>
+                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTFranklinLight" value="NYTFranklinLight">NYTFranklinLight</div>
+                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTFranklinMedium" value="NYTFranklinMedium">NYTFranklinMedium</div>
+                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTFranklinSemiBold" value="NYTFranklinSemiBold">NYTFranklinSemiBold</div>
+                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTImperial" value="NYTImperial">NYTImperial</div>
+                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTImperialSemiBold" value="NYTImperialSemiBold">NYTImperialSemiBold</div>
+                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTKarnakDisplay" value="NYTKarnakDisplay">NYTKarnakDisplay</div>
+                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTKarnakText" value="NYTKarnakText">NYTKarnakText</div>
+                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTStymieLight" value="NYTStymieLight">NYTStymieLight</div>
+                <div class="font-style" onclick="selectFont(this)" style="font-family:NYTStymieMedium" value="NYTStymieMedium">NYTStymieMedium</div>
+            </div>
         </fieldset>
         <input id="draw" value="draw" type="button" onclick="drawAll()" />
         <a id="download-link" href="">Download image</a>
@@ -79,7 +95,6 @@
 </div>
 <div ng-app="timesTrailer" ng-controller="importData">
     <div class="wrapper">
-        <h1 id="title">Times Trailer</h1>
         <div class="right content">
             <h1>{{article.headline}}</h1>
             <p>{{article.result.url}}</p>
@@ -87,20 +102,17 @@
             <div ng-repeat="(index, image) in images">
                 <hr>
                 <h2> IMAGE {{index}} </h2>
-                <img onclick="choose(this.id)" id="image{{index}}" ng-src="{{image.url}}">
+                <img crossorigin="anonymous" onclick="choose(this.id)" id="image{{index}}" ng-src="{{image.url}}">
                 <h3 id="imageCaption{{index}}">{{image.caption}}</h3>
                 <p id="imageCredit{{index}}"> {{image.credit}}</p>
             </div>
             <div ng-repeat="(index, image) in slideshow">
                 <hr>
                 <h2> SLIDESHOW {{index}} </h2>
-                <img onclick="choose(this.id)" id="slideshow{{index}}" ng-src="{{image.url}}">
+                <img crossorigin="anonymous" onclick="choose(this.id)" id="slideshow{{index}}" ng-src="{{image.url}}">
                 <h3 id="slideshowCaption{{index}}" ng-bind-html="trustHTML(image.caption)"></h3>
                 <p id="slideshowCredit{{index}}">{{image.credit}}</p>
             </div>
-        </div>
-        <div class="left content">
-
         </div>
     </div>
     <script type="text/javascript" src="js/app.js"></script>
