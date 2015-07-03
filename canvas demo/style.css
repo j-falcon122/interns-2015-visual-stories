@@ -4,9 +4,25 @@
          box-sizing: border-box;
 }
 
+#canvas{
+	border: 1px solid black;
+}
+
+#controls{
+	position:fixed;
+	width:50%;
+	text-align: center;
+}
 .wrapper{
 	margin:auto;
 	text-align:center;
+}
+
+.component{
+	min-height: 50px;
+	padding: 10px ;
+	border: 2px black dotted;
+	margin:0 10% 0 10%;
 }
 
 #loadphotos{
@@ -35,18 +51,12 @@
 }
 
 #content img{
-	height:300px;
-	width:auto;
+	width:100%;
+	height:auto;
 }
 
 #content h1{
 
-}
-
-#timeline{
-	width:50%;
-	float:left;
-	border: 2px blue dotted;
 }
 
 .element{

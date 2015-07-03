@@ -1,0 +1,8 @@
+$scope.article.headline = data.result.headline
+$scope.article.summary = data.result.summary
+$scope.article.section = data.result.section.display_name
+$scope.article.author = data.result.authors[0].title_case_name
+$scope.article.byline = data.result.byline
+$scope.article.date = data.result.publication_iso_date
+$scope.article.kicker = data.result.kicker
+$scope.article.link = data.result.url

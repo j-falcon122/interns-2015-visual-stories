@@ -3,6 +3,17 @@ loadData.controller ("importData", function ($scope, $sce) {
 	$scope.trustHTML = function(string) {
 		return $sce.trustAsHtml(string);
 	};
+	$scope.showPhoto = true;
+	$scope.showText = true;
+
+	$scope.togglePhotos = function(){
+		$scope.showPhoto = !$scope.showPhoto;
+	}
+
+	$scope.toggleText = function(){
+		$scope.showText = !$scope.showText;
+	}
+
 	loadXMLDoc(function(data){
 		$scope.images = [];
 		$scope.slideshow = [];
@@ -24,17 +35,29 @@ function loadXMLDoc(callback) {
 }
 
 function createItems(data, $scope){
-	$scope.article.headline = data.result.headline;
-	$scope.article.summary = data.result.summary;
-	$scope.article.section = data.result.section.display_name;
-	$scope.article.author = data.result.authors[0].title_case_name;
-	$scope.article.byline = data.result.byline
-	$scope.article.date = data.result.publication_iso_date;
-	$scope.article.kicker = data.result.kicker;
-	$scope.article.Top = data.result.regions.Top.modules[0].modules;
-	$scope.article.Embedded = data.result.regions.Embedded.modules[0].modules;
-	getImages($scope.article.Top, $scope);
-	getImages($scope.article.Embedded, $scope);
+	// to add more variables, add it to the variables.txt and run files.js
+	$scope.elements = [
+		{	"name": "headline",
+			"text": $scope.article.headline = data.result.headline,},
+		{	"name": "summary",
+			"text": $scope.article.summary = data.result.summary,},
+		{	"name": "section",
+			"text": $scope.article.section = data.result.section.display_name,},
+		{	"name": "author",
+			"text": $scope.article.author = data.result.authors[0].title_case_name,},
+		{	"name": "byline",
+			"text": $scope.article.byline = data.result.byline,},
+		{	"name": "date",
+			"text": $scope.article.date = data.result.publication_iso_date,},
+		{	"name": "kicker",
+			"text": $scope.article.kicker = data.result.kicker,},
+		{	"name": "link",
+			"text": $scope.article.link = data.result.url}
+	];
+	$scope.article.Top = data.result.regions.Top.modules[0].modules,
+	$scope.article.Embedded = data.result.regions.Embedded.modules[0].modules,
+	getImages($scope.article.Top, $scope),
+	getImages($scope.article.Embedded, $scope)
 	$scope.$apply();
 }
 

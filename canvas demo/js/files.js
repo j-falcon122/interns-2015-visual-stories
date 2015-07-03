@@ -1,5 +1,6 @@
 var fs = require('fs');
 var css = "";
+/*
 css += "-------------FONTS-------------\n"
 
 fs.readdirSync('../fonts').forEach(function(name){
@@ -15,9 +16,28 @@ css += "-------------HTML-------------\n"
 fs.readdirSync('../fonts').forEach(function(name){
 	css += "<p>"+name+"</p>\n"
 })
+*/
+var result;
+var names = [];
 
-fs.writeFile('files.txt', css, function(err){
-	if (!err) {
-		console.log("saved!");
+fs.readFile('./variables.txt', 'utf-8', function(err, data){
+	var p = /\$scope\.article\.([^\s]+)/g;
+	while (m = p.exec(data)){
+		console.log(m[1]);
+		names.push(m[1]);
 	}
-})
+	data = data.split('\n');
+	for(var i = 0; i < names.length; i++){
+		result += "{"
+		result += '\t"name": '+ '"' + names[i] +'"' + ",\n"
+		result += '\t"text": '+ data[i] + ","
+		result += "},\n"
+	}
+	fs.writeFile('files.txt', result, function(err){
+		if (!err) {
+			console.log("saved!");
+		}
+	})
+});
+
+

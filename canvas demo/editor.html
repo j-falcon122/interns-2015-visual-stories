@@ -1,5 +1,4 @@
 <head>
-    <h1 id="title">Times Trailer</h1>
     <link rel="stylesheet" type="text/css" href="style.css">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular.min.js"></script>
@@ -28,8 +27,10 @@
     </style>
 </head>
 <body>
+<h1 id="title">Times Trailer</h1>
 <div class="left">
     <canvas id="canvas" width="600" height="400" id="canvas"></canvas>
+<!-- Edit field selection -->
     <form>
         <fieldset class="editor">
         <legend>Overlay</legend>
@@ -93,28 +94,68 @@
         <a id="download-link" href="">Download image</a>
     </form>
 </div>
+<!-- Data selection -->
 <div ng-app="timesTrailer" ng-controller="importData">
     <div class="wrapper">
         <div class="right content">
-            <h1>{{article.headline}}</h1>
-            <p>{{article.result.url}}</p>
+            <div id="controls">
+                <button ng-click="toggleText()" name="text">Toggle text</button>
+                <button ng-click="togglePhotos()" name="photos">Toggle photos</button>
+            </div>
+            <div ng-show="showText" ng-repeat="(index, element) in elements">
+                <hr>
 
-            <div ng-repeat="(index, image) in images">
+                <h2> SECTION: {{element.name}} </h2>
+                <div class="component">
+                    <h2>{{element.text}}</h2>
+                </div>
+            </div>
+            <div ng-show="showPhoto" ng-repeat="(index, image) in images">
                 <hr>
                 <h2> IMAGE {{index}} </h2>
-                <img crossorigin="anonymous" onclick="chooseImage(this.id)" id="image{{index}}" ng-src="{{image.url}}">
-                <h3 id="imageCaption{{index}}">{{image.caption}}</h3>
-                <p id="imageCredit{{index}}"> {{image.credit}}</p>
+                <div class="component">
+                    <img crossorigin="anonymous" onclick="choose(this.id)" id="image{{index}}" ng-src="{{image.url}}">
+                    <h3 id="imageCaption{{index}}">{{image.caption}}</h3>
+                    <p id="imageCredit{{index}}"> {{image.credit}}</p>
+                </div>
             </div>
-            <div ng-repeat="(index, image) in slideshow">
+            <div ng-show="showPhoto" ng-repeat="(index, image) in slideshow">
                 <hr>
                 <h2> SLIDESHOW {{index}} </h2>
-                <img crossorigin="anonymous" onclick="chooseImage(this.id)" id="slideshow{{index}}" ng-src="{{image.url}}">
-                <h3 id="slideshowCaption{{index}}" ng-bind-html="trustHTML(image.caption)"></h3>
-                <p id="slideshowCredit{{index}}">{{image.credit}}</p>
+                <div class="component">
+                    <img crossorigin="anonymous" onclick="choose(this.id)" id="slideshow{{index}}" ng-src="{{image.url}}">
+                    <h3 id="slideshowCaption{{index}}" ng-bind-html="trustHTML(image.caption)"></h3>
+                    <p id="slideshowCredit{{index}}">{{image.credit}}</p>
+                </div>
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="js/app.js"></script>
 </div>
+<div id="loadfonts">
+    <p>NYTCheltenhamBdCon</p>
+    <p>NYTCheltenhamBdXCon</p>
+    <p>NYTCheltenhamBold</p>
+    <p>NYTCheltenhamBook</p>
+    <p>NYTCheltenhamExtBd</p>
+    <p>NYTCheltenhamExtLt</p>
+    <p>NYTCheltenhamLt</p>
+    <p>NYTCheltenhamLtCon</p>
+    <p>NYTCheltenhamLtSC</p>
+    <p>NYTCheltenhamMedCon</p>
+    <p>NYTCheltenhamMedium</p>
+    <p>NYTCheltenhamWide</p>
+    <p>NYTFranklinBold</p>
+    <p>NYTFranklinExtraBd</p>
+    <p>NYTFranklinHeadline</p>
+    <p>NYTFranklinLight</p>
+    <p>NYTFranklinMedium</p>
+    <p>NYTFranklinSemiBold</p>
+    <p>NYTImperial</p>
+    <p>NYTImperialSemiBold</p>
+    <p>NYTKarnakDisplay</p>
+    <p>NYTKarnakText</p>
+    <p>NYTStymieLight</p>
+    <p>NYTStymieMedium</p>
+</div>
+<script type="text/javascript" src="js/app.js"></script>
 </body>
