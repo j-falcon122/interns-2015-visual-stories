@@ -18,13 +18,22 @@
 	font-size:40px;
 }
 
-#content{
-	width:50%;
-	float:right;
+.content{
 	border:2px dotted red;
 	height:600px;
 	overflow:scroll;
 }
+
+.right {
+	width:50%;
+	float:right;
+}
+
+.left {
+	width:50%;
+	float:left;
+}
+
 #content img{
 	height:300px;
 	width:auto;

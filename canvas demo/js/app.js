@@ -1,14 +1,3 @@
-
-
-
-
-	// images.forEach(function(pic, it){
-	// 	content.append("<img src='" + pic.url + "'><p>" + pic.caption +"</p><p>" + pic.credit + "</p>");
-	// })
-	// slideshow.forEach(function(pic, it){
-	// 	content.append("<img src='" + pic.url + "'><p>" + pic.caption +"</p><p>" + pic.credit + "</p>");
-	// })
-
 var loadData = angular.module ('timesTrailer', []);
 loadData.controller ("importData", function ($scope, $sce) {
 	$scope.trustHTML = function(string) {

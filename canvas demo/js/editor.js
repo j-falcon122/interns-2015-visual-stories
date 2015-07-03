@@ -10,6 +10,10 @@ function initialize() {
     canvas.on('mouse:up', dragEnd);
 }
 
+function choose(id) {
+    canvas.add(new fabric.Image(id));
+}
+
 function dragStart(event) {
     newBox = [0,0,0,0];
     if (event.target) {

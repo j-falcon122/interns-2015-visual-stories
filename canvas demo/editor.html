@@ -1,75 +1,108 @@
 <head>
-    <title>Fuck Paper JS Sandbox</title>
+    <title>Times Trailer</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular.min.js"></script>
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/fabric.js"></script>
-    <script type="text/javascript" src="js/editor_app.js"></script>
+    <script type="text/javascript" src="js/editor.js"></script>
     <style>
     #canvas {
         border: 1px solid black;
     }
     </style>
 </head>
-<canvas id="canvas" width="512" height="288" id="canvas"></canvas>
-<div id="loadfonts">
-    <p>NYTCheltenhamBdCon</p>
-    <p>NYTCheltenhamBdXCon</p>
-    <p>NYTCheltenhamBold</p>
-    <p>NYTCheltenhamBook</p>
-    <p>NYTCheltenhamExtBd</p>
-    <p>NYTCheltenhamExtLt</p>
-    <p>NYTCheltenhamLt</p>
-    <p>NYTCheltenhamLtCon</p>
-    <p>NYTCheltenhamLtSC</p>
-    <p>NYTCheltenhamMedCon</p>
-    <p>NYTCheltenhamMedium</p>
-    <p>NYTCheltenhamWide</p>
-    <p>NYTFranklinBold</p>
-    <p>NYTFranklinExtraBd</p>
-    <p>NYTFranklinHeadline</p>
-    <p>NYTFranklinLight</p>
-    <p>NYTFranklinMedium</p>
-    <p>NYTFranklinSemiBold</p>
-    <p>NYTImperial</p>
-    <p>NYTImperialSemiBold</p>
-    <p>NYTKarnakDisplay</p>
-    <p>NYTKarnakText</p>
-    <p>NYTStymieLight</p>
-    <p>NYTStymieMedium</p>
+<body>
+<div class="content left">
+    <canvas id="canvas" width="512" height="288" id="canvas"></canvas>
+    <div id="loadfonts">
+        <p>NYTCheltenhamBdCon</p>
+        <p>NYTCheltenhamBdXCon</p>
+        <p>NYTCheltenhamBold</p>
+        <p>NYTCheltenhamBook</p>
+        <p>NYTCheltenhamExtBd</p>
+        <p>NYTCheltenhamExtLt</p>
+        <p>NYTCheltenhamLt</p>
+        <p>NYTCheltenhamLtCon</p>
+        <p>NYTCheltenhamLtSC</p>
+        <p>NYTCheltenhamMedCon</p>
+        <p>NYTCheltenhamMedium</p>
+        <p>NYTCheltenhamWide</p>
+        <p>NYTFranklinBold</p>
+        <p>NYTFranklinExtraBd</p>
+        <p>NYTFranklinHeadline</p>
+        <p>NYTFranklinLight</p>
+        <p>NYTFranklinMedium</p>
+        <p>NYTFranklinSemiBold</p>
+        <p>NYTImperial</p>
+        <p>NYTImperialSemiBold</p>
+        <p>NYTKarnakDisplay</p>
+        <p>NYTKarnakText</p>
+        <p>NYTStymieLight</p>
+        <p>NYTStymieMedium</p>
+    </div>
+    <form>
+        <fieldset class="editor">
+        <legend>Overlay</legend>
+            <label for="overlay">Overlay? </label>
+            <input id="overlay" type="checkbox" />
+            <br>
+        Automatic Placement
+            <select id="position">
+                <option value="">none</option>
+                <option value="tb">top banner</option>
+                <option value="tli">top left inset</option>
+                <option value="tri">top right inset</option>
+                <option value="cb">centered banner</option>
+                <option value="bli">bottom left inset</option>
+                <option value="bri">bottom right inset</option>
+                <option value="bb">bottom banner</option>
+            </select>
+            <input placeholder="opacity" type="text" id="overlay-opacity" />
+            <input type="color" id="overlay-color" />
+            <div id="size">
+                Manual Placement: Top Left Corner X:
+                <input type="text" id="manual-x" /> Y:
+                <input type="text" id="manual-y" /> SIZE:
+                <input id="width" type="text" placeholder="width" /><span>x</span>
+                <input id="height" type="text" placeholder="height" />
+            </div>
+        </fieldset>
+        <fieldset id="text" class="editor">
+            <legend>Text</legend>
+            <input placeholder="text here" id="text-content" type="text" />
+            <input type="color" id="text-color" />
+        </fieldset>
+        <input id="draw" value="draw" type="button" onclick="drawAll()" />
+        <a id="download-link" href="">Download image</a>
+    </form>
 </div>
-<form>
-    <fieldset class="editor">
-    <legend>Overlay</legend>
-        <label for="overlay">Overlay? </label>
-        <input id="overlay" type="checkbox" />
-        <br>
-    Automatic Placement
-        <select id="position">
-            <option value="">none</option>
-            <option value="tb">top banner</option>
-            <option value="tli">top left inset</option>
-            <option value="tri">top right inset</option>
-            <option value="cb">centered banner</option>
-            <option value="bli">bottom left inset</option>
-            <option value="bri">bottom right inset</option>
-            <option value="bb">bottom banner</option>
-        </select>
-        <input placeholder="opacity" type="text" id="overlay-opacity" />
-        <input type="color" id="overlay-color" />
-        <div id="size">
-            Manual Placement: Top Left Corner X:
-            <input type="text" id="manual-x" /> Y:
-            <input type="text" id="manual-y" /> SIZE:
-            <input id="width" type="text" placeholder="width" /><span>x</span>
-            <input id="height" type="text" placeholder="height" />
+<div ng-app="timesTrailer" ng-controller="importData">
+    <div class="wrapper">
+        <h1 id="title">Times Trailer</h1>
+        <div class="right content">
+            <h1>{{article.headline}}</h1>
+            <p>{{article.result.url}}</p>
+
+            <div ng-repeat="(index, image) in images">
+                <hr>
+                <h2> IMAGE {{index}} </h2>
+                <img onclick="choose(this.id)" id="image{{index}}" ng-src="{{image.url}}">
+                <h3 id="imageCaption{{index}}">{{image.caption}}</h3>
+                <p id="imageCredit{{index}}"> {{image.credit}}</p>
+            </div>
+            <div ng-repeat="(index, image) in slideshow">
+                <hr>
+                <h2> SLIDESHOW {{index}} </h2>
+                <img onclick="choose(this.id)" id="slideshow{{index}}" ng-src="{{image.url}}">
+                <h3 id="slideshowCaption{{index}}" ng-bind-html="trustHTML(image.caption)"></h3>
+                <p id="slideshowCredit{{index}}">{{image.credit}}</p>
+            </div>
         </div>
-    </fieldset>
-    <fieldset id="text" class="editor">
-        <legend>Text</legend>
-        <input placeholder="text here" id="text-content" type="text" />
-        <input type="color" id="text-color" />
-    </fieldset>
-    <input id="draw" value="draw" type="button" onclick="drawAll()" />
-    <a id="download-link" href="">Download image</a>
-</form>
+        <div class="left content">
+
+        </div>
+    </div>
+    <script type="text/javascript" src="js/app.js"></script>
+</div>
+</body>
