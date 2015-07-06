@@ -3,6 +3,7 @@ var width = 600;
 var height = 400;
 var newBox;
 var download_no = 0;
+var slides = [];
 
 function initialize() {
     canvas = new fabric.Canvas('canvas');
@@ -11,8 +12,29 @@ function initialize() {
 }
 
 function chooseImage(id) {
+    canvas.clear();
     var img = new fabric.Image(id);
+    img.set({
+        selectable: false,
+        scaleY: canvas.height / img.height,
+        scaleX: canvas.width / img.width
+    });
     canvas.add(img);
+}
+
+function clearCanvas(){
+    canvas.clear();
+}
+
+function saveCanvas(){
+    var slide = canvas.toJSON();
+    console.log('saved canvas!');
+    // slides.push(slide);
+    console.log(canvas.toJSON());
+}
+
+function loadCanvas(){
+
 }
 
 function selectFont(div) {
@@ -302,7 +324,6 @@ function createOverlay(rect, options) {
         fill: options.color,
         opacity: options.opacity
     });
-
     return rectangle;
 }
 

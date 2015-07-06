@@ -1,23 +1,34 @@
 var fs = require('fs');
-var css = "";
-/*
-css += "-------------FONTS-------------\n"
+var result = "";
+
+//create css and HTML
+
+result += "-------------FONTS-------------\n"
 
 fs.readdirSync('../fonts').forEach(function(name){
-	css += "@font-face { \n\tfont-family: '" + name +"';\n\tsrc: url('./fonts/"+name+"')\n}\n"
+	// result += "@font-face { \n\tfont-family: '" + name +"';\n\tsrc: url('./fonts/"+name+"')\n}\n"
+	result += "<div class='font-family' onclick='selectFont(this) style='font-family:"+name+"' value='"+name+"'>"+name+"</div>\n"
 })
 
-css += "-------------CSS-------------\n"
-fs.readdirSync('../fonts').forEach(function(name, it){
-	css += "#loadfonts p:nth-child("+(it+1)+"){font-family: '"+name+"';}\n";
+fs.writeFile('files.txt', result, function(err){
+	if (!err) {
+		console.log("saved!");
+	}
 })
 
-css += "-------------HTML-------------\n"
-fs.readdirSync('../fonts').forEach(function(name){
-	css += "<p>"+name+"</p>\n"
-})
-*/
-var result;
+// result += "-------------CSS-------------\n"
+// fs.readdirSync('../fonts').forEach(function(name, it){
+// 	result += "#loadfonts p:nth-child("+(it+1)+"){font-family: '"+name+"';}\n";
+// })
+
+// result += "-------------HTML-------------\n"
+// fs.readdirSync('../fonts').forEach(function(name){
+// 	result += "<p>"+name+"</p>\n"
+// })
+
+
+// create objects from variables
+/*var result;
 var names = [];
 
 fs.readFile('./variables.txt', 'utf-8', function(err, data){
@@ -39,5 +50,5 @@ fs.readFile('./variables.txt', 'utf-8', function(err, data){
 		}
 	})
 });
-
+*/
 

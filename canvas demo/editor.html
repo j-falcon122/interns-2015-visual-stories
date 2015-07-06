@@ -90,8 +90,12 @@
                 <div class="font-family" onclick="selectFont(this)" style="font-family:NYTStymieMedium" value="NYTStymieMedium">NYTStymieMedium</div>
             </div>
         </fieldset>
-        <input id="draw" value="draw" type="button" onclick="drawAll()" />
-        <a id="download-link" href="">Download image</a>
+        <fieldset>
+            <input id="draw" value="draw" type="button" onclick="drawAll()" />
+            <input id="clear" value="clear" type="button" onclick="clearCanvas()">
+            <input id="save" value="save" type="button" onclick="saveCanvas()">
+            <a id="download-link" href="">Download image</a>
+        </fieldset>
     </form>
 </div>
 <!-- Data selection -->
@@ -103,11 +107,12 @@
                 <button ng-click="togglePhotos()" name="photos">Toggle photos</button>
             </div>
             <div ng-show="showText" ng-repeat="(index, element) in elements">
-                <hr>
-
-                <h2> SECTION: {{element.name}} </h2>
-                <div class="component">
-                    <h2>{{element.text}}</h2>
+                <div ng-if="element.text">
+                    <hr>
+                    <h2> SECTION: {{element.name}} </h2>
+                    <div class="component">
+                        <h2>{{element.text}}</h2>
+                    </div>
                 </div>
             </div>
             <div ng-show="showPhoto" ng-repeat="(index, image) in images">
@@ -130,32 +135,9 @@
             </div>
         </div>
     </div>
-</div>
-<div id="loadfonts">
-    <p>NYTCheltenhamBdCon</p>
-    <p>NYTCheltenhamBdXCon</p>
-    <p>NYTCheltenhamBold</p>
-    <p>NYTCheltenhamBook</p>
-    <p>NYTCheltenhamExtBd</p>
-    <p>NYTCheltenhamExtLt</p>
-    <p>NYTCheltenhamLt</p>
-    <p>NYTCheltenhamLtCon</p>
-    <p>NYTCheltenhamLtSC</p>
-    <p>NYTCheltenhamMedCon</p>
-    <p>NYTCheltenhamMedium</p>
-    <p>NYTCheltenhamWide</p>
-    <p>NYTFranklinBold</p>
-    <p>NYTFranklinExtraBd</p>
-    <p>NYTFranklinHeadline</p>
-    <p>NYTFranklinLight</p>
-    <p>NYTFranklinMedium</p>
-    <p>NYTFranklinSemiBold</p>
-    <p>NYTImperial</p>
-    <p>NYTImperialSemiBold</p>
-    <p>NYTKarnakDisplay</p>
-    <p>NYTKarnakText</p>
-    <p>NYTStymieLight</p>
-    <p>NYTStymieMedium</p>
+    <div id="timeline">
+
+    </div>
 </div>
 <script type="text/javascript" src="js/app.js"></script>
 </body>
