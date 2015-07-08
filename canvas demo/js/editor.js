@@ -4,11 +4,28 @@ var height = 400;
 var newBox;
 var download_no = 0;
 var slides = [];
+var video;
 
 function initialize() {
     canvas = new fabric.Canvas('canvas');
     canvas.on('mouse:down', dragStart);
     canvas.on('mouse:up', dragEnd);
+    video = new Whammy.Video(15);
+}
+
+function addFrame() {
+    video.add(canvas.getContext("2d"), 3000);
+}
+
+function finalizeVideo() {
+    var start_time = +new Date;
+    var output = video.compile();
+    var end_time = +new Date;
+    var url = webkitURL.createObjectURL(output);
+    document.getElementById('awesome').src = url; //toString converts it to a URL via Object URLs, falling back to DataURL
+    document.getElementById('download-link').style.display = '';
+    document.getElementById('download-link').href = url;
+    // document.getElementById('status').innerHTML = "Compiled Video in " + (end_time - start_time) + "ms, file size: " + Math.ceil(output.size / 1024) + "KB";
 }
 
 function chooseImage(id) {

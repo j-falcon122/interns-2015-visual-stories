@@ -5,6 +5,7 @@
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/fabric.js"></script>
     <script type="text/javascript" src="js/editor.js"></script>
+    <script src="../vendor/whammy.js"></script>
     <style>
     #canvas {
         border: 1px solid black;
@@ -29,8 +30,8 @@
 <body>
 <h1 id="title">Times Trailer</h1>
 <div class="left">
+    <video id="awesome" width="150" height="150" controls></video>
     <canvas id="canvas" width="600" height="400" id="canvas"></canvas>
-<!-- Edit field selection -->
     <form>
         <fieldset class="editor">
         <legend>Overlay</legend>
@@ -92,9 +93,11 @@
         </fieldset>
         <fieldset>
             <input id="draw" value="draw" type="button" onclick="drawAll()" />
-            <input id="clear" value="clear" type="button" onclick="clearCanvas()">
-            <input id="save" value="save" type="button" onclick="saveCanvas()">
-            <a id="download-link" href="">Download image</a>
+            <input id="clear" value="clear" type="button" onclick="clearCanvas()"/>
+            <input id="save" value="save" type="button" onclick="saveCanvas()"/>
+            <a id="download-link" download="example.webm" href="">Download image</a>
+            <input type="button" value="addFrame"onclick="addFrame()"/>
+            <input type="button" value="write video" onclick="finalizeVideo()"/>
         </fieldset>
     </form>
 </div>
