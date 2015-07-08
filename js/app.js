@@ -30,7 +30,7 @@ function loadXMLDoc(callback) {
 			console.log("loaded");
 			callback(req.response);
 		}
-	req.open("GET", "/articles/article0.json", true);
+	req.open("GET", "/assets/articles/article0.json", true);
 	req.send();
 }
 

@@ -1,3 +1,4 @@
+var fs 				= require('fs');
 var express 		= require('express');
 var app 			= express();
 var bodyParser 		= require('body-parser');
@@ -11,6 +12,9 @@ var parser 			= require('./js/parser.js');
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(bodyParser.json());
 app.use('/', express.static(__dirname+'/'));
+
+fs.createReadStream('assets/photos/0.png')
+	.pipe(fs.createWriteStream('assets/photos/1.png'));
 
 router.route('/data')
 	.post(function(req, res){
@@ -39,10 +43,10 @@ router.route('/done')
 			      res.json({message : 'failed conversion.'});
 		  })
 		  // save to file
-		  .save('exported_video/output.mp4');
+		  .save('assets/exported_video/output.mp4');
 	});
 
-// http://localhost:8080/api
+http://localhost:8080/api
 router.get('/',function(req, res) {
 	res.json({ message: 'API is workin!'});
 });

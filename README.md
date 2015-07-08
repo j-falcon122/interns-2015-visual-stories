@@ -1,23 +1,11 @@
-#Installation
-```cd interns-2015-visual-stories```
+# paperJS
+Testing out different canvas API elements with the paper.js library
 
-```brew install ffmpeg```
+Count --------- --------
+Fadein00     11 11    22
+Sout       0000     1111
 
-```brew install node``` (skip if you have node already)
-
-```npm install```
-
-#Frontend
-to play w/video playback stuff
-
-```python -m SimpleHTTPServer```
-
-#Backend
-to play w/video encoding stuff
-
-```node index.js```
-
-##rename_files
-A bash script to help you get image files into the right format to be read by ffmpeg
-
-
+On every frame:
+save frame
+every 60 frames:
+post as video

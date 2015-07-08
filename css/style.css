@@ -69,97 +69,97 @@
 
 @font-face {
 	font-family: 'NYTCheltenhamBdCon';
-	src: url('./fonts/NYTCheltenhamBdCon')
+	src: url('../assets/fonts/NYTCheltenhamBdCon')
 }
 @font-face {
 	font-family: 'NYTCheltenhamBdXCon';
-	src: url('./fonts/NYTCheltenhamBdXCon')
+	src: url('../assets/fonts/NYTCheltenhamBdXCon')
 }
 @font-face {
 	font-family: 'NYTCheltenhamBold';
-	src: url('./fonts/NYTCheltenhamBold')
+	src: url('../assets/fonts/NYTCheltenhamBold')
 }
 @font-face {
 	font-family: 'NYTCheltenhamBook';
-	src: url('./fonts/NYTCheltenhamBook')
+	src: url('../assets/fonts/NYTCheltenhamBook')
 }
 @font-face {
 	font-family: 'NYTCheltenhamExtBd';
-	src: url('./fonts/NYTCheltenhamExtBd')
+	src: url('../assets/fonts/NYTCheltenhamExtBd')
 }
 @font-face {
 	font-family: 'NYTCheltenhamExtLt';
-	src: url('./fonts/NYTCheltenhamExtLt')
+	src: url('../assets/fonts/NYTCheltenhamExtLt')
 }
 @font-face {
 	font-family: 'NYTCheltenhamLt';
-	src: url('./fonts/NYTCheltenhamLt')
+	src: url('../assets/fonts/NYTCheltenhamLt')
 }
 @font-face {
 	font-family: 'NYTCheltenhamLtCon';
-	src: url('./fonts/NYTCheltenhamLtCon')
+	src: url('../assets/fonts/NYTCheltenhamLtCon')
 }
 @font-face {
 	font-family: 'NYTCheltenhamLtSC';
-	src: url('./fonts/NYTCheltenhamLtSC')
+	src: url('../assets/fonts/NYTCheltenhamLtSC')
 }
 @font-face {
 	font-family: 'NYTCheltenhamMedCon';
-	src: url('./fonts/NYTCheltenhamMedCon')
+	src: url('../assets/fonts/NYTCheltenhamMedCon')
 }
 @font-face {
 	font-family: 'NYTCheltenhamMedium';
-	src: url('./fonts/NYTCheltenhamMedium')
+	src: url('../assets/fonts/NYTCheltenhamMedium')
 }
 @font-face {
 	font-family: 'NYTCheltenhamWide';
-	src: url('./fonts/NYTCheltenhamWide')
+	src: url('../assets/fonts/NYTCheltenhamWide')
 }
 @font-face {
 	font-family: 'NYTFranklinBold';
-	src: url('./fonts/NYTFranklinBold')
+	src: url('../assets/fonts/NYTFranklinBold')
 }
 @font-face {
 	font-family: 'NYTFranklinExtraBd';
-	src: url('./fonts/NYTFranklinExtraBd')
+	src: url('../assets/fonts/NYTFranklinExtraBd')
 }
 @font-face {
 	font-family: 'NYTFranklinHeadline';
-	src: url('./fonts/NYTFranklinHeadline')
+	src: url('../assets/fonts/NYTFranklinHeadline')
 }
 @font-face {
 	font-family: 'NYTFranklinLight';
-	src: url('./fonts/NYTFranklinLight')
+	src: url('../assets/fonts/NYTFranklinLight')
 }
 @font-face {
 	font-family: 'NYTFranklinMedium';
-	src: url('./fonts/NYTFranklinMedium')
+	src: url('../assets/fonts/NYTFranklinMedium')
 }
 @font-face {
 	font-family: 'NYTFranklinSemiBold';
-	src: url('./fonts/NYTFranklinSemiBold')
+	src: url('../assets/fonts/NYTFranklinSemiBold')
 }
 @font-face {
 	font-family: 'NYTImperial';
-	src: url('./fonts/NYTImperial')
+	src: url('../assets/fonts/NYTImperial')
 }
 @font-face {
 	font-family: 'NYTImperialSemiBold';
-	src: url('./fonts/NYTImperialSemiBold')
+	src: url('../assets/fonts/NYTImperialSemiBold')
 }
 @font-face {
 	font-family: 'NYTKarnakDisplay';
-	src: url('./fonts/NYTKarnakDisplay')
+	src: url('../assets/fonts/NYTKarnakDisplay')
 }
 @font-face {
 	font-family: 'NYTKarnakText';
-	src: url('./fonts/NYTKarnakText')
+	src: url('../assets/fonts/NYTKarnakText')
 }
 @font-face {
 	font-family: 'NYTStymieLight';
-	src: url('./fonts/NYTStymieLight')
+	src: url('../assets/fonts/NYTStymieLight')
 }
 @font-face {
 	font-family: 'NYTStymieMedium';
-	src: url('./fonts/NYTStymieMedium')
+	src: url('../assets/fonts/NYTStymieMedium')
 }
