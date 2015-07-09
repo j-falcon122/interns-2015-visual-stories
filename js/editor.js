@@ -55,8 +55,8 @@ function loadCanvas(){
 }
 
 function selectFont(div) {
-    $('.font-family').toggleClass('active', false);
-    $(div).toggleClass('active', true);
+    // $('.font-family').toggleClass('active', false);
+    // $(div).toggleClass('active', true);
 }
 
 function dragStart(event) {
@@ -114,6 +114,7 @@ function getRectangle(type) {
     var banner_height = height * .2
     var banner_inset = 0.25 * width;
 
+    var dimensions;
     switch (type) {
         case "tb":
             dimensions = [0, 0, width, banner_height];

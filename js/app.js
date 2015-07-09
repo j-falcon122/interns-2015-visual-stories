@@ -1,17 +1,10 @@
 var loadData = angular.module ('timesTrailer', []);
-loadData.controller ("importData", function ($scope, $sce) {
+loadData.controller ("importData", function ($scope, $sce, $http) {
 	$scope.trustHTML = function(string) {
 		return $sce.trustAsHtml(string);
 	};
 	$scope.showPhoto = true;
 	$scope.showText = true;
-	$scope.togglePhotos = function(){
-		$scope.showPhoto = !$scope.showPhoto;
-	}
-
-	$scope.toggleText = function(){
-		$scope.showText = !$scope.showText;
-	}
 
 	loadXMLDoc(function(data){
 		$scope.images = [];
@@ -21,6 +14,37 @@ loadData.controller ("importData", function ($scope, $sce) {
 		console.log($scope.article.result.headline);
 		$scope.$apply();
 	});
+
+	//editor stuff
+	$scope.autoPositions = [
+        {value:null, label:'none'},
+        {value:"tb", label:'top banner'},
+        {value:"tli", label:'top left inset'},
+        {value:"tri", label:'top right inset'},
+        {value:"cb", label:'centered banner'},
+        {value:"bli", label:'bottom left inset'},
+        {value:"bri", label:'bottom right inset'},
+        {value:"bb", label:'bottom banner'}
+	];
+	$scope.overlay = {
+		enabled : true,
+		autoPosition: $scope.autoPositions[0],
+		opacity: 0.8,
+		overlayColor: '#000000',
+		manualPosition: [0, 0, 0, 0]
+	};
+
+
+	$scope.fonts = ['NYTCheltenhamBdCon', 'NYTCheltenhamBdXCon', 'NYTCheltenhamBold', 'NYTCheltenhamBook', 'NYTCheltenhamExtBd', 'NYTCheltenhamExtLt', 'NYTCheltenhamLt', 'NYTCheltenhamLtCon', 'NYTCheltenhamLtSC', 'NYTCheltenhamMedCon', 'NYTCheltenhamMedium', 'NYTCheltenhamWide', 'NYTFranklinBold', 'NYTFranklinExtraBd', 'NYTFranklinHeadline', 'NYTFranklinLight', 'NYTFranklinMedium', 'NYTFranklinSemiBold', 'NYTImperial', 'NYTImperialSemiBold', 'NYTKarnakDisplay', 'NYTKarnakText', 'NYTStymieLight', 'NYTStymieMedium']
+	$scope.text = {
+		content: '',
+		color: '#ffffff',
+		size: 24,
+		font: $scope.fonts[0]
+	};
+
+
+
 });
 
 function loadXMLDoc(callback) {
@@ -53,7 +77,6 @@ function createItems(data, $scope){
 		{	"name": "link",
 			"text": $scope.article.link = data.result.url}
 	];
-	$scope.fonts = ['NYTCheltenhamBdCon', 'NYTCheltenhamBdXCon', 'NYTCheltenhamBold', 'NYTCheltenhamBook', 'NYTCheltenhamExtBd', 'NYTCheltenhamExtLt', 'NYTCheltenhamLt', 'NYTCheltenhamLtCon', 'NYTCheltenhamLtSC', 'NYTCheltenhamMedCon', 'NYTCheltenhamMedium', 'NYTCheltenhamWide', 'NYTFranklinBold', 'NYTFranklinExtraBd', 'NYTFranklinHeadline', 'NYTFranklinLight', 'NYTFranklinMedium', 'NYTFranklinSemiBold', 'NYTImperial', 'NYTImperialSemiBold', 'NYTKarnakDisplay', 'NYTKarnakText', 'NYTStymieLight', 'NYTStymieMedium']
 	$scope.article.Top = data.result.regions.Top.modules[0].modules,
 	$scope.article.Embedded = data.result.regions.Embedded.modules[0].modules,
 	getImages($scope.article.Top, $scope),

@@ -17,36 +17,28 @@
         <fieldset class="editor">
         <legend>Overlay</legend>
             <label for="overlay">Overlay? </label>
-            <input id="overlay" type="checkbox" />
+            <input  ng-model="overlay.enabled" id="overlay" type="checkbox" />
             <br>
         Automatic Placement
-            <select id="position">
-                <option value="">none</option>
-                <option value="tb">top banner</option>
-                <option value="tli">top left inset</option>
-                <option value="tri">top right inset</option>
-                <option value="cb">centered banner</option>
-                <option value="bli">bottom left inset</option>
-                <option value="bri">bottom right inset</option>
-                <option value="bb">bottom banner</option>
+            <select ng-model="overlay.autoPosition" ng-options="option.label for option in overlay.autoPositions track by option.value" id="position">
             </select>
-            <input placeholder="opacity" type="text" id="overlay-opacity" />
-            <input type="color" id="overlay-color" />
+            <input ng-model="overlay.opacity" type="number" min="0" max="1" id="overlay-opacity" step=".1">
+            <input ng-model="overlay.overlayColor" type="color" id="overlay-color" >
             <div id="size">
                 Manual Placement: Top Left Corner X:
-                <input type="text" id="manual-x" /> Y:
-                <input type="text" id="manual-y" /> SIZE:
-                <input id="width" type="text" placeholder="width" /><span>x</span>
-                <input id="height" type="text" placeholder="height" />
+                <input ng-model="overlay.manualPosition[0]" type="number" id="manual-x" > Y:
+                <input ng-model="overlay.manualPosition[1]" type="number" id="manual-y" > SIZE:
+                <input ng-model="overlay.manualPosition[2]" id="width" type="text" placeholder="width" >x
+                <input ng-model="overlay.manualPosition[3]" id="height" type="text" placeholder="height" >
             </div>
         </fieldset>
         <fieldset id="text" class="editor">
             <legend>Text</legend>
-            <input placeholder="text here" id="text-content" type="text" />
-            <input type="color" id="text-color" />
-            <input placeholder="font-size" id="font-size" type="text" />
+            <input ng-model="text.content" placeholder="text here" id="text-content" type="text" />
+            <input ng-model="text.color" type="color" id="text-color" />
+            <input ng-model="text.size" placeholder="font-size" id="font-size" type="text" />
             <div id="font-holder">
-                <div ng-repeat="element in fonts" id="{{element}}" class="font-family" onclick="selectFont(this)" style="font-family:{{element}}" value="{{element}}">{{element}}</div>
+                <div ng-repeat="font in fonts" id="{{font}}" class="font-family" ng-class="{'active': font == text.font}" style="font-family:{{font}}" ng-click="text.font = font">{{font}}</div>
             </div>
         </fieldset>
         <fieldset>
@@ -64,8 +56,8 @@
     <div class="wrapper">
         <div class="right content">
             <div id="controls">
-                <button ng-click="toggleText()" name="text">Toggle text</button>
-                <button ng-click="togglePhotos()" name="photos">Toggle photos</button>
+                <button ng-click="showText = !showText" name="text">Toggle text</button>
+                <button ng-click="showPhoto = !showPhoto" name="photos">Toggle photos</button>
             </div>
             <div ng-show="showText" ng-repeat="(index, element) in elements">
                 <div ng-if="element.text">
