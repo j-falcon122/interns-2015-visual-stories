@@ -5,7 +5,6 @@ loadData.controller ("importData", function ($scope, $sce) {
 	};
 	$scope.showPhoto = true;
 	$scope.showText = true;
-
 	$scope.togglePhotos = function(){
 		$scope.showPhoto = !$scope.showPhoto;
 	}
@@ -54,6 +53,7 @@ function createItems(data, $scope){
 		{	"name": "link",
 			"text": $scope.article.link = data.result.url}
 	];
+	$scope.fonts = ['NYTCheltenhamBdCon', 'NYTCheltenhamBdXCon', 'NYTCheltenhamBold', 'NYTCheltenhamBook', 'NYTCheltenhamExtBd', 'NYTCheltenhamExtLt', 'NYTCheltenhamLt', 'NYTCheltenhamLtCon', 'NYTCheltenhamLtSC', 'NYTCheltenhamMedCon', 'NYTCheltenhamMedium', 'NYTCheltenhamWide', 'NYTFranklinBold', 'NYTFranklinExtraBd', 'NYTFranklinHeadline', 'NYTFranklinLight', 'NYTFranklinMedium', 'NYTFranklinSemiBold', 'NYTImperial', 'NYTImperialSemiBold', 'NYTKarnakDisplay', 'NYTKarnakText', 'NYTStymieLight', 'NYTStymieMedium']
 	$scope.article.Top = data.result.regions.Top.modules[0].modules,
 	$scope.article.Embedded = data.result.regions.Embedded.modules[0].modules,
 	getImages($scope.article.Top, $scope),

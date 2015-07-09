@@ -195,6 +195,7 @@ function getConfigs() {
             fontSize:$('#font-size').val(),
             fontStyle: $('#font-style')
         };
+        console.log(configs.text.fontFamily);
     }
     return configs;
 }
