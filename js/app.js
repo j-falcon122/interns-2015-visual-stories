@@ -25,16 +25,6 @@ app.controller ("importData", function ($scope, $sce, $http, assets) {
 
 });
 
-function loadXMLDoc(callback) {
-	var req = new XMLHttpRequest();
-		req.onload = function() {
-			console.log("loaded");
-			callback(req.response);
-		}
-	req.open("GET", "/assets/articles/article0.json", true);
-	req.send();
-}
-
 function createItems(data, $scope){
 	// to add more variables, add it to the variables.txt and run files.js
 	$scope.elements = [
