@@ -6,15 +6,15 @@ removeItem(key)
 clear()
 */
 
-var app = angular.module ('timesTrailer', ['Editor', 'ConfigService']);
-app.controller ("importData", function ($scope, $sce, $http) {
+var app = angular.module ('timesTrailer', ['Editor', 'ConfigService', 'AssetsService']);
+app.controller ("importData", function ($scope, $sce, $http, assets) {
 	$scope.trustHTML = function(string) {
 		return $sce.trustAsHtml(string);
 	};
 	$scope.showPhoto = true;
 	$scope.showText = true;
 
-	loadXMLDoc(function(data) {
+	assets.loadXMLDoc(function(data) {
 		$scope.images = [];
 		$scope.slideshow = [];
 		$scope.article = JSON.parse(data);
@@ -84,4 +84,3 @@ function getImages(section, $scope) {
 		}
 	});
 }
-
