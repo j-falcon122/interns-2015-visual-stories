@@ -20,16 +20,16 @@
             <input  ng-model="overlay.enabled" id="overlay" type="checkbox" />
             <br>
         Automatic Placement
-            <select ng-model="overlay.autoPosition" ng-options="option.label for option in overlay.autoPositions track by option.value" id="position">
+            <select ng-model="autoPosition" ng-options="option.label for option in autoPositions track by option.value" id="position">
             </select>
             <input ng-model="overlay.opacity" type="number" min="0" max="1" id="overlay-opacity" step=".1">
             <input ng-model="overlay.overlayColor" type="color" id="overlay-color" >
             <div id="size">
                 Manual Placement: Top Left Corner X:
-                <input ng-model="overlay.manualPosition[0]" type="number" id="manual-x" > Y:
-                <input ng-model="overlay.manualPosition[1]" type="number" id="manual-y" > SIZE:
-                <input ng-model="overlay.manualPosition[2]" id="width" type="text" placeholder="width" >x
-                <input ng-model="overlay.manualPosition[3]" id="height" type="text" placeholder="height" >
+                <input ng-model="manualPosition[0]" type="number" id="manual-x" > Y:
+                <input ng-model="manualPosition[1]" type="number" id="manual-y" > SIZE:
+                <input ng-model="manualPosition[2]" id="width" type="text" placeholder="width" >x
+                <input ng-model="manualPosition[3]" id="height" type="text" placeholder="height" >
             </div>
         </fieldset>
         <fieldset id="text" class="editor">

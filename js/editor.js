@@ -18,14 +18,10 @@ function addFrame() {
 }
 
 function finalizeVideo() {
-    var start_time = +new Date;
     var output = video.compile();
-    var end_time = +new Date;
     var url = webkitURL.createObjectURL(output);
     document.getElementById('awesome').src = url; //toString converts it to a URL via Object URLs, falling back to DataURL
-    document.getElementById('download-link').style.display = '';
     document.getElementById('download-link').href = url;
-    // document.getElementById('status').innerHTML = "Compiled Video in " + (end_time - start_time) + "ms, file size: " + Math.ceil(output.size / 1024) + "KB";
 }
 
 function chooseImage(id) {
@@ -52,11 +48,6 @@ function saveCanvas(){
 
 function loadCanvas(){
 
-}
-
-function selectFont(div) {
-    // $('.font-family').toggleClass('active', false);
-    // $(div).toggleClass('active', true);
 }
 
 function dragStart(event) {

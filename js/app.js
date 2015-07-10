@@ -6,7 +6,7 @@ loadData.controller ("importData", function ($scope, $sce, $http) {
 	$scope.showPhoto = true;
 	$scope.showText = true;
 
-	loadXMLDoc(function(data){
+	loadXMLDoc(function(data) {
 		$scope.images = [];
 		$scope.slideshow = [];
 		$scope.article = JSON.parse(data);
@@ -26,14 +26,14 @@ loadData.controller ("importData", function ($scope, $sce, $http) {
         {value:"bri", label:'bottom right inset'},
         {value:"bb", label:'bottom banner'}
 	];
+	$scope.autoPosition = $scope.autoPositions[1];
+	$scope.manualPosition = [0, 0, 0, 0];
+
 	$scope.overlay = {
 		enabled : true,
-		autoPosition: $scope.autoPositions[0],
 		opacity: 0.8,
 		overlayColor: '#000000',
-		manualPosition: [0, 0, 0, 0]
 	};
-
 
 	$scope.fonts = ['NYTCheltenhamBdCon', 'NYTCheltenhamBdXCon', 'NYTCheltenhamBold', 'NYTCheltenhamBook', 'NYTCheltenhamExtBd', 'NYTCheltenhamExtLt', 'NYTCheltenhamLt', 'NYTCheltenhamLtCon', 'NYTCheltenhamLtSC', 'NYTCheltenhamMedCon', 'NYTCheltenhamMedium', 'NYTCheltenhamWide', 'NYTFranklinBold', 'NYTFranklinExtraBd', 'NYTFranklinHeadline', 'NYTFranklinLight', 'NYTFranklinMedium', 'NYTFranklinSemiBold', 'NYTImperial', 'NYTImperialSemiBold', 'NYTKarnakDisplay', 'NYTKarnakText', 'NYTStymieLight', 'NYTStymieMedium']
 	$scope.text = {
@@ -42,9 +42,6 @@ loadData.controller ("importData", function ($scope, $sce, $http) {
 		size: 24,
 		font: $scope.fonts[0]
 	};
-
-
-
 });
 
 function loadXMLDoc(callback) {
@@ -84,7 +81,7 @@ function createItems(data, $scope){
 	$scope.$apply();
 }
 
-function getImages(section, $scope){
+function getImages(section, $scope) {
 	$.each(section, function(id){
 		if(typeof(section[id].image) !== "undefined"){
 			if(section[id].display_size !== "SMALL"){
