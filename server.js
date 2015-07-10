@@ -5,53 +5,41 @@ var bodyParser 		= require('body-parser');
 var port 			= process.env.PORT || 8080;
 var router 			= express.Router();
 var ffmpeg 			= require('fluent-ffmpeg');
-// var parser 			= require('./js/parser.js');
+var digest 			= require('http-digest-client')('human', 'R3plicant');
 
 
-//middleware
+// //middleware
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(bodyParser.json());
 app.use('/', express.static(__dirname+'/'));
 
-fs.createReadStream('assets/photos/0.png')
-	.pipe(fs.createWriteStream('assets/photos/1.png'));
-
-router.route('/data')
-	.post(function(req, res){
-		req.body.frames.forEach(function(data,it){
-			parser.toPNG(data.frame,data.number,function(){
-				console.log("working on frame: " + data.number);
-			});
-		});
-		res.json({ message: 'received'});
-	})
-	.get(function(req, res){
-		res.json({ message: 'hello' });
-	});
-
-router.route('/done')
-	.get(function(req, res) {
-		var proc = ffmpeg('frames/%d.png')
-		  .videoCodec('libx264')
-		  .outputOptions(['-pix_fmt yuv420p'])
-		  .fps(60)
-		  // setup event handlers
-		  .on('end', function() {
-			      res.json({message : 'file has been converted succesfully'});
-		  })
-		  .on('error', function(err) {
-			      res.json({message : 'failed conversion.'});
-		  })
-		  // save to file
-		  .save('assets/exported_video/output.mp4');
-	});
-
-http://localhost:8080/api
-router.get('/',function(req, res) {
-	res.json({ message: 'API is workin!'});
-});
+// router.route('/data')
+// 	.post(function(req, res){
+// 		req.body.frames.forEach(function(data,it){
+// 			parser.toPNG(data.frame,data.number,function(){
+// 				console.log("working on frame: " + data.number);
+// 			});
+// 		});
+// 		res.json({ message: 'received'});
+// 	})
+// 	.get(function(req, res){
+// 		res.json({ message: 'hello' });
+// 	});
 
 
+// digest.request({
+// 	host: 'http://cms-publishapi.prd.nytimes.com/v1/publish/scoop/2015/07/01/sports/the-most-dangerous-game.html',
+// 	path: 'data.json',
+// 	port: port,
+// 	method: 'GET',
+// }, function (res) {
+// 	res.on('data', function(data){
+// 		console.log(data.toString());
+// 	});
+// 	res.on('error', function(err) {
+// 		console.log('did not work');
+// 	});
+// });
 
 app.use('/api', router);
 app.listen(port);
