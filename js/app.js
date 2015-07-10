@@ -1,3 +1,11 @@
+/*
+Use local storage to save slides
+getItem(key)
+setItem(key)
+removeItem(key)
+clear()
+*/
+
 var loadData = angular.module ('timesTrailer', []);
 loadData.controller ("importData", function ($scope, $sce, $http) {
 	$scope.trustHTML = function(string) {

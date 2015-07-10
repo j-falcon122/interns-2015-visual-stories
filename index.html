@@ -11,7 +11,6 @@
 <body>
 <h1 id="title">Times Trailer</h1>
 <div class="left">
-    <video id="awesome" width="300" height="300" controls></video>
     <canvas id="canvas" width="600" height="400" id="canvas"></canvas>
     <form>
         <fieldset class="editor">
@@ -49,7 +48,12 @@
             <input type="button" value="addFrame"onclick="addFrame()"/>
             <input type="button" value="write video" onclick="finalizeVideo()"/>
         </fieldset>
+        </fieldset>
+            <input id="saveSlide" value="saveSlide" type="button" onclick="saveSlide()">
+            <input id="load" value="load" type="button" onclick="loadSlides()">
+        </fieldset>
     </form>
+    <video id="awesome" width="300" height="300" controls></video>
 </div>
 <!-- Data selection -->
 <div>
