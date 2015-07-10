@@ -11,7 +11,6 @@
     <script type="text/javascript" src='../js/services/AssetService.js'></script>
     <script type="text/javascript" src="../js/controllers/EditorCtrl.js"></script>
     <script type="text/javascript" src="../js/controllers/AssetCtrl.js"></script>
-    <script type="text/javascript" src="js/editor.js"></script>
 
 </head>
 <body ng-init="initialize()" ng-controller="CanvasCtrl">
@@ -52,7 +51,7 @@
             <input id="save" value="save" type="button"/>
             <a id="download-link" download="example.webm" href="">Download .webm File</a>
             <input type="button" value="addFrame" ng-click="$parent.addFrame()"/>
-            <input type="button" value="write video" onclick="$parent.finalizeVideo()"/>
+            <input type="button" value="write video" ng-click="$parent.finalizeVideo()"/>
         </fieldset>
         <fieldset>
             <input id="saveSlide" value="saveSlide" type="button">
@@ -85,7 +84,7 @@
                 <hr>
                 <h2> IMAGE {{index}} </h2>
                 <div class="component">
-                    <img crossorigin="anonymous" ng-click="$parent.chooseImage('image', index)" id="image{{index}}" ng-src="{{image.url}}">
+                    <img class="thumbnail" crossorigin="anonymous" ng-click="$parent.chooseImage('image', index)" id="image{{index}}" ng-src="{{image.url}}">
                     <h3 id="imageCaption{{index}}">{{image.caption}}</h3>
                     <p id="imageCredit{{index}}"> {{image.credit}}</p>
                 </div>
@@ -94,7 +93,7 @@
                 <hr>
                 <h2> SLIDESHOW {{index}} </h2>
                 <div class="component">
-                    <img crossorigin="anonymous" ng-click="$parent.chooseImage('slideshow', index)" id="slideshow{{index}}" ng-src="{{image.url}}">
+                    <img class="thumbnail" crossorigin="anonymous" ng-click="$parent.chooseImage('slideshow', index)" id="slideshow{{index}}" ng-src="{{image.url}}">
                     <h3 id="slideshowCaption{{index}}" ng-bind-html="trustHTML(image.caption)"></h3>
                     <p id="slideshowCredit{{index}}">{{image.credit}}</p>
                 </div>
