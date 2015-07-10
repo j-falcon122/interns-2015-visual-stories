@@ -42,7 +42,7 @@ angular.module('Canvas', ['ConfigService']).controller('CanvasCtrl', function($s
             top: rect[1],
             width: rect[2],
             height: rect[3],
-            fill: options.color,
+            fill: options.overlayColor,
             opacity: options.opacity
         });
         return rectangle;
@@ -76,8 +76,8 @@ angular.module('Canvas', ['ConfigService']).controller('CanvasCtrl', function($s
             return;
         }
 
-        if (configs.overlay) {
-            $scope.canvas.add($scope.createOverlay(configs.position, configs.overlay.enabled));
+        if (configs.overlay.enabled) {
+            $scope.canvas.add($scope.createOverlay(configs.position, configs.overlay));
         }
 
         if (configs.text) {
