@@ -8,14 +8,15 @@
     <script type="text/javascript" src="js/fabric.js"></script>
     <script src="../js/services/ConfigService.js"></script>
     <script src="../js/controllers/EditorCtrl.js"></script>
+    <script src="../js/controllers/CanvasCtrl.js"></script>
     <script type="text/javascript" src="js/editor.js"></script>
     <script type="text/javascript" src='js/assets.js'></script>
 </head>
-<body>
+<body ng-init="initialize()" ng-controller="CanvasCtrl">
 <h1 id="title">Times Trailer</h1>
 <div class="left">
     <canvas id="canvas" width="600" height="400" id="canvas"></canvas>
-    <form  ng-controller="EditorCtrl">
+    <form ng-init="initialize()" ng-controller="EditorCtrl">
         <fieldset class="editor">
         <legend>Overlay</legend>
             <label for="overlay">Overlay? </label>
@@ -44,20 +45,22 @@
             </div>
         </fieldset>
         <fieldset>
-            <input id="draw" value="draw" type="button" onclick="drawAll()" />
-            <input id="clear" value="clear" type="button" onclick="clearCanvas()"/>
-            <input id="save" value="save" type="button" onclick="saveCanvas()"/>
+            <input value="draw" type="button" ng-click="saveConfigs(true);" />
+            <input value="clear" type="button" ng-click="$parent.clearCanvas()"/>
+            <input id="save" value="save" type="button"/>
             <a id="download-link" download="example.webm" href="">Download .webm File</a>
-            <input type="button" value="addFrame"onclick="addFrame()"/>
-            <input type="button" value="write video" onclick="finalizeVideo()"/>
+            <input type="button" value="addFrame" ng-click="$parent.addFrame()"/>
+            <input type="button" value="write video" onclick="$parent.finalizeVideo()"/>
         </fieldset>
-        </fieldset>
-            <input id="saveSlide" value="saveSlide" type="button" onclick="saveSlide()">
-            <input id="load" value="load" type="button" onclick="loadSlides()">
+        <fieldset>
+            <input id="saveSlide" value="saveSlide" type="button">
+            <input id="load" value="load" type="button">
         </fieldset>
     </form>
     <video id="awesome" width="300" height="300" controls></video>
 </div>
+
+
 <!-- Data selection -->
 <div>
     <div class="wrapper">
@@ -79,7 +82,7 @@
                 <hr>
                 <h2> IMAGE {{index}} </h2>
                 <div class="component">
-                    <img crossorigin="anonymous" onclick="chooseImage(this.id)" id="image{{index}}" ng-src="{{image.url}}">
+                    <img crossorigin="anonymous" ng-click="$parent.chooseImage('image', index)" id="image{{index}}" ng-src="{{image.url}}">
                     <h3 id="imageCaption{{index}}">{{image.caption}}</h3>
                     <p id="imageCredit{{index}}"> {{image.credit}}</p>
                 </div>
@@ -88,7 +91,7 @@
                 <hr>
                 <h2> SLIDESHOW {{index}} </h2>
                 <div class="component">
-                    <img crossorigin="anonymous" onclick="chooseImage(this.id)" id="slideshow{{index}}" ng-src="{{image.url}}">
+                    <img crossorigin="anonymous" ng-click="$parent.chooseImage('slideshow', index)" id="slideshow{{index}}" ng-src="{{image.url}}">
                     <h3 id="slideshowCaption{{index}}" ng-bind-html="trustHTML(image.caption)"></h3>
                     <p id="slideshowCredit{{index}}">{{image.credit}}</p>
                 </div>

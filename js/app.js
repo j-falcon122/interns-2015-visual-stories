@@ -6,7 +6,7 @@ removeItem(key)
 clear()
 */
 
-var app = angular.module ('timesTrailer', ['Editor', 'ConfigService', 'AssetsService']);
+var app = angular.module ('timesTrailer', ['Editor', 'Canvas', 'ConfigService', 'AssetsService']);
 app.controller ("importData", function ($scope, $sce, $http, assets) {
 	$scope.trustHTML = function(string) {
 		return $sce.trustAsHtml(string);
