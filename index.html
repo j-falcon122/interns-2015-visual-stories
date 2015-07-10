@@ -1,4 +1,4 @@
-<html ng-app="timesTrailer" ng-controller="importData" ng-cloak>
+<html ng-app="timesTrailer" ng-cloak>
 <head>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
@@ -6,13 +6,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="../js/whammy.js"></script>
     <script type="text/javascript" src="js/fabric.js"></script>
+    <script src="../js/services/ConfigService.js"></script>
+    <script src="../js/EditorCtrl.js"></script>
     <script type="text/javascript" src="js/editor.js"></script>
 </head>
 <body>
 <h1 id="title">Times Trailer</h1>
 <div class="left">
     <canvas id="canvas" width="600" height="400" id="canvas"></canvas>
-    <form>
+    <form  ng-controller="EditorCtrl">
         <fieldset class="editor">
         <legend>Overlay</legend>
             <label for="overlay">Overlay? </label>
@@ -58,9 +60,9 @@
 <!-- Data selection -->
 <div>
     <div class="wrapper">
-        <div class="right content">
+        <div class="right content" ng-controller="importData">
             <div id="controls">
-                <button ng-click="showText = !showText" name="text">Toggle text</button>
+                <button ng-click="logConfigs()" name="text">Toggle text</button>
                 <button ng-click="showPhoto = !showPhoto" name="photos">Toggle photos</button>
             </div>
             <div ng-show="showText" ng-repeat="(index, element) in elements">
