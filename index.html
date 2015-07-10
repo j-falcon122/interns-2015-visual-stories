@@ -7,7 +7,7 @@
     <script src="../js/whammy.js"></script>
     <script type="text/javascript" src="js/fabric.js"></script>
     <script src="../js/services/ConfigService.js"></script>
-    <script src="../js/EditorCtrl.js"></script>
+    <script src="../js/controllers/EditorCtrl.js"></script>
     <script type="text/javascript" src="js/editor.js"></script>
 </head>
 <body>
@@ -62,7 +62,7 @@
     <div class="wrapper">
         <div class="right content" ng-controller="importData">
             <div id="controls">
-                <button ng-click="logConfigs()" name="text">Toggle text</button>
+                <button ng-click="showText = !showText" name="text">Toggle text</button>
                 <button ng-click="showPhoto = !showPhoto" name="photos">Toggle photos</button>
             </div>
             <div ng-show="showText" ng-repeat="(index, element) in elements">
