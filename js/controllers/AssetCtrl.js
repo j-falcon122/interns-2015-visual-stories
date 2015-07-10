@@ -1,4 +1,6 @@
 angular.module('Assets', ['AssetService']).controller("AssetCtrl", function ($scope, $sce, assets) {
+
+
 	$scope.trustHTML = function(string) {
 		return $sce.trustAsHtml(string);
 	};

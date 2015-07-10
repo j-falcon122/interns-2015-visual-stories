@@ -19,7 +19,6 @@
   "dependencies": {
     "body-parser": "^1.13.1",
     "express": "^4.13.0",
-    "fluent-ffmpeg": "^2.0.1",
-    "http-digest-client": "0.0.3"
+    "fluent-ffmpeg": "^2.0.1"
   }
 }

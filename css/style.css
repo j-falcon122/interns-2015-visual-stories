@@ -4,6 +4,10 @@
          box-sizing: border-box;
 }
 
+html{
+	margin-bottom:200px;
+}
+
 #font-holder {
     display: inline-block;
     max-height: 40px;
@@ -33,6 +37,7 @@
 	width:50%;
 	text-align: center;
 }
+
 .wrapper{
 	margin:auto;
 	text-align:center;
@@ -42,10 +47,6 @@
 	min-height: 50px;
 	padding: 10px;
 	margin:0 5% 0 10%;
-}
-
-#loadphotos{
-	display:none;
 }
 
 #title{
@@ -75,13 +76,16 @@
 	margin:auto;
 }
 
-#loadfonts{
-	display:none;
+#timeline{
+	background-color:#7F7F7F;
+	position:fixed;
+	height:200px;
+	width:100%;
+	left:0;
+	bottom:0;
 }
-@font-face {
-	font-family: 'NYTCheltenhamBdCon';
-	src: url('../assets/fonts/NYTCheltenhamBdCon')
-}
+
+
 @font-face {
 	font-family: 'NYTCheltenhamBdXCon';
 	src: url('../assets/fonts/NYTCheltenhamBdXCon')

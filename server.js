@@ -5,7 +5,6 @@ var bodyParser 		= require('body-parser');
 var port 			= process.env.PORT || 8080;
 var router 			= express.Router();
 var ffmpeg 			= require('fluent-ffmpeg');
-var digest 			= require('http-digest-client')('human', 'R3plicant');
 
 
 // //middleware
@@ -26,20 +25,6 @@ app.use('/', express.static(__dirname+'/'));
 // 		res.json({ message: 'hello' });
 // 	});
 
-
-// digest.request({
-// 	host: 'http://cms-publishapi.prd.nytimes.com/v1/publish/scoop/2015/07/01/sports/the-most-dangerous-game.html',
-// 	path: 'data.json',
-// 	port: port,
-// 	method: 'GET',
-// }, function (res) {
-// 	res.on('data', function(data){
-// 		console.log(data.toString());
-// 	});
-// 	res.on('error', function(err) {
-// 		console.log('did not work');
-// 	});
-// });
 
 app.use('/api', router);
 app.listen(port);
