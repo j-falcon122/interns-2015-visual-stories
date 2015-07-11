@@ -6,4 +6,4 @@ removeItem(key)
 clear()
 */
 
-var app = angular.module ('timesTrailer', ['Assets', 'Editor', 'Canvas', 'Timeline', 'ConfigService', 'AssetService']);
+var app = angular.module ('timesTrailer', ['Assets', 'Editor', 'Canvas', 'ConfigService', 'AssetService']);
