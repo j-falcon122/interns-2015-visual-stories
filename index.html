@@ -11,6 +11,7 @@
     <script type="text/javascript" src='js/services/AssetService.js'></script>
     <script type="text/javascript" src="js/controllers/EditorCtrl.js"></script>
     <script type="text/javascript" src="js/controllers/AssetCtrl.js"></script>
+    <script type="text/javascript" src="js/controllers/TimelineCtrl.js"></script>
 </head>
 <body ng-init="initialize()" ng-controller="CanvasCtrl">
 <h1 id="title">Times Trailer</h1>
@@ -102,7 +103,7 @@
             </div>
         </div>
     </div>
-    <div id="timeline" style="display:none;">
+    <div ng-controller="TimelineCtrl" id="timeline">
         <button ng-click="save()">Save slide</button>
         <button ng-click="load()">Load slides</button>
         <button ng-click="clear()">Clear storage</button>

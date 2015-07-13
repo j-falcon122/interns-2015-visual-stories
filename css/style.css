@@ -5,7 +5,7 @@
 }
 
 html{
-	margin-bottom:200px;
+	margin-bottom:150px;
 }
 
 #font-holder {
@@ -79,7 +79,7 @@ html{
 #timeline{
 	background-color:#7F7F7F;
 	position:fixed;
-	height:200px;
+	height:150px;
 	width:100%;
 	left:0;
 	bottom:0;
