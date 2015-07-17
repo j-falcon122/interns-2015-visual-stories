@@ -1,4 +1,4 @@
-angular.module('Assets', ['AssetService']).controller("AssetCtrl", function ($scope, $sce, assets) {
+angular.module('Assets', ['AssetService', 'ConfigService', 'TimelineService']).controller("AssetCtrl", function ($scope, $sce, assets, Config, timeline) {
 
 	$scope.showPhoto = true;
 	$scope.showText = true;
@@ -17,12 +17,13 @@ angular.module('Assets', ['AssetService']).controller("AssetCtrl", function ($sc
 		assets.getData().then(function(data) {
 			console.log(data);
 			$scope.assets = data;
+			$scope.$parent.assets = data;
+			console.log("Hello");
 		});
 	}
 
 	$scope.getArticle();
+
+	// set configs length
+
 });
-
-
-
-

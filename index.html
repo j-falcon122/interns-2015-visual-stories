@@ -9,6 +9,7 @@
     <script type="text/javascript" src="js/vendor/fabric.js"></script>
     <script type="text/javascript" src="js/controllers/CanvasCtrl.js"></script>
     <script type="text/javascript" src="js/services/ConfigService.js"></script>
+    <script type="text/javascript" src="js/services/TimelineService.js"></script>
     <script type="text/javascript" src='js/services/AssetService.js'></script>
     <script type="text/javascript" src="js/controllers/EditorCtrl.js"></script>
     <script type="text/javascript" src="js/controllers/AssetCtrl.js"></script>
@@ -57,6 +58,8 @@
         <fieldset>
             <input ng-click="saveSlide()" id="saveSlide" value="saveSlide" type="button">
             <input ng-click="loadSlide()" id="load" value="load" type="button">
+            <input ng-click="createSlides()" id="create" value="create" type="button">
+            <input ng-click="playSlides()" id="play" value="play" type="button">
         </fieldset>
     </form>
     <video id="awesome" width="300" height="300" controls></video>
@@ -90,7 +93,7 @@
     <div scroll class="asset-scroller">
         <div class="asset-row" ng-show="showPhoto">
             <div class="asset-container" ng-repeat="(index, image) in assets.images">
-                <img class="thumbnail" crossorigin="anonymous" ng-click="$parent.chooseImage(image, index)" id="image{{index}}" ng-src="{{image.url}}">
+                <img class="thumbnail" crossorigin="anonymous" ng-click="$parent.chooseImage(index)" id="image{{index}}" ng-src="{{image.url}}">
             </div>
         </div>
     </div>
