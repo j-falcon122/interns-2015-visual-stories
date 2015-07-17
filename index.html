@@ -28,7 +28,6 @@
         <legend>Overlay</legend>
             <label for="overlay">Overlay? </label>
             <input  ng-model="overlay.enabled" id="overlay" type="checkbox" />
-            <br>
         Automatic Placement
             <select ng-model="autoPosition" ng-options="option.label for option in autoPositions track by option.value" id="position">
             </select>
@@ -70,11 +69,12 @@
 
 <!-- Data selection -->
 <div ng-controller="AssetCtrl" class="assets" >
-<!--     <div id="controls">
+    <div id="controls">
         <button ng-click="getArticle()" name="load">Load</button>
         <button ng-click="showText = !showText" name="text">Toggle text</button>
         <button ng-click="showPhoto = !showPhoto" name="photos">Toggle photos</button>
-    </div> -->
+        <button ng-click="showQuotes = !showQuotes" name="photos">Toggle quotes</button>
+    </div>
     <div ng-show="showText" ng-repeat="(index, element) in elements">
         <div ng-if="element.text">
             <hr>
@@ -85,7 +85,7 @@
         </div>
     </div>
     <div class='asset-scroller'>
-        <div class="asset-row">
+        <div ng-show="showText" class="asset-row">
             <div class="asset-container" ng-repeat="info in assets.metadata">
                 <div class="asset-key">{{info.name}}</div>
                 <div class="asset-tooltip">{{info.text}}</div>
@@ -101,7 +101,7 @@
     </div>
     <div class="asset-scroller">
         <div class="asset-row">
-            <div class="image asset-container" ng-repeat="quote in assets.quotes">
+            <div ng-show="showQuotes" class="image asset-container" ng-repeat="quote in assets.quotes">
                 <div class="asset-value quote">
                 {{quote}}
                 </div>

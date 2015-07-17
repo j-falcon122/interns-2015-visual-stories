@@ -2,6 +2,7 @@ angular.module('Assets', ['AssetService', 'ConfigService', 'TimelineService']).c
 
 	$scope.showPhoto = true;
 	$scope.showText = true;
+	$scope.showQuotes = true;
 	$scope.assets = {
 		quotes: [],
 		images: [],
