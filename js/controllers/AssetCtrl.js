@@ -1,4 +1,4 @@
-angular.module('Assets', ['AssetService', 'ConfigService', 'TimelineService']).controller("AssetCtrl", function ($scope, $sce, assets, Config, timeline) {
+angular.module('Assets', ['AssetService', 'ConfigService', 'TimelineService', 'ui.bootstrap']).controller("AssetCtrl", function ($scope, $sce, assets, Config, timeline) {
 
 	$scope.showPhoto = false;
 	$scope.showText = false;

@@ -11,6 +11,7 @@
     <script type="text/javascript" src="js/vendor/angular.min.js"></script>
     <script type="text/javascript" src="js/vendor/whammy.js"></script>
     <script type="text/javascript" src="js/vendor/fabric.js"></script>
+    <script type="text/javascript" src="js/vendor/ui-bootstrap-tpls-0.13.0.min.js"></script>
     <script type="text/javascript" src="js/controllers/CanvasCtrl.js"></script>
     <script type="text/javascript" src="js/services/ConfigService.js"></script>
     <script type="text/javascript" src="js/services/TimelineService.js"></script>
@@ -59,7 +60,7 @@
                 </div>
             </fieldset>
             <fieldset id="text" class="editor">
-                    <legend>Text</legend>
+                <legend>Text</legend>
                 <div class="form-group">
                     <input class="form-control" ng-model="text.content" placeholder="text here" id="text-content" type="text" />
                 </div>
@@ -90,37 +91,26 @@
     </div>
     <!-- Data selection -->
     <div ng-controller="AssetCtrl" class="assets">
-        <div class="btn-group-vertical">
-        <button class="btn btn-sm btn-default" ng-click="showText = !showText" name="text">Toggle text</button>
-        <button class="btn btn-sm btn-default" ng-click="showPhoto = !showPhoto" name="photos">Toggle photos</button>
-        <button class="btn btn-sm btn-default" ng-click="showQuotes = !showQuotes" name="photos">Toggle quotes</button>
-        </div>
-        <div class="asset-wrapper">
-        <div ng-show="showText" class='asset-scroller'>
-            <div class="asset-row">
+        <tabset>
+            <tab heading="Metadata">
                 <div class="asset-container" ng-repeat="info in assets.metadata">
                     <div class="asset-key">{{info.name}}</div>
                     <div class="asset-tooltip">{{info.text}}</div>
                 </div>
-            </div>
-        </div>
-        <div scroll ng-show="showPhoto" class="asset-scroller">
-            <div class="asset-row" >
+            </tab>
+            <tab heading="Images">
                 <div class="asset-container" ng-repeat="(index, image) in assets.images">
                     <img class="thumbnail" crossorigin="anonymous" ng-click="$parent.chooseImage(image, index)" id="image{{index}}" ng-src="{{image.url}}">
                 </div>
-            </div>
-        </div>
-        <div ng-show="showQuotes" class="asset-scroller">
-            <div class="asset-row">
+            </tab>
+            <tab heading="Quotes">
                 <div class="image asset-container" ng-repeat="quote in assets.quotes">
                     <div class="asset-value quote">
                         {{quote}}
                     </div>
                 </div>
-            </div>
-        </div>
-        </div>
+            </tab>
+        </tabset>
     </div>
     <div ng-controller="TimelineCtrl" id="timeline">
         <button ng-click="save()">Save slide</button>
