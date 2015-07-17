@@ -12,7 +12,7 @@ html{
 
 #font-holder {
     display: inline-block;
-    max-height: 40px;
+    max-height: 100px;
     overflow-y: scroll;
 }
 
