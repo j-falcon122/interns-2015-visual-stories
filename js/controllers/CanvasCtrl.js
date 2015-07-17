@@ -98,13 +98,14 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
 
     var progress = 0;
     // var end = timeline.videoDuration();
-    var end = 60;
+    var end = 147;
 
     $scope.addFrame = function() {
         progress++;
-        $scope.video.add($scope.canvas.getContext("2d"),4400);
+        $scope.video.add($scope.canvas.getContext("2d"),60);
         if(progress / end < 1){
             requestAnimationFrame($scope.addFrame);
+            // setTimeout($scope.addFrame,1)
             console.log(progress/end);
         }else{
             console.log("called");
@@ -176,7 +177,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     $scope.currentSlide = 0;
     $scope.playSlides = function(){
         $scope.currentSlide = 0;
-        $scope.addFrame();
         var changeSlide = function(){
             if($scope.currentSlide < timeline.slides.length){
                 $scope.loadSlide(timeline.slides[$scope.currentSlide].json);
@@ -185,9 +185,9 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
                 var timeout = setTimeout(changeSlide, duration);
             }
         }
+        $scope.addFrame();
         changeSlide();
         console.log("play slides working");
-
     }
 
 });
