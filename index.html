@@ -25,6 +25,23 @@
     <h1 id="title">Times Trailer</h1>
     <div class="left">
         <canvas id="canvas" width="600" height="400" id="canvas"></canvas>
+        <div ng-controller="TimelineCtrl" >
+            <div id="options">
+            </div>
+            <div id="timeline">
+                <div="templates" style="display:none">
+                    <img id="ender" src="assets/slides/ender.jpg">
+                </div="templates">
+        <!--         <button ng-click="save()">Save slide</button>
+                <button ng-click="load()">Load slides</button>
+                <button ng-click="clear()">Clear storage</button>
+                <button ng-click="print()">print</button> -->
+                <!-- <p> Status {{status}} </p> -->
+                <input class="btn btn-sm btn-primary" ng-click="editSlide()" id="edit" value="edit" type="button">
+            </div>
+        </div>
+    </div>
+    <div class="right">
         <form ng-init="initialize()" ng-controller="EditorCtrl">
             <fieldset class="editor">
                 <legend>Overlay</legend>
@@ -83,8 +100,8 @@
                 <input class="btn btn-sm btn-primary" type="button" value="write video" ng-click="$parent.finalizeVideo()" />
             </fieldset>
             <fieldset>
-                <input class="btn btn-sm btn-primary" ng-click="saveSlide()" id="saveSlide" value="saveSlide" type="button">
-                <input class="btn btn-sm btn-primary" ng-click="loadSlide()" id="load" value="load" type="button">
+                <input class="btn btn-sm btn-primary" ng-click="createSlides()" id="create" value="create" type="button">
+                <input class="btn btn-sm btn-primary" ng-click="playSlides()" id="play" value="play" type="button">
             </fieldset>
         </form>
         <video id="awesome" width="300" height="300" controls></video>
@@ -100,7 +117,7 @@
             </tab>
             <tab heading="Images">
                 <div class="asset-container" ng-repeat="(index, image) in assets.images">
-                    <img class="thumbnail" crossorigin="anonymous" ng-click="$parent.chooseImage(image, index)" id="image{{index}}" ng-src="{{image.url}}">
+                    <img class="thumbnail" crossorigin="anonymous" ng-click="$parent.chooseImage(this.id)" id="image{{index}}" ng-src="{{image.url}}">
                 </div>
             </tab>
             <tab heading="Quotes">
@@ -112,13 +129,7 @@
             </tab>
         </tabset>
     </div>
-    <div ng-controller="TimelineCtrl" id="timeline">
-        <button ng-click="save()">Save slide</button>
-        <button ng-click="load()">Load slides</button>
-        <button ng-click="clear()">Clear storage</button>
-        <button ng-click="print()">print</button>
-        <p> Status {{status}} </p>
-    </div>
+
     <script type="text/javascript" src="js/app.js"></script>
 </body>
 

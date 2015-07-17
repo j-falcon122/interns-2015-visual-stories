@@ -1,13 +1,14 @@
 * {
- -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-         box-sizing: border-box;
+	z-index:5;
+	-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		     box-sizing: border-box;
+
 }
 
 html{
-	margin-bottom:150px;
+	margin-top:250px;
 }
-
 #font-holder {
     display: inline-block;
     max-height: 40px;
@@ -73,11 +74,12 @@ html{
 #timeline{
 	background-color:#7F7F7F;
 	position:fixed;
-	height:150px;
+	height:50px;
 	width:100%;
 	left:0;
 	bottom:0;
-	display: none;
+	z-index:10;
+	/*display: none;*/
 }
 
 

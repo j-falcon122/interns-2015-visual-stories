@@ -8,13 +8,20 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     $scope.initialize = function() {
         $scope.canvas = new fabric.Canvas('canvas');
         $scope.video = new Whammy.Video(15);
+        assets.getData().then(function(data) {
+            $scope.assets = data;
+            console.log(data);
+        });
     }
 
     $scope.addFrame = function() {
-        $scope.video.add($scope.canvas.getContext("2d"), 3000);
+        $scope.video.add($scope.canvas.getContext("2d"), 1000);
     }
 
     $scope.finalizeVideo = function() {
+        var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+                                    window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+        window.requestAnimationFrame = requestAnimationFrame;
         var output = $scope.video.compile();
         var url = webkitURL.createObjectURL(output);
         document.getElementById('awesome').src = url; //toString converts it to a URL via Object URLs, falling back to DataURL
@@ -23,7 +30,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
 
     $scope.chooseImage = function(id) {
         $scope.clearCanvas();
-        var img = new fabric.Image("image"+id);
+        var img = new fabric.Image(id);
         img.set({
             selectable: false,
             scaleY: $scope.canvas.height / img.height,
@@ -110,29 +117,29 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     */
 
     $scope.createSlides = function(){
-        assets.getData().then(function(data) {
-            console.log(data);
-            $scope.assets = data;
+        console.log("Adding");
+        // image, png url, length
+        $scope.assets.images.forEach(function(image, it){
+            $scope.chooseImage("image"+it);
+            var data = {};
+            data.json = $scope.saveSlide();
+            data.thumb = $scope.assets.images[it].url
+            data.duration = 200;
+            data.enable = true;
+            timeline.slides.push(data);
         });
-        if($scope.assets) {
-            console.log("Adding");
-            $scope.assets.images.forEach(function(image, it){
-                $scope.chooseImage(it);
-                timeline.slides.push($scope.saveSlide());
-            });
-            $scope.canvas.clear();
-            console.log(timeline.slides);
-        }
+        // add ending image
+        $scope.chooseImage("ender");
+        var data = {};
+        data.json = $scope.saveSlide();
+        data.thumb = $("#ender").attr("src")
+        data.duration = 1000;
+        timeline.slides.push(data);
+
+        $scope.canvas.clear();
+        console.log(timeline.slides);
     }
 
-    $scope.currentSlide = 0;
-    $scope.playSlides = function(){
-        if($scope.currentSlide < timeline.slides.length){
-            $scope.loadSlide(timeline.slides[$scope.currentSlide]);
-            $scope.currentSlide++;
-            console.log($scope.currentSlide);
-        }
-    }
 
     /*
     **************************
@@ -140,7 +147,20 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     **************************
     */
 
-
+    $scope.currentSlide = 0;
+    $scope.playSlides = function(){
+        $scope.currentSlide = 0;
+        var changeSlide = function(){
+            if($scope.currentSlide < timeline.slides.length){
+                $scope.loadSlide(timeline.slides[$scope.currentSlide].json);
+                var duration = timeline.slides[$scope.currentSlide].duration || 500;
+                $scope.currentSlide++;
+                var timeout = setTimeout(changeSlide, duration);
+            }
+        }
+        changeSlide();
+        console.log("play slides working");
+    }
 
 });
 

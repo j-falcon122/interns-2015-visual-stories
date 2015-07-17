@@ -20,5 +20,8 @@ angular.module('Timeline', ['TimelineService']).controller('TimelineCtrl', funct
 	$scope.print = function(){
 	}
 
+	$scope.refresh = function(){
+		// refresh stats for the video
+	}
 	render();
 });
