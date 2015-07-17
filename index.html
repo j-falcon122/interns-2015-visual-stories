@@ -46,19 +46,29 @@
                         <input class="form-control" ng-model="overlay.overlayColor" type="color" id="overlay-color">
                     </div>
                 </div>
-                <div id="size" class="form-group">
-                    Manual Placement: Top Left Corner X:
-                    <input ng-model="manualPosition[0]" type="number" id="manual-x"> Y:
-                    <input ng-model="manualPosition[1]" type="number" id="manual-y"> SIZE:
-                    <input ng-model="manualPosition[2]" id="width" type="text" placeholder="width">x
-                    <input ng-model="manualPosition[3]" id="height" type="text" placeholder="height">
+                <div id="size" class="form-group form-inline">
+                    <label class="control-label">X</label>
+                    <input class="form-control" ng-model="manualPosition[0]" type="number" id="manual-x">
+                    <label class="control-label">Y</label>
+                    <input class="form-control" ng-model="manualPosition[1]" type="number" id="manual-y">
+                    <br>
+                    <label class="control-label">Width</label>
+                    <input class="form-control" ng-model="manualPosition[2]" id="width" type="text" placeholder="width">
+                    <label class="control-label">Height</label>
+                    <input class="form-control" ng-model="manualPosition[3]" id="height" type="text" placeholder="height">
                 </div>
             </fieldset>
             <fieldset id="text" class="editor">
-                <legend>Text</legend>
-                <input ng-model="text.content" placeholder="text here" id="text-content" type="text" />
-                <input ng-model="text.color" type="color" id="text-color" />
-                <input ng-model="text.size" placeholder="font-size" id="font-size" type="text" />
+                    <legend>Text</legend>
+                <div class="form-group">
+                    <input class="form-control" ng-model="text.content" placeholder="text here" id="text-content" type="text" />
+                </div>
+                <div class="form-group">
+                    <input class="form-control" ng-model="text.color" type="color" id="text-color" />
+                </div>
+                <div class="form-group">
+                    <input class="form-control" ng-model="text.size" placeholder="font-size" id="font-size" type="text" />
+                </div>
                 <div id="font-holder">
                     <div ng-repeat="font in fonts" id="{{font}}" class="font-family" ng-class="{'active': font == text.font}" style="font-family:{{font}}" ng-click="text.font = font">{{font}}</div>
                 </div>
@@ -80,11 +90,13 @@
     </div>
     <!-- Data selection -->
     <div ng-controller="AssetCtrl" class="assets">
-        <div id="controls">
-            <button ng-click="getArticle()" name="load">Load</button>
-            <button ng-click="showText = !showText" name="text">Toggle text</button>
-            <button ng-click="showPhoto = !showPhoto" name="photos">Toggle photos</button>
-            <button ng-click="showQuotes = !showQuotes" name="photos">Toggle quotes</button>
+        <div id="controls" class="">
+            <button class="btn btn-sm btn-default" ng-click="getArticle()" name="load">Load</button>
+            <div class="btn-group-vertical">
+            <button class="btn btn-sm btn-default" ng-click="showText = !showText" name="text">Toggle text</button>
+            <button class="btn btn-sm btn-default" ng-click="showPhoto = !showPhoto" name="photos">Toggle photos</button>
+            <button class="btn btn-sm btn-default" ng-click="showQuotes = !showQuotes" name="photos">Toggle quotes</button>
+            </div>
         </div>
         <div ng-show="showText" ng-repeat="(index, element) in elements">
             <div ng-if="element.text">
