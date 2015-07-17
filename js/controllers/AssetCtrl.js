@@ -19,6 +19,8 @@ angular.module('Assets', ['AssetService']).controller("AssetCtrl", function ($sc
 			$scope.assets = data;
 		});
 	}
+
+	$scope.getArticle();
 });
 
 

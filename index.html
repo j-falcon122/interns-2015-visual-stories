@@ -54,8 +54,8 @@
             <input type="button" value="write video" ng-click="$parent.finalizeVideo()"/>
         </fieldset>
         <fieldset>
-            <input id="saveSlide" value="saveSlide" type="button">
-            <input id="load" value="load" type="button">
+            <input ng-click="saveSlide()" id="saveSlide" value="saveSlide" type="button">
+            <input ng-click="loadSlide()" id="load" value="load" type="button">
         </fieldset>
     </form>
     <video id="awesome" width="300" height="300" controls></video>

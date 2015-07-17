@@ -1,5 +1,8 @@
 angular.module('Timeline', []).controller('TimelineCtrl', function($scope) {
 	var count = localStorage.length;
+	var initialize = function(){
+		$scope.canvas = new fabric.Canvas('canvas');
+	}
 	var render = function(){
 		$scope.status = localStorage.length;
 	}
@@ -20,5 +23,6 @@ angular.module('Timeline', []).controller('TimelineCtrl', function($scope) {
 	$scope.print = function(){
 		console.log(localStorage);
 	}
+	initialize();
 	render();
 });

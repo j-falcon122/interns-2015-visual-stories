@@ -23,7 +23,7 @@ angular.module('Canvas', ['ConfigService']).controller('CanvasCtrl', function($s
 
     $scope.chooseImage = function(type, id) {
         $scope.clearCanvas();
-        var img = new fabric.Image(type + id);
+        var img = new fabric.Image("image"+id);
         img.set({
             selectable: false,
             scaleY: $scope.canvas.height / img.height,
@@ -87,7 +87,21 @@ angular.module('Canvas', ['ConfigService']).controller('CanvasCtrl', function($s
         }
 
     }
+/*
+**
+**   Loading Slides
+**
+*/
+    $scope.saveSlide = function(){
+        $scope.slideSaved = $scope.canvas.toJSON();
+        console.log(JSON.stringify($scope.slideSaved));
+        console.log($scope.slideSaved);
+    }
 
+    $scope.loadSlide = function(){
+        $scope.slideLoaded = $scope.canvas.loadFromJSON($scope.slideSaved)
+        console.log($scope.slideLoaded);
+    }
 });
 
 function wrapCanvasText(t, canvas, maxW, maxH, justify) {

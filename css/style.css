@@ -21,7 +21,7 @@ html{
 
 .thumbnail {
 	height:auto;
-	width: 100px;
+	width: 200px;
 }
 
 .active {
@@ -83,6 +83,7 @@ html{
 	width:100%;
 	left:0;
 	bottom:0;
+	display: none;
 }
 
 
