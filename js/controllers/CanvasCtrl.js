@@ -29,6 +29,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     }
 
     $scope.chooseImage = function(id) {
+        console.log(id);
         $scope.clearCanvas();
         var img = new fabric.Image(id);
         img.set({

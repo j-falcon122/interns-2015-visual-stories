@@ -44,22 +44,28 @@
     <div class="right">
         <!-- Data selection -->
         <div ng-controller="AssetCtrl" class="assets">
-            <tabset>
+            <tabset class="assets-tabs">
                 <tab heading="Metadata">
-                    <div class="asset-container" ng-repeat="info in assets.metadata">
-                        <div class="asset-key">{{info.name}}</div>
-                        <div class="asset-tooltip">{{info.text}}</div>
+                    <div class="assets-scroll">
+                        <div class="asset-container" ng-repeat="info in assets.metadata">
+                            <div class="asset-key">{{info.name}}</div>
+                            <div class="asset-tooltip">{{info.text}}</div>
+                        </div>
                     </div>
                 </tab>
                 <tab heading="Images">
-                    <div class="asset-container" ng-repeat="(index, image) in assets.images">
-                        <img class="thumbnail" crossorigin="anonymous" ng-click="$parent.chooseImage(this.id)" id="image{{index}}" ng-src="{{image.url}}">
+                    <div class="assets-scroll">
+                        <div class="asset-container" ng-repeat="(index, image) in assets.images">
+                            <img class="thumbnail" crossorigin="anonymous" ng-click="$parent.chooseImage('image' + index)" id="image{{index}}" ng-src="{{image.url}}">
+                        </div>
                     </div>
                 </tab>
                 <tab heading="Quotes">
-                    <div class="image asset-container" ng-repeat="quote in assets.quotes">
-                        <div class="asset-value quote">
-                            {{quote}}
+                    <div class="assets-scroll">
+                        <div class="asset-container" ng-repeat="quote in assets.quotes">
+                            <div class="asset-value quote">
+                                {{quote}}
+                            </div>
                         </div>
                     </div>
                 </tab>
