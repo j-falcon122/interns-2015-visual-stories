@@ -12,3 +12,15 @@
 .nomargin {
     margin: 0 0 !important;
 }
+
+.quote {
+    font-family: NYTCheltenhamExtBd;
+    font-style: italic;
+    font-size: 30px;
+    background-color: black;
+    color: white;
+}
+
+.quote-container {
+    margin: 3px;
+}
