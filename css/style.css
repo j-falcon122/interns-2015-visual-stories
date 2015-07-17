@@ -6,6 +6,10 @@
 
 }
 
+html{
+	margin-bottom:75px;
+}
+
 #font-holder {
     display: inline-block;
     max-height: 40px;
