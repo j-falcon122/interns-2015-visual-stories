@@ -16,6 +16,10 @@ html{
     overflow-y: scroll;
 }
 
+#font-button {
+	display: inline-block;
+}
+
 .font-family {
     background-color: white;
     padding: 5px;

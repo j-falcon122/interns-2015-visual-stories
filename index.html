@@ -112,7 +112,7 @@
                 <div class="form-group form-inline">
                     <input class="form-control" ng-model="text.content" placeholder="text here" id="text-content" type="text" />
                     <input class="form-control" ng-model="text.size" placeholder="font-size" id="font-size" type="text" />
-                    <div dropdown dropdown-append-to-body>
+                    <div id="font-button" dropdown dropdown-append-to-body>
                         <button class="btn btn-primary" dropdown-toggle class="dropdown" style="font-family:{{text.font}}" >Choose Font</button>
                         <ul role="menu" class="dropdown-menu" id="font-holder">
                             <li ng-repeat="font in fonts" id="{{font}}" class="font-family" ng-class="{'active': font == text.font}" style="font-family:{{font}}" ng-click="text.font = font">{{font}}</li>
