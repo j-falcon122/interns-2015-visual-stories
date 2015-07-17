@@ -1,8 +1,8 @@
 angular.module('Assets', ['AssetService', 'ConfigService', 'TimelineService']).controller("AssetCtrl", function ($scope, $sce, assets, Config, timeline) {
 
-	$scope.showPhoto = true;
-	$scope.showText = true;
-	$scope.showQuotes = true;
+	$scope.showPhoto = false;
+	$scope.showText = false;
+	$scope.showQuotes = false;
 	$scope.assets = {
 		quotes: [],
 		images: [],

@@ -1,9 +1,9 @@
 <html ng-app="timesTrailer" ng-cloak>
+
 <head>
     <script type="text/javascript" src="js/vendor/jquery.min.js"></script>
-  <script type="text/javascript" src="adcom/js/bootstrap.js"></script>
-  <script type="text/javascript" src="adcom/js/adcom.js"></script>
-
+    <script type="text/javascript" src="adcom/js/bootstrap.js"></script>
+    <script type="text/javascript" src="adcom/js/adcom.js"></script>
     <link rel="stylesheet" type="text/css" href="adcom/dist/css/adcom.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/assets.css">
@@ -19,103 +19,115 @@
     <script type="text/javascript" src="js/controllers/AssetCtrl.js"></script>
     <script type="text/javascript" src="js/controllers/TimelineCtrl.js"></script>
 </head>
+
 <body ng-init="initialize()" ng-controller="CanvasCtrl">
-<h1 id="title">Times Trailer</h1>
-<div class="left">
-    <canvas id="canvas" width="600" height="400" id="canvas"></canvas>
-    <form ng-init="initialize()" ng-controller="EditorCtrl">
-        <fieldset class="editor">
-        <legend>Overlay</legend>
-            <label for="overlay">Overlay? </label>
-            <input  ng-model="overlay.enabled" id="overlay" type="checkbox" />
-        Automatic Placement
-            <select ng-model="autoPosition" ng-options="option.label for option in autoPositions track by option.value" id="position">
-            </select>
-            <input ng-model="overlay.opacity" type="number" min="0" max="1" id="overlay-opacity" step=".1">
-            <input ng-model="overlay.overlayColor" type="color" id="overlay-color" >
-            <div id="size">
-                Manual Placement: Top Left Corner X:
-                <input ng-model="manualPosition[0]" type="number" id="manual-x" > Y:
-                <input ng-model="manualPosition[1]" type="number" id="manual-y" > SIZE:
-                <input ng-model="manualPosition[2]" id="width" type="text" placeholder="width" >x
-                <input ng-model="manualPosition[3]" id="height" type="text" placeholder="height" >
-            </div>
-        </fieldset>
-        <fieldset id="text" class="editor">
-            <legend>Text</legend>
-            <input ng-model="text.content" placeholder="text here" id="text-content" type="text" />
-            <input ng-model="text.color" type="color" id="text-color" />
-            <input ng-model="text.size" placeholder="font-size" id="font-size" type="text" />
-            <div id="font-holder">
-                <div ng-repeat="font in fonts" id="{{font}}" class="font-family" ng-class="{'active': font == text.font}" style="font-family:{{font}}" ng-click="text.font = font">{{font}}</div>
-            </div>
-        </fieldset>
-        <fieldset>
-            <input class="btn btn-sm btn-primary" value="draw" type="button" ng-click="saveConfigs(true);" />
-            <input class="btn btn-sm btn-primary" value="clear" type="button" ng-click="$parent.clearCanvas()"/>
-            <input class="btn btn-sm btn-primary" id="save" value="save" type="button"/>
-            <a id="download-link" download="example.webm" href="">Download .webm File</a>
-            <input class="btn btn-sm btn-primary" type="button" value="addFrame" ng-click="$parent.addFrame()"/>
-            <input class="btn btn-sm btn-primary" type="button" value="write video" ng-click="$parent.finalizeVideo()"/>
-        </fieldset>
-        <fieldset>
-            <input class="btn btn-sm btn-primary" ng-click="saveSlide()" id="saveSlide" value="saveSlide" type="button">
-            <input class="btn btn-sm btn-primary" ng-click="loadSlide()" id="load" value="load" type="button">
-        </fieldset>
-    </form>
-    <video id="awesome" width="300" height="300" controls></video>
-</div>
-
-
-<!-- Data selection -->
-<div ng-controller="AssetCtrl" class="assets" >
-    <div id="controls">
-        <button ng-click="getArticle()" name="load">Load</button>
-        <button ng-click="showText = !showText" name="text">Toggle text</button>
-        <button ng-click="showPhoto = !showPhoto" name="photos">Toggle photos</button>
-        <button ng-click="showQuotes = !showQuotes" name="photos">Toggle quotes</button>
+    <h1 id="title">Times Trailer</h1>
+    <div class="left">
+        <canvas id="canvas" width="600" height="400" id="canvas"></canvas>
+        <form ng-init="initialize()" ng-controller="EditorCtrl">
+            <fieldset class="editor">
+                <legend>Overlay</legend>
+                <label for="overlay">Overlay? </label>
+                <input ng-model="overlay.enabled" id="overlay" type="checkbox" />
+                <div class="form-group">
+                    <label class="control-label">Automatic Placement</label>
+                    <div class="control-input">
+                        <select class="form-control" ng-model="autoPosition" ng-options="option.label for option in autoPositions track by option.value" id="position">
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="control-input">
+                        <input class="form-control" ng-model="overlay.opacity" type="number" min="0" max="1" id="overlay-opacity" step=".1">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div clas="control-input">
+                        <input class="form-control" ng-model="overlay.overlayColor" type="color" id="overlay-color">
+                    </div>
+                </div>
+                <div id="size" class="form-group">
+                    Manual Placement: Top Left Corner X:
+                    <input ng-model="manualPosition[0]" type="number" id="manual-x"> Y:
+                    <input ng-model="manualPosition[1]" type="number" id="manual-y"> SIZE:
+                    <input ng-model="manualPosition[2]" id="width" type="text" placeholder="width">x
+                    <input ng-model="manualPosition[3]" id="height" type="text" placeholder="height">
+                </div>
+            </fieldset>
+            <fieldset id="text" class="editor">
+                <legend>Text</legend>
+                <input ng-model="text.content" placeholder="text here" id="text-content" type="text" />
+                <input ng-model="text.color" type="color" id="text-color" />
+                <input ng-model="text.size" placeholder="font-size" id="font-size" type="text" />
+                <div id="font-holder">
+                    <div ng-repeat="font in fonts" id="{{font}}" class="font-family" ng-class="{'active': font == text.font}" style="font-family:{{font}}" ng-click="text.font = font">{{font}}</div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <input class="btn btn-sm btn-primary" value="draw" type="button" ng-click="saveConfigs(true);" />
+                <input class="btn btn-sm btn-primary" value="clear" type="button" ng-click="$parent.clearCanvas()" />
+                <input class="btn btn-sm btn-primary" id="save" value="save" type="button" />
+                <a id="download-link" download="example.webm" href="">Download .webm File</a>
+                <input class="btn btn-sm btn-primary" type="button" value="addFrame" ng-click="$parent.addFrame()" />
+                <input class="btn btn-sm btn-primary" type="button" value="write video" ng-click="$parent.finalizeVideo()" />
+            </fieldset>
+            <fieldset>
+                <input class="btn btn-sm btn-primary" ng-click="saveSlide()" id="saveSlide" value="saveSlide" type="button">
+                <input class="btn btn-sm btn-primary" ng-click="loadSlide()" id="load" value="load" type="button">
+            </fieldset>
+        </form>
+        <video id="awesome" width="300" height="300" controls></video>
     </div>
-    <div ng-show="showText" ng-repeat="(index, element) in elements">
-        <div ng-if="element.text">
-            <hr>
-            <h2> SECTION: {{element.name}} </h2>
-            <div class="component">
-                <h2>{{element.text}}</h2>
+    <!-- Data selection -->
+    <div ng-controller="AssetCtrl" class="assets">
+        <div id="controls">
+            <button ng-click="getArticle()" name="load">Load</button>
+            <button ng-click="showText = !showText" name="text">Toggle text</button>
+            <button ng-click="showPhoto = !showPhoto" name="photos">Toggle photos</button>
+            <button ng-click="showQuotes = !showQuotes" name="photos">Toggle quotes</button>
+        </div>
+        <div ng-show="showText" ng-repeat="(index, element) in elements">
+            <div ng-if="element.text">
+                <hr>
+                <h2> SECTION: {{element.name}} </h2>
+                <div class="component">
+                    <h2>{{element.text}}</h2>
+                </div>
             </div>
         </div>
-    </div>
-    <div class='asset-scroller'>
-        <div ng-show="showText" class="asset-row">
-            <div class="asset-container" ng-repeat="info in assets.metadata">
-                <div class="asset-key">{{info.name}}</div>
-                <div class="asset-tooltip">{{info.text}}</div>
+        <div class='asset-scroller'>
+            <div ng-show="showText" class="asset-row">
+                <div class="asset-container" ng-repeat="info in assets.metadata">
+                    <div class="asset-key">{{info.name}}</div>
+                    <div class="asset-tooltip">{{info.text}}</div>
+                </div>
             </div>
         </div>
-    </div>
-    <div scroll class="asset-scroller">
-        <div class="asset-row" ng-show="showPhoto">
-            <div class="asset-container" ng-repeat="(index, image) in assets.images">
-                <img class="thumbnail" crossorigin="anonymous" ng-click="$parent.chooseImage(image, index)" id="image{{index}}" ng-src="{{image.url}}">
+        <div scroll class="asset-scroller">
+            <div class="asset-row" ng-show="showPhoto">
+                <div class="asset-container" ng-repeat="(index, image) in assets.images">
+                    <img class="thumbnail" crossorigin="anonymous" ng-click="$parent.chooseImage(image, index)" id="image{{index}}" ng-src="{{image.url}}">
+                </div>
             </div>
         </div>
-    </div>
-    <div class="asset-scroller">
-        <div class="asset-row">
-            <div ng-show="showQuotes" class="image asset-container" ng-repeat="quote in assets.quotes">
-                <div class="asset-value quote">
-                {{quote}}
+        <div class="asset-scroller">
+            <div class="asset-row">
+                <div ng-show="showQuotes" class="image asset-container" ng-repeat="quote in assets.quotes">
+                    <div class="asset-value quote">
+                        {{quote}}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div ng-controller="TimelineCtrl" id="timeline">
-    <button ng-click="save()">Save slide</button>
-    <button ng-click="load()">Load slides</button>
-    <button ng-click="clear()">Clear storage</button>
-    <button ng-click="print()">print</button>
-    <p> Status {{status}} </p>
-</div>
-<script type="text/javascript" src="js/app.js"></script>
+    <div ng-controller="TimelineCtrl" id="timeline">
+        <button ng-click="save()">Save slide</button>
+        <button ng-click="load()">Load slides</button>
+        <button ng-click="clear()">Clear storage</button>
+        <button ng-click="print()">print</button>
+        <p> Status {{status}} </p>
+    </div>
+    <script type="text/javascript" src="js/app.js"></script>
 </body>
+
 </html>
