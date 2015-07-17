@@ -3,21 +3,21 @@ angular.module('AssetService', []).factory("assets", ['$http', function($http){
   var cache = {};
   function getMetadata(article) {
     return [
-      { "name": "headline",
+      { "name": "Headline",
         "text": article.result.headline},
-      { "name": "summary",
+      { "name": "Summary",
         "text": article.result.summary},
-      { "name": "section",
+      { "name": "Section",
         "text": article.result.section.display_name},
-      { "name": "author",
+      { "name": "Author",
         "text": article.result.authors[0].title_case_name},
-      { "name": "byline",
+      { "name": "Byline",
         "text": article.result.byline},
-      { "name": "date",
+      { "name": "Date",
         "text": article.result.publication_iso_date},
-      { "name": "kicker",
+      { "name": "Kicker",
         "text": article.result.kicker},
-      { "name": "link",
+      { "name": "Link",
         "text": article.result.url}
     ];
   }

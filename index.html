@@ -47,9 +47,9 @@
             <tabset class="assets-tabs container-fluid">
                 <tab heading="Metadata">
                     <div class="assets-scroll">
-                        <div class="asset-container" ng-repeat="info in assets.metadata">
+                        <div class="asset-container metadata" ng-repeat="info in assets.metadata">
                             <div class="asset-key">{{info.name}}</div>
-                            <div class="asset-tooltip">{{info.text}}</div>
+                            <div class="asset-tooltip">{{info.text || 'unavailable'}}</div>
                         </div>
                     </div>
                 </tab>

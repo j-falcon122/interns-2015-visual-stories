@@ -24,3 +24,20 @@
 .quote-container {
     margin: 3px;
 }
+
+.asset-key,
+.asset-tooltip {
+    display: inline;
+}
+
+.asset-key {
+    font-family: NYTFranklinBold;
+}
+
+.asset-tooltip {
+    font-family: NYTFranklinLight;
+}
+
+.metadata {
+    margin: 10px;
+}
