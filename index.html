@@ -44,7 +44,7 @@
     <div class="right">
         <!-- Data selection -->
         <div ng-controller="AssetCtrl" class="assets">
-            <tabset class="assets-tabs">
+            <tabset class="assets-tabs container-fluid">
                 <tab heading="Metadata">
                     <div class="assets-scroll">
                         <div class="asset-container" ng-repeat="info in assets.metadata">
@@ -53,10 +53,12 @@
                         </div>
                     </div>
                 </tab>
-                <tab heading="Images">
+                <tab class="container-flud" heading="Images">
                     <div class="assets-scroll">
-                        <div class="asset-container" ng-repeat="(index, image) in assets.images">
+                        <div class="row nomargin">
+                        <div class=" col-md-4 asset-container" ng-repeat="(index, image) in assets.images">
                             <img class="thumbnail" crossorigin="anonymous" ng-click="$parent.chooseImage('image' + index)" id="image{{index}}" ng-src="{{image.url}}">
+                        </div>
                         </div>
                     </div>
                 </tab>
