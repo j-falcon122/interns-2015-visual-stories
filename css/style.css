@@ -32,12 +32,6 @@ html{
 	border: 1px solid black;
 }
 
-#controls{
-	position:fixed;
-	width:50%;
-	text-align: center;
-}
-
 .wrapper{
 	margin:auto;
 	text-align:center;

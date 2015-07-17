@@ -90,46 +90,36 @@
     </div>
     <!-- Data selection -->
     <div ng-controller="AssetCtrl" class="assets">
-        <div id="controls" class="">
-            <button class="btn btn-sm btn-default" ng-click="getArticle()" name="load">Load</button>
-            <div class="btn-group-vertical">
-            <button class="btn btn-sm btn-default" ng-click="showText = !showText" name="text">Toggle text</button>
-            <button class="btn btn-sm btn-default" ng-click="showPhoto = !showPhoto" name="photos">Toggle photos</button>
-            <button class="btn btn-sm btn-default" ng-click="showQuotes = !showQuotes" name="photos">Toggle quotes</button>
-            </div>
+        <div class="btn-group-vertical">
+        <button class="btn btn-sm btn-default" ng-click="showText = !showText" name="text">Toggle text</button>
+        <button class="btn btn-sm btn-default" ng-click="showPhoto = !showPhoto" name="photos">Toggle photos</button>
+        <button class="btn btn-sm btn-default" ng-click="showQuotes = !showQuotes" name="photos">Toggle quotes</button>
         </div>
-        <div ng-show="showText" ng-repeat="(index, element) in elements">
-            <div ng-if="element.text">
-                <hr>
-                <h2> SECTION: {{element.name}} </h2>
-                <div class="component">
-                    <h2>{{element.text}}</h2>
-                </div>
-            </div>
-        </div>
-        <div class='asset-scroller'>
-            <div ng-show="showText" class="asset-row">
+        <div class="asset-wrapper">
+        <div ng-show="showText" class='asset-scroller'>
+            <div class="asset-row">
                 <div class="asset-container" ng-repeat="info in assets.metadata">
                     <div class="asset-key">{{info.name}}</div>
                     <div class="asset-tooltip">{{info.text}}</div>
                 </div>
             </div>
         </div>
-        <div scroll class="asset-scroller">
-            <div class="asset-row" ng-show="showPhoto">
+        <div scroll ng-show="showPhoto" class="asset-scroller">
+            <div class="asset-row" >
                 <div class="asset-container" ng-repeat="(index, image) in assets.images">
                     <img class="thumbnail" crossorigin="anonymous" ng-click="$parent.chooseImage(image, index)" id="image{{index}}" ng-src="{{image.url}}">
                 </div>
             </div>
         </div>
-        <div class="asset-scroller">
+        <div ng-show="showQuotes" class="asset-scroller">
             <div class="asset-row">
-                <div ng-show="showQuotes" class="image asset-container" ng-repeat="quote in assets.quotes">
+                <div class="image asset-container" ng-repeat="quote in assets.quotes">
                     <div class="asset-value quote">
                         {{quote}}
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     </div>
     <div ng-controller="TimelineCtrl" id="timeline">

@@ -3,7 +3,6 @@
     top: 0px;
     width: 100%;
     display: inline;
-    overflow: scroll;
 }
 
 .asset-scroller {
@@ -25,6 +24,14 @@
 
 .help {
     border: 1px solid yellow;
+}
+
+#controls {
+    display: inline-block;
+}
+
+#controls > div {
+    display: inline-block;
 }
 
 .quote,
