@@ -4,29 +4,19 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     $scope.cavas_height = 400;
     $scope.video = null;
 
-
     $scope.initialize = function() {
         $scope.canvas = new fabric.Canvas('canvas');
         $scope.video = new Whammy.Video(15);
+        getAssets();
+        getAnimationFrames();
+    };
+
+    var getAssets = function(){
         assets.getData().then(function(data) {
             $scope.assets = data;
             console.log(data);
         });
-    }
-
-    $scope.addFrame = function() {
-        $scope.video.add($scope.canvas.getContext("2d"), 1000);
-    }
-
-    $scope.finalizeVideo = function() {
-        var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
-                                    window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
-        window.requestAnimationFrame = requestAnimationFrame;
-        var output = $scope.video.compile();
-        var url = webkitURL.createObjectURL(output);
-        document.getElementById('awesome').src = url; //toString converts it to a URL via Object URLs, falling back to DataURL
-        document.getElementById('download-link').href = url;
-    }
+    };
 
     $scope.chooseImage = function(id) {
         console.log(id);
@@ -38,11 +28,11 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             scaleX: $scope.canvas.width / img.width
         });
         $scope.canvas.add(img);
-    }
+    };
 
     $scope.clearCanvas = function() {
         $scope.canvas.clear();
-    }
+    };
 
     $scope.createOverlay = function(rect, options) {
         var rectangle = new fabric.Rect({
@@ -54,7 +44,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             opacity: options.opacity
         });
         return rectangle;
-    }
+    };
 
     $scope.createText = function(rect, options) {
         var text = new fabric.Text(options.content, {
@@ -73,7 +63,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             return wrapCanvasText(text, $scope.canvas, rect[2], rect[3], options.justify);
         }
         return text;
-    }
+    };
 
     $scope.drawAll = function() {
         var configs = Config.get();
@@ -93,8 +83,43 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             console.log($scope.canvas);
             $scope.canvas.add(text);
         }
+    };
 
+    /*
+    **************************
+    **        Video         **
+    **************************
+    */
+    var getAnimationFrames = function(){
+        var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+                                    window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+        window.requestAnimationFrame = requestAnimationFrame;
     }
+
+    var progress = 0;
+    // var end = timeline.videoDuration();
+    var end = 60;
+
+    $scope.addFrame = function() {
+        progress++;
+        $scope.video.add($scope.canvas.getContext("2d"),4400);
+        if(progress / end < 1){
+            requestAnimationFrame($scope.addFrame);
+            console.log(progress/end);
+        }else{
+            console.log("called");
+            requestAnimationFrame($scope.finalizeVideo); // well, should probably use settimeout instead
+        }
+    }
+
+    $scope.finalizeVideo = function() {
+        var output = $scope.video.compile();
+        var url = webkitURL.createObjectURL(output);
+        document.getElementById('awesome').src = url; //toString converts it to a URL via Object URLs, falling back to DataURL
+        document.getElementById('download-link').href = url;
+    }
+
+
     /*
     **************************
     **   Loading Slides     **
@@ -151,6 +176,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     $scope.currentSlide = 0;
     $scope.playSlides = function(){
         $scope.currentSlide = 0;
+        $scope.addFrame();
         var changeSlide = function(){
             if($scope.currentSlide < timeline.slides.length){
                 $scope.loadSlide(timeline.slides[$scope.currentSlide].json);
@@ -161,6 +187,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         }
         changeSlide();
         console.log("play slides working");
+
     }
 
 });

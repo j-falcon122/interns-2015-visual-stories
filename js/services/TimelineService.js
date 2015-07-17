@@ -9,7 +9,18 @@ angular.module('TimelineService', ['ConfigService']).factory('timeline', [functi
         duration
     }
     */
+
+    var videoDuration = function(){
+        var time = 0;
+        timeline.slides.forEach(function(slide){
+            time += slide.duration;
+        })
+        console.log(time);
+        return time;
+    }
+
     return {
-        slides: slides
+        slides: slides,
+        videoDuration: videoDuration
     }
 }]);
