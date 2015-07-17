@@ -48,9 +48,9 @@
             <tabset class="assets-tabs container-fluid">
                 <tab heading="Metadata">
                     <div class="assets-scroll">
-                        <div class="asset-container" ng-repeat="info in assets.metadata">
+                        <div class="asset-container metadata" ng-repeat="info in assets.metadata">
                             <div class="asset-key">{{info.name}}</div>
-                            <div class="asset-tooltip">{{info.text}}</div>
+                            <div class="asset-tooltip">{{info.text || 'unavailable'}}</div>
                         </div>
                     </div>
                 </tab>
@@ -110,17 +110,18 @@
             </fieldset>
             <fieldset id="text" class="editor">
                 <legend>Text</legend>
-                <div class="form-group">
+                <div class="form-group form-inline">
                     <input class="form-control" ng-model="text.content" placeholder="text here" id="text-content" type="text" />
+                    <input class="form-control" ng-model="text.size" placeholder="font-size" id="font-size" type="text" />
+                    <div dropdown dropdown-append-to-body>
+                        <button class="btn btn-primary" dropdown-toggle class="dropdown" style="font-family:{{text.font}}" >Choose Font</button>
+                        <ul role="menu" class="dropdown-menu" id="font-holder">
+                            <li ng-repeat="font in fonts" id="{{font}}" class="font-family" ng-class="{'active': font == text.font}" style="font-family:{{font}}" ng-click="text.font = font">{{font}}</li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="form-group">
                     <input class="form-control" ng-model="text.color" type="color" id="text-color" />
-                </div>
-                <div class="form-group">
-                    <input class="form-control" ng-model="text.size" placeholder="font-size" id="font-size" type="text" />
-                </div>
-                <div id="font-holder">
-                    <div ng-repeat="font in fonts" id="{{font}}" class="font-family" ng-class="{'active': font == text.font}" style="font-family:{{font}}" ng-click="text.font = font">{{font}}</div>
                 </div>
             </fieldset>
             <fieldset>
