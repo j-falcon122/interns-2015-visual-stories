@@ -1,10 +1,14 @@
 <html ng-app="timesTrailer" ng-cloak>
 <head>
+    <script type="text/javascript" src="js/vendor/jquery.min.js"></script>
+  <script type="text/javascript" src="adcom/js/bootstrap.js"></script>
+  <script type="text/javascript" src="adcom/js/adcom.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="adcom/dist/css/adcom.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/assets.css">
     <script type="text/javascript" src="js/vendor/underscore-min.js"></script>
     <script type="text/javascript" src="js/vendor/angular.min.js"></script>
-    <script type="text/javascript" src="js/vendor/jquery.min.js"></script>
     <script type="text/javascript" src="js/vendor/whammy.js"></script>
     <script type="text/javascript" src="js/vendor/fabric.js"></script>
     <script type="text/javascript" src="js/controllers/CanvasCtrl.js"></script>
@@ -47,16 +51,16 @@
             </div>
         </fieldset>
         <fieldset>
-            <input value="draw" type="button" ng-click="saveConfigs(true);" />
-            <input value="clear" type="button" ng-click="$parent.clearCanvas()"/>
-            <input id="save" value="save" type="button"/>
+            <input class="btn btn-sm btn-primary" value="draw" type="button" ng-click="saveConfigs(true);" />
+            <input class="btn btn-sm btn-primary" value="clear" type="button" ng-click="$parent.clearCanvas()"/>
+            <input class="btn btn-sm btn-primary" id="save" value="save" type="button"/>
             <a id="download-link" download="example.webm" href="">Download .webm File</a>
-            <input type="button" value="addFrame" ng-click="$parent.addFrame()"/>
-            <input type="button" value="write video" ng-click="$parent.finalizeVideo()"/>
+            <input class="btn btn-sm btn-primary" type="button" value="addFrame" ng-click="$parent.addFrame()"/>
+            <input class="btn btn-sm btn-primary" type="button" value="write video" ng-click="$parent.finalizeVideo()"/>
         </fieldset>
         <fieldset>
-            <input ng-click="saveSlide()" id="saveSlide" value="saveSlide" type="button">
-            <input ng-click="loadSlide()" id="load" value="load" type="button">
+            <input class="btn btn-sm btn-primary" ng-click="saveSlide()" id="saveSlide" value="saveSlide" type="button">
+            <input class="btn btn-sm btn-primary" ng-click="loadSlide()" id="load" value="load" type="button">
         </fieldset>
     </form>
     <video id="awesome" width="300" height="300" controls></video>
