@@ -1,0 +1,36 @@
+.assets {
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    display: inline;
+    overflow: scroll;
+}
+
+.asset-scroller {
+    overflow: scroll;
+}
+
+.asset-row {
+    height: 2%;
+    display: inline-flex;
+}
+
+.asset-container {
+    width: 100%;
+    display; flex;
+    white-space: nowrap;
+    border: 1px solid red;
+    overflow: hidden;
+}
+
+.help {
+    border: 1px solid yellow;
+}
+
+.quote,
+.metadata,
+.photo,
+.asset-key {
+    display: inline;
+    padding: 10px;
+}
