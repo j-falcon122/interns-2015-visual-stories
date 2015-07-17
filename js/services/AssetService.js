@@ -1,5 +1,6 @@
 angular.module('AssetService', []).factory("assets", ['$http', function($http){
 
+  var cache = {};
   function getMetadata(article) {
     return [
       { "name": "headline",
@@ -61,7 +62,6 @@ angular.module('AssetService', []).factory("assets", ['$http', function($http){
   }
 
   function getQuotes(body) {
-    console.log(body);
     var parsedNoP = removePTags(body);
     var sentences = parsedNoP.split( ". ");
 
@@ -82,10 +82,14 @@ angular.module('AssetService', []).factory("assets", ['$http', function($http){
     return linesStartingWithQuotes;
   }
 
-	var getData = function() {
+	var getData = function(url) {
+    url = url || '/assets/articles/article0.json';
+    // if (cache[url]) {
+    //   return cache[url];
+    // }
 		return $http({
 			method: 'GET',
-    	url: '/assets/articles/article0.json'
+    	url: url
 		}).then(function(response) {
       var quotes = getQuotes(response.data.result.article.body);
 
@@ -95,11 +99,13 @@ angular.module('AssetService', []).factory("assets", ['$http', function($http){
       images = images.concat(getImages(embeddedImages));
 
       var metadata = getMetadata(response.data);
-      return {
+      var result = {
         quotes: quotes,
         images: images,
         metadata: metadata
       };
+      cache[url] = result;
+      return result;
     });
 	}
 	return {getData: getData};

@@ -1,7 +1,7 @@
-angular.module('Canvas', ['ConfigService']).controller('CanvasCtrl', function($scope, Config) {
+angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).controller('CanvasCtrl', function($scope, Config, assets, timeline) {
     $scope.canvas = null;
-    $scope.canvas_width = 600;
-    $scope.canvas_height = 400;
+    $scope.cavas_width = 600;
+    $scope.cavas_height = 400;
     $scope.video = null;
 
 
@@ -21,7 +21,7 @@ angular.module('Canvas', ['ConfigService']).controller('CanvasCtrl', function($s
         document.getElementById('download-link').href = url;
     }
 
-    $scope.chooseImage = function(type, id) {
+    $scope.chooseImage = function(id) {
         $scope.clearCanvas();
         var img = new fabric.Image("image"+id);
         img.set({
@@ -87,21 +87,61 @@ angular.module('Canvas', ['ConfigService']).controller('CanvasCtrl', function($s
         }
 
     }
-/*
-**
-**   Loading Slides
-**
-*/
+    /*
+    **************************
+    **   Loading Slides     **
+    **************************
+    */
     $scope.saveSlide = function(){
-        $scope.slideSaved = $scope.canvas.toJSON();
-        console.log(JSON.stringify($scope.slideSaved));
-        console.log($scope.slideSaved);
+        var saved = $scope.canvas.toJSON();
+        saved =  JSON.stringify(saved);
+        return saved;
     }
 
-    $scope.loadSlide = function(){
-        $scope.slideLoaded = $scope.canvas.loadFromJSON($scope.slideSaved)
-        console.log($scope.slideLoaded);
+    $scope.loadSlide = function(data){
+        $scope.clearCanvas();
+        $scope.canvas.loadFromJSON(data, $scope.canvas.renderAll.bind($scope.canvas));
     }
+
+    /*
+    **************************
+    **  Creating Slides     **
+    **************************
+    */
+
+    $scope.createSlides = function(){
+        assets.getData().then(function(data) {
+            console.log(data);
+            $scope.assets = data;
+        });
+        if($scope.assets) {
+            console.log("Adding");
+            $scope.assets.images.forEach(function(image, it){
+                $scope.chooseImage(it);
+                timeline.slides.push($scope.saveSlide());
+            });
+            $scope.canvas.clear();
+            console.log(timeline.slides);
+        }
+    }
+
+    $scope.currentSlide = 0;
+    $scope.playSlides = function(){
+        if($scope.currentSlide < timeline.slides.length){
+            $scope.loadSlide(timeline.slides[$scope.currentSlide]);
+            $scope.currentSlide++;
+            console.log($scope.currentSlide);
+        }
+    }
+
+    /*
+    **************************
+    **    Animate Slide     **
+    **************************
+    */
+
+
+
 });
 
 function wrapCanvasText(t, canvas, maxW, maxH, justify) {
