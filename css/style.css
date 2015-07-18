@@ -10,6 +10,22 @@ html{
 	margin-bottom:75px;
 }
 
+.right {
+	width:50%;
+	float:right;
+}
+
+.left {
+	width:50%;
+	float:left;
+}
+
+#title{
+	padding: 15px 15px 0 15px;
+	font-family:'NYTKarnakDisplay';
+	font-size:40px;
+}
+
 #font-holder {
     display: inline-block;
     max-height: 100px;
@@ -25,57 +41,60 @@ html{
     padding: 5px;
 }
 
-.thumbnail {
-	height:auto;
-	width: 200px;
+/******************************
+		Media Player
+*******************************/
+
+#modeWrapper{
+	background-color: #BFBFBF;
+	width: 600px;
+	padding:10px;
+	position:relative;
 }
 
-.active {
-    background-color: #BFBFBF;
+#videoMode{
+	position: absolute;
+	right:0;
+	bottom:0;
+	font-size:35px;
+	padding:0 15px 0 15px;
 }
 
-#canvas{
+#canvas, #player{
 	border: 1px solid black;
 }
 
-.wrapper{
-	margin:auto;
+#canvas{
+	margin-top: 15px;
+}
+
+#player{
+	background-color:"black" !important;
+}
+
+#mediaWrapper{
+	position:relative;
+}
+
+.progress{
+	width:600px;
+	position:absolute;
+	top:175px;
+	height:50px;
+	z-index:15;
+}
+
+.progress span{
+	position:absolute;
 	text-align:center;
+	top:12px;
+	left:0;
+	font-size:25px;
 }
 
-.component{
-	min-height: 50px;
-	padding: 10px;
-	margin:0 5% 0 10%;
-}
-
-#title{
-	font-family:'NYTKarnakDisplay';
-	font-size:40px;
-}
-
-.content{
-	height:100vh;
-	overflow:scroll;
-}
-
-.right {
-	width:50%;
-	float:right;
-}
-
-.left {
-	width:50%;
-	float:left;
-}
-
-.element{
-	background-color: #ffffaa;
-	height:400px;
-	width:400px;
-	margin:auto;
-}
-
+/******************************
+		Timeline
+*******************************/
 #timeline{
 	background-color:#7F7F7F;
 	position:fixed;
@@ -87,7 +106,9 @@ html{
 	display: none;
 }
 
-
+/******************************
+		buggy fonts
+*******************************/
 @font-face {
 	font-family: 'NYTCheltenhamBdXCon';
 	src: url('../fonts/NYTCheltenhamBdXCon')

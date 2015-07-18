@@ -1,3 +1,8 @@
+.thumbnail {
+    height:auto;
+    width: 200px;
+}
+
 .assets-scroll {
     height: 358px;
     overflow-y: scroll;

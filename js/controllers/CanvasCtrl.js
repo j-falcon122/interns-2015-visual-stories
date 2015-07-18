@@ -9,6 +9,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         $scope.video = new Whammy.Video(15);
         getAssets();
         getAnimationFrames();
+        setMode();
     };
 
     var getAssets = function(){
@@ -85,63 +86,77 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         }
     };
 
-    /*
-    **************************
-    **        Video         **
-    **************************
-    */
-    var getAnimationFrames = function(){
-        var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
-                                    window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
-        window.requestAnimationFrame = requestAnimationFrame;
-    }
+    /***************************
+    **        Video           **
+    ***************************/
+    $scope.showCanvas = true;
 
-    var progress = 0;
+    var setMode = function() {
+        if ($scope.showCanvas) {
+            $scope.videoMode = "Editor Mode";
+        } else {
+            $scope.videoMode = "Video Player";
+        }
+    };
+
+    $scope.toggleView = function() {
+        $scope.showCanvas = !$scope.showCanvas;
+        setMode();
+    };
+
+    var getAnimationFrames = function(){
+        var requestAnimationFrame =
+            window.requestAnimationFrame        ||
+            window.mozRequestAnimationFrame     ||
+            window.webkitRequestAnimationFrame  ||
+            window.msRequestAnimationFrame;
+
+        window.requestAnimationFrame = requestAnimationFrame;
+    };
+
+    $scope.progress = 0;
     // var end = timeline.videoDuration();
-    var end = 147;
+    $scope.end = 88;
+    // $scope.getPercentage = function(){
+    //     return Math.floor(($scope.progress/$scope.end)*100);
+    // }
 
     $scope.addFrame = function() {
-        progress++;
+        $scope.progress++;
         $scope.video.add($scope.canvas.getContext("2d"),60);
-        if(progress / end < 1){
+        // $scope.$apply();
+        console.log($scope.progress);
+        if($scope.progress / $scope.end < 1){
             requestAnimationFrame($scope.addFrame);
-            // setTimeout($scope.addFrame,1)
-            console.log(progress/end);
-        }else{
-            console.log("called");
-            requestAnimationFrame($scope.finalizeVideo); // well, should probably use settimeout instead
+        } else {
+            requestAnimationFrame($scope.finalizeVideo);
         }
     }
 
     $scope.finalizeVideo = function() {
         var output = $scope.video.compile();
         var url = webkitURL.createObjectURL(output);
-        document.getElementById('awesome').src = url; //toString converts it to a URL via Object URLs, falling back to DataURL
+        document.getElementById('player').src = url; //toString converts it to a URL via Object URLs, falling back to DataURL
         document.getElementById('download-link').href = url;
     }
 
 
-    /*
-    **************************
-    **   Loading Slides     **
-    **************************
-    */
+    /***************************
+    **   Loading Slides       **
+    ***************************/
     $scope.saveSlide = function(){
         var saved = $scope.canvas.toJSON();
         saved =  JSON.stringify(saved);
         return saved;
-    }
+    };
 
     $scope.loadSlide = function(data){
-        $scope.clearCanvas();
         $scope.canvas.loadFromJSON(data, $scope.canvas.renderAll.bind($scope.canvas));
-    }
+    };
 
-    /*
-    **************************
-    **  Creating Slides     **
-    **************************
-    */
+    /***************************
+    **  Creating Slides       **
+    ***************************/
 
     $scope.createSlides = function(){
         console.log("Adding");
@@ -155,6 +170,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             data.enable = true;
             timeline.slides.push(data);
         });
+
         // add ending image
         $scope.chooseImage("ender");
         var data = {};
@@ -162,17 +178,13 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         data.thumb = $("#ender").attr("src")
         data.duration = 1000;
         timeline.slides.push(data);
-
-        $scope.canvas.clear();
         console.log(timeline.slides);
     }
 
 
-    /*
-    **************************
-    **    Animate Slide     **
-    **************************
-    */
+    /***************************
+    **    Animate Slide       **
+    ***************************/
 
     $scope.currentSlide = 0;
     $scope.playSlides = function(){

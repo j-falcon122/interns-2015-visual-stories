@@ -24,11 +24,24 @@
 <body ng-init="initialize()" ng-controller="CanvasCtrl">
     <h1 id="title">Times Trailer</h1>
     <div class="left">
-        <canvas id="canvas" width="600" height="400" id="canvas"></canvas>
-        <video id="awesome" width="600" height="400" controls></video>
-        <div ng-controller="TimelineCtrl">
+        <div id="modeWrapper">
+            <input class="btn btn-sm btn-primary" ng-click="createSlides()" id="create" value="Queue" type="button">
+            <input class="btn btn-sm btn-primary" ng-click="playSlides()" id="play" value="Play" type="button">
+            <input class="btn btn-sm btn-primary" ng-click="toggleView()" id="toggle" value="Toggle" type="button">
+            <span id="videoMode">{{videoMode}}</span>
+        </div>
+        <div id="mediaWrapper">
+            <canvas ng-show="showCanvas" id="canvas" class="media" width="600" height="400" ></canvas>
+            <video ng-show="!showCanvas" id="player" class="media" width="600" height="400" controls></video>
+            <!-- <div class="progress progress-striped">
+                <div class="progress-bar" ng-style="{width: (getPercentage()+'%')}">
+                    <span> rendering video </span>
+                </div>
+            </div> -->
+            <div ng-controller="TimelineCtrl">
             <div id="options">
             </div>
+        </div>
             <div id="timeline">
                 <div="templates" style="display:none">
                     <img id="ender" src="assets/slides/ender.jpg">
@@ -131,10 +144,6 @@
                 <a id="download-link" download="example.webm" href="">Download .webm File</a>
                 <input class="btn btn-sm btn-primary" type="button" value="addFrame" ng-click="$parent.addFrame()" />
                 <input class="btn btn-sm btn-primary" type="button" value="write video" ng-click="$parent.finalizeVideo()" />
-            </fieldset>
-            <fieldset>
-                <input class="btn btn-sm btn-primary" ng-click="createSlides()" id="create" value="create" type="button">
-                <input class="btn btn-sm btn-primary" ng-click="playSlides()" id="play" value="play" type="button">
             </fieldset>
         </form>
     </div>

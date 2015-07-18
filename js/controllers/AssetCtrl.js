@@ -19,7 +19,6 @@ angular.module('Assets', ['AssetService', 'ConfigService', 'TimelineService', 'u
 			console.log(data);
 			$scope.assets = data;
 			$scope.$parent.assets = data;
-			console.log("Hello");
 		});
 	}
 
