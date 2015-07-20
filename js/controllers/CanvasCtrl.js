@@ -24,6 +24,21 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         $scope.canvas.add(img);
     };
 
+    $scope.chooseQuote = function(quote, options) {
+        options = _.defaults(options || {}, {
+            content: '“' + quote + '”',
+            color: '#ffffff',
+            font: 'NYTCheltenhamExtBd',
+            fontStyle: 'italic',
+            size: 40,
+            justify: 'center',
+            compensateHeightOnWrap: true
+        });
+        var rect = [0, $scope.canvas_height * 2 / 5, $scope.canvas_width, $scope.canvas_height * 3 / 5];
+        var text = $scope.createText(rect, options);
+        $scope.canvas.add(text);
+    }
+
     $scope.clearCanvas = function() {
         $scope.canvas.clear();
     };
@@ -35,7 +50,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             width: rect[2],
             height: rect[3],
             fill: options.overlayColor,
-            opacity: options.opacity
+            opacity: options.opacity || 1
         });
         return rectangle;
     };
@@ -54,7 +69,13 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         });
 
         if (rect[2] && rect[3]) {
-            return wrapCanvasText(text, $scope.canvas, rect[2], rect[3], options.justify);
+            var wrapOptions = {
+                maxW: rect[2],
+                maxH: rect[3],
+                justify: options.justify,
+                compensateHeightOnWrap: options.compensateHeightOnWrap
+            };
+            return wrapCanvasText(text, $scope.canvas, wrapOptions);
         }
         return text;
     };
@@ -185,29 +206,31 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         console.log("play slides working");
     }
 
-    $scope.fadeIn = function(duration) {
-        duration = duration || 4000;
+    $scope.fade = function(out, duration) {
+        duration = duration || 2000;
+
         _.each($scope.canvas._objects, function(obj) {
-            obj.animate('opacity', 100, {
+            obj.animate('opacity', out ? 0 : 100, {
                 onChange: $scope.canvas.renderAll.bind($scope.canvas),
                 duration: duration,
-                from: 0
+                from: out ? obj.opacity : 0
             });
         });
     }
-
 });
 
-function wrapCanvasText(t, canvas, maxW, maxH, justify) {
+function wrapCanvasText(t, canvas, options) {
 
     if (typeof maxH === "undefined") {
         maxH = 0;
     }
     var words = t.text.split(" ");
     var formatted = '';
+    var maxW = options.maxW;
+    var maxH = options.maxH;
 
     // This works only with monospace fonts
-    justify = justify || 'left';
+    var justify = options.justify || 'left';
 
     // clear newlines
     var sansBreaks = t.text.replace(/(\r\n|\n|\r)/gm, "");
@@ -296,9 +319,14 @@ function wrapCanvasText(t, canvas, maxW, maxH, justify) {
     // get rid of empy newline at the end
     formatted = formatted.substr(0, formatted.length - 1);
 
+    var top = t.top;
+    if (options.compensateHeightOnWrap) {
+        top -= (breakLineCount - 1) * (lineHeight / 2);
+    }
+
     var ret = new fabric.Text(formatted, { // return new text-wrapped text obj
         left: t.left,
-        top: t.top,
+        top: top,
         fill: t.fill,
         fontFamily: t.fontFamily,
         fontSize: t.fontSize,
