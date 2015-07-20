@@ -16,7 +16,6 @@ angular.module('Assets', ['AssetService', 'ConfigService', 'TimelineService', 'u
 
 	$scope.getArticle = function() {
 		assets.getData().then(function(data) {
-			console.log(data);
 			$scope.assets = data;
 			$scope.$parent.assets = data;
 		});

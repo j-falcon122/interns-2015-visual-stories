@@ -1,4 +1,4 @@
-angular.module('AssetService', []).factory("assets", ['$http', function($http){
+angular.module('AssetService', []).factory("assets", ['$http', '$q', function($http, $q){
 
   var cache = {};
   function getMetadata(article) {
@@ -84,9 +84,9 @@ angular.module('AssetService', []).factory("assets", ['$http', function($http){
 
 	var getData = function(url) {
     url = url || '/assets/articles/article0.json';
-    // if (cache[url]) {
-    //   return cache[url];
-    // }
+    if (cache[url]) {
+      return $q(function(resolve){ resolve(cache[url]); });
+    }
 		return $http({
 			method: 'GET',
     	url: url

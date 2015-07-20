@@ -7,15 +7,8 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     $scope.initialize = function() {
         $scope.canvas = new fabric.Canvas('canvas');
         $scope.video = new Whammy.Video(15);
-        getAssets();
         getAnimationFrames();
         setMode();
-    };
-
-    var getAssets = function(){
-        assets.getData().then(function(data) {
-            $scope.assets = data;
-        });
     };
 
     $scope.chooseImage = function(id) {
@@ -66,7 +59,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
 
     $scope.drawAll = function() {
         var configs = Config.get();
-        console.log(configs);
 
         if (!_.some(configs.position)) {
             alert("Must at least select a top left corner for text");
@@ -155,29 +147,32 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     **  Creating Slides       **
     ***************************/
 
-    $scope.createSlides = function(){
-        $scope.assets.images.forEach(function(image, it){
-            $scope.chooseImage("image"+it);
+    $scope.createSlides = function() {
+        assets.getData().then(function(data) {
+            console.log(data);
+            data.images.forEach(function(image, it){
+                $scope.chooseImage("image"+it);
+                var data = {};
+                data.json = $scope.saveSlide();
+                data.thumb = $scope.assets.images[it].url
+                data.duration = 200;
+                data.enable = true;
+                data.drag = true;
+                data.title = "image"+it;
+                timeline.slides.push(data);
+            });
+
+            // add ending image
+            $scope.chooseImage("ender");
             var data = {};
             data.json = $scope.saveSlide();
-            data.thumb = $scope.assets.images[it].url
-            data.duration = 200;
+            data.thumb = $("#ender").attr("src")
+            data.duration = 1000;
             data.enable = true;
             data.drag = true;
-            data.title = "image"+it;
+            data.title = "ender";
             timeline.slides.push(data);
         });
-
-        // add ending image
-        $scope.chooseImage("ender");
-        var data = {};
-        data.json = $scope.saveSlide();
-        data.thumb = $("#ender").attr("src")
-        data.duration = 1000;
-        data.enable = true;
-        data.drag = true;
-        data.title = "ender";
-        timeline.slides.push(data);
     }
 
 

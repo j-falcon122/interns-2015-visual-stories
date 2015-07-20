@@ -164,7 +164,8 @@
 	position:absolute;
 	padding-top:20px;
     width: 100%;
-    overflow-x:scroll;
+    max-height: 100%;
+    overflow-x:auto;
 }
 
 

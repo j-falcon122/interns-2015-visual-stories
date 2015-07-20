@@ -98,22 +98,14 @@
                 <legend>Overlay</legend>
                 <label for="overlay">Overlay? </label>
                 <input ng-model="overlay.enabled" id="overlay" type="checkbox" />
-                <div class="form-group">
+                <div class="form-group form-inline">
                     <label class="control-label">Automatic Placement</label>
-                    <div class="control-input">
                         <select class="form-control" ng-model="autoPosition" ng-options="option.label for option in autoPositions track by option.value" id="position">
                         </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="control-input">
                         <input class="form-control" ng-model="overlay.opacity" type="number" min="0" max="1" id="overlay-opacity" step=".1">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div clas="control-input">
-                        <input class="form-control" ng-model="overlay.overlayColor" type="color" id="overlay-color">
-                    </div>
+                        <div class="form-group">
+                            <input class="form-control" ng-model="overlay.overlayColor" type="color" id="overlay-color">
+                        </div>
                 </div>
                 <div id="size" class="form-group form-inline">
                     <label class="control-label">X</label>
