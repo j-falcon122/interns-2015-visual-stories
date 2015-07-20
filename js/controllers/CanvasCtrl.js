@@ -121,7 +121,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     $scope.addFrame = function() {
         $scope.progress++;
         $scope.video.add($scope.canvas.getContext("2d"),60);
-        // $scope.$apply();
         console.log($scope.progress);
         if($scope.progress / $scope.end_time < 1){
             requestAnimationFrame($scope.addFrame);
@@ -159,12 +158,11 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
 
     $scope.createSlides = function() {
         assets.getData().then(function(data) {
-            console.log(data);
             data.images.forEach(function(image, it){
                 $scope.chooseImage("image"+it);
                 var data = {};
                 data.json = $scope.saveSlide();
-                data.thumb = $scope.assets.images[it].url
+                data.thumb = image.url
                 data.duration = 200;
                 data.enable = true;
                 data.drag = true;
