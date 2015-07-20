@@ -132,10 +132,10 @@
     width: 120px;
     text-align: center;
     padding-top: 0px;
-    transition: none;
-    -webkit-transition: none;
-    -moz-transition: none;
-    -o-transition: none;
+	transition: none;
+	-webkit-transition: none;
+	-moz-transition: none;
+	-o-transition: none;
     cursor: pointer;
 }
 

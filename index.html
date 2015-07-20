@@ -29,7 +29,7 @@
     <div class="left">
         <div id="modeWrapper">
             <input class="btn btn-sm btn-primary" ng-click="createSlides()" id="create" value="Queue" type="button">
-            <input class="btn btn-sm btn-primary" ng-click="playSlides()" id="play" value="Play" type="button">
+            <input class="btn btn-sm btn-primary" ng-click="playSlides()" id="play" value="Render" type="button">
             <input class="btn btn-sm btn-primary" ng-click="toggleView()" id="toggle" value="Toggle" type="button">
             <span id="videoMode">{{videoMode}}</span>
         </div>
@@ -50,7 +50,7 @@
                 </div="templates">
                 <div class='slideWrapper'>
                     <ul class="row-fluid">
-                        <li class="slideView" ng-repeat="item in slides" data-drop="true" ng-model='slides' jqyoui-droppable="{index: {{$index}}, onDrop:'loki.dropCallback(item.title, $index)', animate:true}">
+                        <li class="slideView" ng-repeat="item in slides" data-drop="true" ng-model='slides' jqyoui-droppable="{index: {{$index}}, animate:true, onDrop:'loki.dropCallback(item.title, $index)'}">
                             <div class="thumbnail2" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="slides" jqyoui-draggable="{index: {{$index}},animate:true}">
                                 <img src="{{item.thumb}}">
                                 <span>{{item.duration/1000}} secs</span>

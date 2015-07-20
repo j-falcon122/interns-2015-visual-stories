@@ -12,11 +12,11 @@ angular.module('TimelineService', ['ConfigService']).factory('timeline', [functi
 
     var videoDuration = function(){
         var time = 0;
-        timeline.slides.forEach(function(slide){
+        slides.forEach(function(slide){
             time += slide.duration;
         })
         console.log(time);
-        return time;
+        return time/50;
     }
 
     return {

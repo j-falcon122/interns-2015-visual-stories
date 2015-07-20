@@ -104,10 +104,10 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     };
 
     $scope.progress = 0;
-    // var end = timeline.videoDuration();
-    $scope.end = 88;
+    $scope.end_time = 0;
+
     // $scope.getPercentage = function(){
-    //     return Math.floor(($scope.progress/$scope.end)*100);
+    //     return Math.floor(($scope.progress/$scope.end_time)*100);
     // }
 
     $scope.addFrame = function() {
@@ -115,10 +115,12 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         $scope.video.add($scope.canvas.getContext("2d"),60);
         // $scope.$apply();
         console.log($scope.progress);
-        if($scope.progress / $scope.end < 1){
+        if($scope.progress / $scope.end_time < 1){
             requestAnimationFrame($scope.addFrame);
+            console.log($scope.end_time);
         } else {
             requestAnimationFrame($scope.finalizeVideo);
+            console.log($scope.end_time);
         }
     }
 
