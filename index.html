@@ -53,9 +53,10 @@
                 <div class='slideWrapper'>
                     <div class="row-fluid">
                         <ul>
-                            <li class="slideView" ng-repeat="item in slides" data-drop="true" ng-model='slides' jqyoui-droppable="{index: {{$index}}, onDrop:'loki.dropCallback(item.title, $index)'}">
+                            <li class="slideView" ng-repeat="item in slides" data-drop="true" ng-model='slides' jqyoui-droppable="{index: {{$index}}, onDrop:'loki.dropCallback(item.title, $index)', animate:true}">
                                 <div class="thumbnail2" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="slides" jqyoui-draggable="{index: {{$index}},animate:true}">
                                     <img src="{{item.thumb}}">
+                                    <span>{{item.duration/1000}} secs</span>
                                 </div>
                             </li>
                         </ul>

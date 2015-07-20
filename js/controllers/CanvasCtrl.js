@@ -161,7 +161,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             var data = {};
             data.json = $scope.saveSlide();
             data.thumb = $scope.assets.images[it].url
-            console.log(data.thumb);
             data.duration = 200;
             data.enable = true;
             data.drag = true;

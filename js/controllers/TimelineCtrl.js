@@ -25,7 +25,6 @@ angular.module('Timeline', ['TimelineService']).controller('TimelineCtrl', funct
 
 	$scope.fillSlides = function(){
 		$scope.slides = timeline.slides;
-		console.log(timeline.slides);
 	}
 
 	$scope.slides = [];

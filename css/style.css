@@ -153,6 +153,10 @@ html {}
 	height: auto;
 }
 
+.thumbnail span{
+	margin-top:100px;
+}
+
 .slideView {
 	display: inline-block;
     height: 120px;
@@ -163,10 +167,12 @@ html {}
 }
 
 .slideWrapper{
+	position:absolute;
 	width:2700px;
 	padding-top:20px;
-	/*overflow-x: auto;*/
+	overflow-x: auto;
 }
+
 
 /******************************
 		buggy fonts
