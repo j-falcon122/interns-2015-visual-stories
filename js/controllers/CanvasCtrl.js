@@ -174,6 +174,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             data.drag = true;
             data.title = "ender";
             timeline.slides.push(data);
+            $scope.end_time = timeline.videoDuration();
         });
     }
 
