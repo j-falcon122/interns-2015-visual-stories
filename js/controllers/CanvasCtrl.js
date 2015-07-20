@@ -1,14 +1,16 @@
 angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).controller('CanvasCtrl', function($scope, Config, assets, timeline) {
     $scope.canvas = null;
-    $scope.cavas_width = 600;
-    $scope.cavas_height = 400;
+    $scope.canvas_width = 600;
+    $scope.canvas_height = 400;
     $scope.video = null;
+    $scope.showCanvas = true;
 
     $scope.initialize = function() {
-        $scope.canvas = new fabric.Canvas('canvas');
+        $scope.canvas = new fabric.Canvas('canvas', {
+            backgroundColor: '#000000'
+        });
         $scope.video = new Whammy.Video(15);
         getAnimationFrames();
-        setMode();
     };
 
     $scope.chooseImage = function(id) {
@@ -59,7 +61,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
 
     $scope.drawAll = function() {
         var configs = Config.get();
-
         if (!_.some(configs.position)) {
             alert("Must at least select a top left corner for text");
             return;
@@ -78,20 +79,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     /***************************
     **        Video           **
     ***************************/
-    $scope.showCanvas = true;
-
-    var setMode = function() {
-        if ($scope.showCanvas) {
-            $scope.videoMode = "Editor Mode";
-        } else {
-            $scope.videoMode = "Video Player";
-        }
-    };
-
-    $scope.toggleView = function() {
-        $scope.showCanvas = !$scope.showCanvas;
-        setMode();
-    };
 
     var getAnimationFrames = function(){
         var requestAnimationFrame =
@@ -112,10 +99,8 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
 
     $scope.addFrame = function() {
         $scope.progress++;
-        $scope.video.add($scope.canvas.getContext("2d"),60);
-        // $scope.$apply();
-        console.log($scope.progress);
-        if($scope.progress / $scope.end < 1){
+        $scope.video.add($scope.canvas.getContext("2d"), 60);
+        if ($scope.progress / $scope.end < 1) {
             requestAnimationFrame($scope.addFrame);
         } else {
             requestAnimationFrame($scope.finalizeVideo);
@@ -181,10 +166,10 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     ***************************/
 
     $scope.currentSlide = 0;
-    $scope.playSlides = function(){
+    $scope.playSlides = function() {
         $scope.currentSlide = 0;
-        var changeSlide = function(){
-            if($scope.currentSlide < timeline.slides.length){
+        var changeSlide = function() {
+            if ($scope.currentSlide < timeline.slides.length) {
                 $scope.loadSlide(timeline.slides[$scope.currentSlide].json);
                 var duration = timeline.slides[$scope.currentSlide].duration || 500;
                 $scope.currentSlide++;
@@ -194,6 +179,17 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         $scope.addFrame();
         changeSlide();
         console.log("play slides working");
+    }
+
+    $scope.fadeIn = function(duration) {
+        duration = duration || 4000;
+        _.each($scope.canvas._objects, function(obj) {
+            obj.animate('opacity', 100, {
+                onChange: $scope.canvas.renderAll.bind($scope.canvas),
+                duration: duration,
+                from: 0
+            });
+        });
     }
 
 });
