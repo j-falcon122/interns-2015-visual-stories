@@ -15,12 +15,10 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     var getAssets = function(){
         assets.getData().then(function(data) {
             $scope.assets = data;
-            console.log(data);
         });
     };
 
     $scope.chooseImage = function(id) {
-        console.log(id);
         $scope.clearCanvas();
         var img = new fabric.Image(id);
         img.set({
@@ -81,7 +79,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
 
         if (configs.text) {
             var text = $scope.createText(configs.position, configs.text);
-            console.log($scope.canvas);
             $scope.canvas.add(text);
         }
     };
@@ -159,15 +156,16 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     ***************************/
 
     $scope.createSlides = function(){
-        console.log("Adding");
-        // image, png url, length
         $scope.assets.images.forEach(function(image, it){
             $scope.chooseImage("image"+it);
             var data = {};
             data.json = $scope.saveSlide();
             data.thumb = $scope.assets.images[it].url
+            console.log(data.thumb);
             data.duration = 200;
             data.enable = true;
+            data.drag = true;
+            data.title = "image"+it;
             timeline.slides.push(data);
         });
 
@@ -177,8 +175,10 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         data.json = $scope.saveSlide();
         data.thumb = $("#ender").attr("src")
         data.duration = 1000;
+        data.enable = true;
+        data.drag = true;
+        data.title = "ender";
         timeline.slides.push(data);
-        console.log(timeline.slides);
     }
 
 

@@ -1,29 +1,31 @@
 * {
-	z-index:5;
-	-webkit-box-sizing: border-box;
-		-moz-box-sizing: border-box;
-		     box-sizing: border-box;
-
+    z-index: 5;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
-html{
-	margin-bottom:75px;
-}
+/******************************
+		General CSS
+*******************************/
+
+html {}
 
 .right {
-	width:50%;
-	float:right;
+    width: 50%;
+    float: right;
+    margin-bottom: 100px;
 }
 
 .left {
-	width:50%;
-	float:left;
+    width: 50%;
+    float: left;
 }
 
-#title{
-	padding: 15px 15px 0 15px;
-	font-family:'NYTKarnakDisplay';
-	font-size:40px;
+#title {
+    padding: 15px 15px 0 15px;
+    font-family: 'NYTKarnakDisplay';
+    font-size: 40px;
 }
 
 #font-holder {
@@ -33,7 +35,7 @@ html{
 }
 
 #font-button {
-	display: inline-block;
+    display: inline-block;
 }
 
 .font-family {
@@ -41,163 +43,246 @@ html{
     padding: 5px;
 }
 
+
 /******************************
 		Media Player
 *******************************/
 
-#modeWrapper{
-	background-color: #BFBFBF;
-	width: 600px;
-	padding:10px;
-	position:relative;
+#modeWrapper {
+    background-color: #BFBFBF;
+    width: 600px;
+    padding: 10px;
+    position: relative;
 }
 
-#videoMode{
-	position: absolute;
-	right:0;
-	bottom:0;
-	font-size:35px;
-	padding:0 15px 0 15px;
+#videoMode {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    font-size: 35px;
+    padding: 0 15px 0 15px;
 }
 
-#canvas, #player{
-	border: 1px solid black;
+#canvas,
+#player {
+    border: 1px solid black;
 }
 
-#canvas{
-	margin-top: 15px;
+#canvas {
+    margin-top: 15px;
 }
 
-#player{
-	background-color:"black" !important;
+#player {
+    background-color: "black" !important;
 }
 
-#mediaWrapper{
-	position:relative;
+#mediaWrapper {
+    position: relative;
 }
 
-.progress{
-	width:600px;
-	position:absolute;
-	top:175px;
-	height:50px;
-	z-index:15;
+.progress {
+    width: 600px;
+    position: absolute;
+    top: 175px;
+    height: 50px;
+    z-index: 15;
 }
 
-.progress span{
-	position:absolute;
-	text-align:center;
-	top:12px;
-	left:0;
-	font-size:25px;
+.progress span {
+    position: absolute;
+    text-align: center;
+    top: 12px;
+    left: 0;
+    font-size: 25px;
 }
+
 
 /******************************
 		Timeline
 *******************************/
-#timeline{
-	background-color:#7F7F7F;
-	position:fixed;
-	height:50px;
-	width:100%;
-	left:0;
-	bottom:0;
-	z-index:10;
-	display: none;
+
+#timeline {
+    padding-top: 3px;
+    border-top: 2px #7F7F7F solid;
+    background-color: #BFBFBF;
+    position: fixed;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    z-index: 10;
+    overflow-x:scroll;
+    /*display: none;*/
+}
+
+#slide-wrapper {
+    text-align: center;
+  /*  margin-top: -22px;*/
+}
+
+.slideup,
+.slidedown {
+    height: 40px;
+    -webkit-transition: height 0.2s ease-in-out;
+    -moz-transition: height 0.2s ease-in-out;
+    -o-transition: height 0.2s ease-in-out;
+    transition: height 0.2s ease-in-out;
+}
+
+.slidedown {
+    height: 220px;
+}
+
+.thumbnail2 {
+    height: 120px;
+    width: 120px;
+    text-align: center;
+    padding-top: 0px;
+    transition: none;
+    -webkit-transition: none;
+    -moz-transition: none;
+    -o-transition: none;
+    cursor: pointer;
+}
+
+.thumbnail2[data-drag="false"] {
+    background: green;
+}
+
+.thumbnail2 img{
+	width: 120px;
+	height: auto;
+}
+
+.slideView {
+	display: inline-block;
+    height: 120px;
+    width: 120px;
+    margin:10px;
+    line-height: 20px;
+    /*border: 2px solid #7F7F7F;*/
+}
+
+.slideWrapper{
+	width:2700px;
+	padding-top:20px;
+	/*overflow-x: auto;*/
 }
 
 /******************************
 		buggy fonts
 *******************************/
+
 @font-face {
-	font-family: 'NYTCheltenhamBdXCon';
-	src: url('../fonts/NYTCheltenhamBdXCon')
+    font-family: 'NYTCheltenhamBdXCon';
+    src: url('../fonts/NYTCheltenhamBdXCon')
 }
+
 @font-face {
-	font-family: 'NYTCheltenhamBold';
-	src: url('../fonts/NYTCheltenhamBold')
+    font-family: 'NYTCheltenhamBold';
+    src: url('../fonts/NYTCheltenhamBold')
 }
+
 @font-face {
-	font-family: 'NYTCheltenhamBook';
-	src: url('../fonts/NYTCheltenhamBook')
+    font-family: 'NYTCheltenhamBook';
+    src: url('../fonts/NYTCheltenhamBook')
 }
+
 @font-face {
-	font-family: 'NYTCheltenhamExtBd';
-	src: url('../fonts/NYTCheltenhamExtBd')
+    font-family: 'NYTCheltenhamExtBd';
+    src: url('../fonts/NYTCheltenhamExtBd')
 }
+
 @font-face {
-	font-family: 'NYTCheltenhamExtLt';
-	src: url('../fonts/NYTCheltenhamExtLt')
+    font-family: 'NYTCheltenhamExtLt';
+    src: url('../fonts/NYTCheltenhamExtLt')
 }
+
 @font-face {
-	font-family: 'NYTCheltenhamLt';
-	src: url('../fonts/NYTCheltenhamLt')
+    font-family: 'NYTCheltenhamLt';
+    src: url('../fonts/NYTCheltenhamLt')
 }
+
 @font-face {
-	font-family: 'NYTCheltenhamLtCon';
-	src: url('../fonts/NYTCheltenhamLtCon')
+    font-family: 'NYTCheltenhamLtCon';
+    src: url('../fonts/NYTCheltenhamLtCon')
 }
+
 @font-face {
-	font-family: 'NYTCheltenhamLtSC';
-	src: url('../fonts/NYTCheltenhamLtSC')
+    font-family: 'NYTCheltenhamLtSC';
+    src: url('../fonts/NYTCheltenhamLtSC')
 }
+
 @font-face {
-	font-family: 'NYTCheltenhamMedCon';
-	src: url('../fonts/NYTCheltenhamMedCon')
+    font-family: 'NYTCheltenhamMedCon';
+    src: url('../fonts/NYTCheltenhamMedCon')
 }
+
 @font-face {
-	font-family: 'NYTCheltenhamMedium';
-	src: url('../fonts/NYTCheltenhamMedium')
+    font-family: 'NYTCheltenhamMedium';
+    src: url('../fonts/NYTCheltenhamMedium')
 }
+
 @font-face {
-	font-family: 'NYTCheltenhamWide';
-	src: url('../fonts/NYTCheltenhamWide')
+    font-family: 'NYTCheltenhamWide';
+    src: url('../fonts/NYTCheltenhamWide')
 }
+
 @font-face {
-	font-family: 'NYTFranklinBold';
-	src: url('../fonts/NYTFranklinBold')
+    font-family: 'NYTFranklinBold';
+    src: url('../fonts/NYTFranklinBold')
 }
+
 @font-face {
-	font-family: 'NYTFranklinExtraBd';
-	src: url('../fonts/NYTFranklinExtraBd')
+    font-family: 'NYTFranklinExtraBd';
+    src: url('../fonts/NYTFranklinExtraBd')
 }
+
 @font-face {
-	font-family: 'NYTFranklinHeadline';
-	src: url('../fonts/NYTFranklinHeadline')
+    font-family: 'NYTFranklinHeadline';
+    src: url('../fonts/NYTFranklinHeadline')
 }
+
 @font-face {
-	font-family: 'NYTFranklinLight';
-	src: url('../fonts/NYTFranklinLight')
+    font-family: 'NYTFranklinLight';
+    src: url('../fonts/NYTFranklinLight')
 }
+
 @font-face {
-	font-family: 'NYTFranklinMedium';
-	src: url('../fonts/NYTFranklinMedium')
+    font-family: 'NYTFranklinMedium';
+    src: url('../fonts/NYTFranklinMedium')
 }
+
 @font-face {
-	font-family: 'NYTFranklinSemiBold';
-	src: url('../fonts/NYTFranklinSemiBold')
+    font-family: 'NYTFranklinSemiBold';
+    src: url('../fonts/NYTFranklinSemiBold')
 }
+
 @font-face {
-	font-family: 'NYTImperial';
-	src: url('../fonts/NYTImperial')
+    font-family: 'NYTImperial';
+    src: url('../fonts/NYTImperial')
 }
+
 @font-face {
-	font-family: 'NYTImperialSemiBold';
-	src: url('../fonts/NYTImperialSemiBold')
+    font-family: 'NYTImperialSemiBold';
+    src: url('../fonts/NYTImperialSemiBold')
 }
+
 @font-face {
-	font-family: 'NYTKarnakDisplay';
-	src: url('../fonts/NYTKarnakDisplay')
+    font-family: 'NYTKarnakDisplay';
+    src: url('../fonts/NYTKarnakDisplay')
 }
+
 @font-face {
-	font-family: 'NYTKarnakText';
-	src: url('../fonts/NYTKarnakText')
+    font-family: 'NYTKarnakText';
+    src: url('../fonts/NYTKarnakText')
 }
+
 @font-face {
-	font-family: 'NYTStymieLight';
-	src: url('../fonts/NYTStymieLight')
+    font-family: 'NYTStymieLight';
+    src: url('../fonts/NYTStymieLight')
 }
+
 @font-face {
-	font-family: 'NYTStymieMedium';
-	src: url('../fonts/NYTStymieMedium')
+    font-family: 'NYTStymieMedium';
+    src: url('../fonts/NYTStymieMedium')
 }
