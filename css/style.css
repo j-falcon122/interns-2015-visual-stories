@@ -9,8 +9,6 @@
 		General CSS
 *******************************/
 
-html {}
-
 .right {
     width: 50%;
     float: right;
@@ -41,6 +39,10 @@ html {}
 .font-family {
     background-color: white;
     padding: 5px;
+}
+
+.row-fluid {
+    display: inline-flex;
 }
 
 
@@ -110,13 +112,6 @@ html {}
     left: 0;
     bottom: 0;
     z-index: 10;
-    overflow-x:scroll;
-    /*display: none;*/
-}
-
-#slide-wrapper {
-    text-align: center;
-  /*  margin-top: -22px;*/
 }
 
 .slideup,
@@ -163,14 +158,13 @@ html {}
     width: 120px;
     margin:10px;
     line-height: 20px;
-    /*border: 2px solid #7F7F7F;*/
 }
 
 .slideWrapper{
 	position:absolute;
-	width:2700px;
 	padding-top:20px;
-	overflow-x: auto;
+    width: 100%;
+    overflow-x:scroll;
 }
 
 
