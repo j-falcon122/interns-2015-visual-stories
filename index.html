@@ -29,9 +29,11 @@
     <div class="left">
         <div id="modeWrapper">
             <input class="btn btn-sm btn-primary" ng-click="createSlides()" id="create" value="Queue" type="button">
-            <input class="btn btn-sm btn-primary" ng-click="playSlides()" id="play" value="Render" type="button">
-            <input class="btn btn-sm btn-primary" ng-click="toggleView()" id="toggle" value="Toggle" type="button">
-            <span id="videoMode">{{videoMode}}</span>
+            <input class="btn btn-sm btn-primary" ng-click="playSlides()" id="play" value="Play" type="button">
+            <input class="btn btn-sm btn-primary" ng-click="showCanvas = !showCanvas" id="toggle" value="Toggle" type="button">
+            <input type="button" class="btn btn-sm btn-primary" ng-click="fade(true)" value="Fade Out">
+
+            <span id="videoMode">{{showCanvas ? 'Editor Mode' : 'Video Player'}}</span>
         </div>
         <div id="mediaWrapper">
             <canvas ng-show="showCanvas" id="canvas" class="media" width="600" height="400"></canvas>
@@ -84,9 +86,9 @@
                 </tab>
                 <tab heading="Quotes">
                     <div class="assets-scroll">
-                        <div class="quote-container asset-container" ng-repeat="quote in assets.quotes">
+                        <div class="quote-container asset-container" ng-repeat="quote in assets.quotes" ng-click="$parent.chooseQuote(quote)">
                             <div class="asset-value quote">
-                                "{{quote}}"
+                                &#8220;{{quote}}&#8221;
                             </div>
                         </div>
                     </div>

@@ -44,7 +44,7 @@ angular.module('Editor', ['ConfigService']).controller('EditorCtrl', function($s
     }
 
     $scope.autoPositions = [
-        {value:null, label:'none'},
+        {value: false, label:'none'},
         {value:"tb", label:'top banner'},
         {value:"tli", label:'top left inset'},
         {value:"tri", label:'top right inset'},
@@ -68,7 +68,8 @@ angular.module('Editor', ['ConfigService']).controller('EditorCtrl', function($s
         color: '#ffffff',
         size: 24,
         font: $scope.fonts[0],
-        justify: 'center'
+        justify: 'center',
+        compensateHeightOnWrap: false
     };
 
     $scope.saveConfigs = function(draw) {

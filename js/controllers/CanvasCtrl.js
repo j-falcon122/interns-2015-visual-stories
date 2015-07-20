@@ -1,14 +1,16 @@
 angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).controller('CanvasCtrl', function($scope, Config, assets, timeline) {
     $scope.canvas = null;
-    $scope.cavas_width = 600;
-    $scope.cavas_height = 400;
+    $scope.canvas_width = 600;
+    $scope.canvas_height = 400;
     $scope.video = null;
+    $scope.showCanvas = true;
 
     $scope.initialize = function() {
-        $scope.canvas = new fabric.Canvas('canvas');
+        $scope.canvas = new fabric.Canvas('canvas', {
+            backgroundColor: '#000000'
+        });
         $scope.video = new Whammy.Video(15);
         getAnimationFrames();
-        setMode();
     };
 
     $scope.chooseImage = function(id) {
@@ -22,6 +24,21 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         $scope.canvas.add(img);
     };
 
+    $scope.chooseQuote = function(quote, options) {
+        options = _.defaults(options || {}, {
+            content: '“' + quote + '”',
+            color: '#ffffff',
+            font: 'NYTCheltenhamExtBd',
+            fontStyle: 'italic',
+            size: 40,
+            justify: 'center',
+            compensateHeightOnWrap: true
+        });
+        var rect = [0, $scope.canvas_height * 2 / 5, $scope.canvas_width, $scope.canvas_height * 3 / 5];
+        var text = $scope.createText(rect, options);
+        $scope.canvas.add(text);
+    }
+
     $scope.clearCanvas = function() {
         $scope.canvas.clear();
     };
@@ -33,7 +50,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             width: rect[2],
             height: rect[3],
             fill: options.overlayColor,
-            opacity: options.opacity
+            opacity: options.opacity || 1
         });
         return rectangle;
     };
@@ -52,14 +69,19 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         });
 
         if (rect[2] && rect[3]) {
-            return wrapCanvasText(text, $scope.canvas, rect[2], rect[3], options.justify);
+            var wrapOptions = {
+                maxW: rect[2],
+                maxH: rect[3],
+                justify: options.justify,
+                compensateHeightOnWrap: options.compensateHeightOnWrap
+            };
+            return wrapCanvasText(text, $scope.canvas, wrapOptions);
         }
         return text;
     };
 
     $scope.drawAll = function() {
         var configs = Config.get();
-
         if (!_.some(configs.position)) {
             alert("Must at least select a top left corner for text");
             return;
@@ -78,20 +100,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     /***************************
     **        Video           **
     ***************************/
-    $scope.showCanvas = true;
-
-    var setMode = function() {
-        if ($scope.showCanvas) {
-            $scope.videoMode = "Editor Mode";
-        } else {
-            $scope.videoMode = "Video Player";
-        }
-    };
-
-    $scope.toggleView = function() {
-        $scope.showCanvas = !$scope.showCanvas;
-        setMode();
-    };
 
     var getAnimationFrames = function(){
         var requestAnimationFrame =
@@ -113,10 +121,8 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     $scope.addFrame = function() {
         $scope.progress++;
         $scope.video.add($scope.canvas.getContext("2d"),60);
-        // $scope.$apply();
         if($scope.progress / $scope.end_time < 1){
             requestAnimationFrame($scope.addFrame);
-            console.log($scope.end_time);
         } else {
             requestAnimationFrame($scope.finalizeVideo);
         }
@@ -149,12 +155,11 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
 
     $scope.createSlides = function() {
         assets.getData().then(function(data) {
-            console.log(data);
             data.images.forEach(function(image, it){
                 $scope.chooseImage("image"+it);
                 var data = {};
                 data.json = $scope.saveSlide();
-                data.thumb = $scope.assets.images[it].url
+                data.thumb = image.url
                 data.duration = 200;
                 data.enable = true;
                 data.drag = true;
@@ -182,10 +187,10 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     ***************************/
 
     $scope.currentSlide = 0;
-    $scope.playSlides = function(){
+    $scope.playSlides = function() {
         $scope.currentSlide = 0;
-        var changeSlide = function(){
-            if($scope.currentSlide < timeline.slides.length){
+        var changeSlide = function() {
+            if ($scope.currentSlide < timeline.slides.length) {
                 $scope.loadSlide(timeline.slides[$scope.currentSlide].json);
                 var duration = timeline.slides[$scope.currentSlide].duration || 500;
                 $scope.currentSlide++;
@@ -196,18 +201,31 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         changeSlide();
     }
 
+    $scope.fade = function(out, duration) {
+        duration = duration || 2000;
+
+        _.each($scope.canvas._objects, function(obj) {
+            obj.animate('opacity', out ? 0 : 100, {
+                onChange: $scope.canvas.renderAll.bind($scope.canvas),
+                duration: duration,
+                from: out ? obj.opacity : 0
+            });
+        });
+    }
 });
 
-function wrapCanvasText(t, canvas, maxW, maxH, justify) {
+function wrapCanvasText(t, canvas, options) {
 
     if (typeof maxH === "undefined") {
         maxH = 0;
     }
     var words = t.text.split(" ");
     var formatted = '';
+    var maxW = options.maxW;
+    var maxH = options.maxH;
 
     // This works only with monospace fonts
-    justify = justify || 'left';
+    var justify = options.justify || 'left';
 
     // clear newlines
     var sansBreaks = t.text.replace(/(\r\n|\n|\r)/gm, "");
@@ -296,9 +314,14 @@ function wrapCanvasText(t, canvas, maxW, maxH, justify) {
     // get rid of empy newline at the end
     formatted = formatted.substr(0, formatted.length - 1);
 
+    var top = t.top;
+    if (options.compensateHeightOnWrap) {
+        top -= (breakLineCount - 1) * (lineHeight / 2);
+    }
+
     var ret = new fabric.Text(formatted, { // return new text-wrapped text obj
         left: t.left,
-        top: t.top,
+        top: top,
         fill: t.fill,
         fontFamily: t.fontFamily,
         fontSize: t.fontSize,
