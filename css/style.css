@@ -128,7 +128,7 @@
     height: 220px;
 }
 
-.thumbnail2 {
+.element {
     height: 120px;
     width: 120px;
     text-align: center;
@@ -138,13 +138,14 @@
 	-moz-transition: none;
 	-o-transition: none;
     cursor: pointer;
+    z-index:0;
 }
 
-.thumbnail2[data-drag="false"] {
+.element[data-drag="false"] {
     background: green;
 }
 
-.thumbnail2 img{
+.element img{
 	width: 120px;
 	height: auto;
 }

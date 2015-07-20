@@ -23,9 +23,13 @@ angular.module('Timeline', ['TimelineService']).controller('TimelineCtrl', funct
         }
 	};
 
+	$scope.status = function(){
+		console.log(timeline.slides);
+	};
+
 	$scope.fillSlides = function(){
 		$scope.slides = timeline.slides;
-	}
+	};
 
 	$scope.slides = [];
 

@@ -1,4 +1,12 @@
 angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).controller('CanvasCtrl', function($scope, Config, assets, timeline) {
+    $scope.settings = {
+        article: 2,
+        duration: 1000,
+        fadeTime: 250,
+        fadeOut: true,
+        fadeIn: true
+    }
+
     $scope.canvas = null;
     $scope.canvas_width = 600;
     $scope.canvas_height = 400;
@@ -154,16 +162,18 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     ***************************/
 
     $scope.createSlides = function() {
-        assets.getData().then(function(data) {
+        assets.getData($scope.settings.article).then(function(data) {
             data.images.forEach(function(image, it){
                 $scope.chooseImage("image"+it);
                 var data = {};
                 data.json = $scope.saveSlide();
                 data.thumb = image.url
-                data.duration = 200;
+                data.duration = $scope.settings.duration;
                 data.enable = true;
                 data.drag = true;
                 data.title = "image"+it;
+                data.fadeOut = $scope.settings.fadeOut;
+                data.fadeIn = $scope.settings.fadeIn;
                 timeline.slides.push(data);
             });
 
@@ -187,14 +197,21 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     ***************************/
 
     $scope.currentSlide = 0;
+
     $scope.playSlides = function() {
         $scope.currentSlide = 0;
-        var changeSlide = function() {
+        var changeSlide = function(fadeFlag) {
+            var current = timeline.slides[$scope.currentSlide];
+            var duration = current.duration || 500;
             if ($scope.currentSlide < timeline.slides.length) {
-                $scope.loadSlide(timeline.slides[$scope.currentSlide].json);
-                var duration = timeline.slides[$scope.currentSlide].duration || 500;
+                $scope.loadSlide(current.json);
+                // if(current.fadeOut){
+                //     setTimeout(changeSlide(fadeFlag), duration - current.fadeTime);
+                // } else {
+
+                // }
                 $scope.currentSlide++;
-                var timeout = setTimeout(changeSlide, duration);
+                setTimeout(changeSlide, duration);
             }
         }
         $scope.addFrame();
@@ -202,7 +219,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     }
 
     $scope.fade = function(out, duration) {
-        duration = duration || 2000;
+        duration = duration || $scope.settings.fadeTime;
 
         _.each($scope.canvas._objects, function(obj) {
             obj.animate('opacity', out ? 0 : 100, {

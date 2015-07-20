@@ -83,7 +83,8 @@ angular.module('AssetService', []).factory("assets", ['$http', '$q', function($h
   }
 
 	var getData = function(url) {
-    url = url || '/assets/articles/article0.json';
+    // url = url || '/assets/articles/article0.json';
+    url = "/assets/articles/article" + 1 + ".json";
     if (cache[url]) {
       return $q(function(resolve){ resolve(cache[url]); });
     }
