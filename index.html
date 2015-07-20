@@ -49,7 +49,7 @@
                     <img id="ender" src="assets/slides/ender.jpg">
                 </div="templates">
                 <div class='slideWrapper'>
-                    <ul class="row-fluid">
+                    <ul class="row-fluid no-overflow">
                         <li class="slideView" ng-repeat="item in slides" data-drop="true" ng-model='slides' jqyoui-droppable="{index: {{$index}}, animate:true, onDrop:'loki.dropCallback(item.title, $index)'}">
                             <div class="thumbnail2" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="slides" jqyoui-draggable="{index: {{$index}},animate:true}">
                                 <img src="{{item.thumb}}">

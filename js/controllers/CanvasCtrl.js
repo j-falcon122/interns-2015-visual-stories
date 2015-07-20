@@ -114,13 +114,11 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         $scope.progress++;
         $scope.video.add($scope.canvas.getContext("2d"),60);
         // $scope.$apply();
-        console.log($scope.progress);
         if($scope.progress / $scope.end_time < 1){
             requestAnimationFrame($scope.addFrame);
             console.log($scope.end_time);
         } else {
             requestAnimationFrame($scope.finalizeVideo);
-            console.log($scope.end_time);
         }
     }
 
@@ -196,7 +194,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         }
         $scope.addFrame();
         changeSlide();
-        console.log("play slides working");
     }
 
 });

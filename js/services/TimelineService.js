@@ -15,7 +15,6 @@ angular.module('TimelineService', ['ConfigService']).factory('timeline', [functi
         slides.forEach(function(slide){
             time += slide.duration;
         })
-        console.log(time);
         return time/50;
     }
 

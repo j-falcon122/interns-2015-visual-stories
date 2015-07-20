@@ -105,6 +105,7 @@
 
 #timeline {
     padding-top: 3px;
+    padding-left:10px;
     border-top: 2px #7F7F7F solid;
     background-color: #BFBFBF;
     position: fixed;
@@ -166,6 +167,10 @@
     width: 100%;
     max-height: 100%;
     overflow-x:auto;
+}
+
+.no-overflow{
+	overflow-y:hidden;
 }
 
 
