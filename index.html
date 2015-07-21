@@ -77,8 +77,8 @@
                 <tab class="container-flud" heading="Images">
                     <div class="assets-scroll">
                         <div class="row nomargin">
-                            <div class=" col-md-4 asset-container" ng-repeat="(index, image) in assets.images">
-                                <img class="thumbnail" crossorigin="anonymous" ng-click="$parent.chooseImage('image' + index)" id="image{{index}}" ng-src="{{image.url}}">
+                            <div class=" col-md-4 asset-container" ng-repeat="(index, image) in assets.images" tooltip="{{image.caption}}">
+                                <img class="thumbnail" crossorigin="anonymous" ng-click="$parent.chooseImage('image' + index)" id="image{{index}}" ng-src="{{image.url}}"tooltip="{{image.caption}}">
                             </div>
                         </div>
                     </div>

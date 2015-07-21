@@ -21,7 +21,4 @@ angular.module('Assets', ['AssetService', 'ConfigService', 'TimelineService', 'u
 	}
 
 	$scope.getArticle();
-
-	// set configs length
-
 });
