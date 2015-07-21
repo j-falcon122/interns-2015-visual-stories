@@ -9,7 +9,7 @@
 angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).controller('CanvasCtrl', function($scope, Config, assets, timeline) {
 
     $scope.canvas = null;
-    $scope.canvas_width = 600;
+    $scope.canvas_width = 1000;
     $scope.canvas_height = 400;
     $scope.video = null;
     $scope.showCanvas = true;
@@ -158,8 +158,17 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         $scope.stop
         var output = $scope.video.compile();
         var url = webkitURL.createObjectURL(output);
-        document.getElementById('player').src = url; //toString converts it to a URL via Object URLs, falling back to DataURL
         document.getElementById('download-link').href = url;
+        $scope.player = VHS.player({
+            container: 'nyt-player',
+            analytics: false,
+            id: 123567890,
+            ads: false,
+            name: 'nyt-trailer',
+            src: url,
+            api: false,
+            mode: "html5"
+        });
     }
 
 
@@ -310,6 +319,12 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             });
         });
     }
+
+    /***************************
+    **    Video Player Time   **
+    ***************************/
+    // cover = good
+    // poster = also good
 });
 
 function wrapCanvasText(t, canvas, options) {
