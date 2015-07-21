@@ -20,7 +20,18 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         });
         $scope.video = new Whammy.Video(15);
         getAnimationFrames();
+        $scope.getParams();
     };
+
+    $scope.getParams = function(){
+        var regex = /(\?|\&)([^=]+)\=([^&]+)/;
+        var params = (regex.exec($(window.location).attr("search")));
+        params.forEach(function(data, it){
+            if (data === "article") {
+                Config.settings.article = params[it+1];
+            }
+        })
+    }
 
     $scope.chooseImage = function(id) {
         $scope.clearCanvas();

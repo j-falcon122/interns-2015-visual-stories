@@ -1,12 +1,13 @@
 angular.module('ConfigService', []).factory('Config', [function() {
     var configs = {};
+
     var settings = {
         article: 0,
         duration: 500,
         fadeTime: 250,
         fadeOut: true,
         fadeIn: true,
-        recording: false
+        recording: false,
     };
 
     return {
@@ -19,7 +20,7 @@ angular.module('ConfigService', []).factory('Config', [function() {
         set: function(new_configs) {
             configs = new_configs;
         },
-        settings: settings
+        settings: settings,
     };
 
 
