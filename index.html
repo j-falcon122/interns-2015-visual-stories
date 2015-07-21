@@ -38,11 +38,6 @@
         <div id="mediaWrapper">
             <canvas ng-show="showCanvas" id="canvas" class="media" width="600" height="400"></canvas>
             <video ng-show="!showCanvas" id="player" class="media" width="600" height="400" controls></video>
-            <!-- <div class="progress progress-striped">
-                <div class="progress-bar" ng-style="{width: (getPercentage()+'%')}">
-                    <span> rendering video </span>
-                </div>
-            </div> -->
         </div>
         <div ng-controller="TimelineCtrl as loki">
             <div id="timeline" class="slideup">

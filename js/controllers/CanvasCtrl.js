@@ -1,11 +1,12 @@
+/*THINGS TO ADD
+    Remove quote feature (preventDefault on delete key?)
+    Make it easier to create rectangles
+    Work on timeline interface
+    Get Ken Burns working!
+
+*/
+
 angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).controller('CanvasCtrl', function($scope, Config, assets, timeline) {
-    $scope.settings = {
-        article: 2,
-        duration: 1000,
-        fadeTime: 250,
-        fadeOut: true,
-        fadeIn: true
-    }
 
     $scope.canvas = null;
     $scope.canvas_width = 600;
@@ -137,6 +138,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     }
 
     $scope.finalizeVideo = function() {
+        $scope.stop
         var output = $scope.video.compile();
         var url = webkitURL.createObjectURL(output);
         document.getElementById('player').src = url; //toString converts it to a URL via Object URLs, falling back to DataURL
@@ -147,6 +149,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     /***************************
     **   Loading Slides       **
     ***************************/
+
     $scope.saveSlide = function(){
         var saved = $scope.canvas.toJSON();
         saved =  JSON.stringify(saved);
@@ -162,18 +165,14 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     ***************************/
 
     $scope.createSlides = function() {
-        assets.getData($scope.settings.article).then(function(data) {
+        assets.getData(Config.settings.article).then(function(data) {
             data.images.forEach(function(image, it){
                 $scope.chooseImage("image"+it);
                 var data = {};
                 data.json = $scope.saveSlide();
-                data.thumb = image.url
-                data.duration = $scope.settings.duration;
-                data.enable = true;
-                data.drag = true;
+                data.thumb = image.url;
+                $scope.setDefaults(data);
                 data.title = "image"+it;
-                data.fadeOut = $scope.settings.fadeOut;
-                data.fadeIn = $scope.settings.fadeIn;
                 timeline.slides.push(data);
             });
 
@@ -181,45 +180,92 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             $scope.chooseImage("ender");
             var data = {};
             data.json = $scope.saveSlide();
-            data.thumb = $("#ender").attr("src")
+            $scope.setDefaults(data);
+            data.thumb = $("#ender").attr("src");
+            data.fadeOut = false;
             data.duration = 1000;
-            data.enable = true;
-            data.drag = true;
             data.title = "ender";
             timeline.slides.push(data);
-            $scope.end_time = timeline.videoDuration();
+
+            // Keep this to set video duration:
+            $scope.setDuration();
         });
     }
 
+    $scope.setDefaults = function(item){
+        item.duration = Config.settings.duration;
+        item.enable = true;
+        item.drag = true;
+        item.fadeOut = Config.settings.fadeOut;
+        item.fadeIn = Config.settings.fadeIn;
+        item.fadeFlag = true;
+    }
 
+    $scope.setDuration = function(){
+        $scope.end_time = timeline.videoDuration();
+    }
     /***************************
     **    Animate Slide       **
     ***************************/
+    /*
+    Things to consider:
+    fade in
+    fade out
+    Ken Burns effect
+    Standard
+    Overlapping slides?
+    not affecting text on slide
+
+    Total time = 1000
+    |...............|
+    Fade in = 250
+    |...|
+    Fade Out = 250
+                |...|
+    Ken Burns
+    |...............|
+
+    Object with animation settings
+
+    */
 
     $scope.currentSlide = 0;
 
     $scope.playSlides = function() {
         $scope.currentSlide = 0;
-        var changeSlide = function(fadeFlag) {
+        var changeSlide = function() {
             var current = timeline.slides[$scope.currentSlide];
-            var duration = current.duration || 500;
             if ($scope.currentSlide < timeline.slides.length) {
                 $scope.loadSlide(current.json);
-                // if(current.fadeOut){
-                //     setTimeout(changeSlide(fadeFlag), duration - current.fadeTime);
-                // } else {
+                if(current.fadeOut){
+                    console.log("FADE OUT");
+                    setTimeout(fadeSlide, (current.duration - Config.settings.fadeTime));
+                } else {
+                    console.log("NO FADE OUT");
+                    setTimeout(changeSlide, current.duration);
+                }
 
-                // }
                 $scope.currentSlide++;
-                setTimeout(changeSlide, duration);
+            }
+        };
+        var fadeSlide = function() {
+            if ($scope.currentSlide < timeline.slides.length + 1){
+                $scope.fade(true);
+                setTimeout(changeSlide, Config.settings.fadeTime)
             }
         }
-        $scope.addFrame();
+        console.log("Length = " + (timeline.videoDuration()*50/1000 + " seconds"));
+        if (Config.settings.recording) {
+            console.log("Recording...");
+            $scope.addFrame();
+        } else {
+            console.log("Not recording...");
+        }
         changeSlide();
     }
 
     $scope.fade = function(out, duration) {
-        duration = duration || $scope.settings.fadeTime;
+        duration = duration || Config.settings.fadeTime;
 
         _.each($scope.canvas._objects, function(obj) {
             obj.animate('opacity', out ? 0 : 100, {

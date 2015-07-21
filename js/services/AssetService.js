@@ -1,5 +1,13 @@
 angular.module('AssetService', []).factory("assets", ['$http', '$q', function($http, $q){
 
+  var settings = {
+      article: 2,
+      duration: 1000,
+      fadeTime: 250,
+      fadeOut: true,
+      fadeIn: true
+  }
+
   var cache = {};
   function getMetadata(article) {
     return [
@@ -82,9 +90,10 @@ angular.module('AssetService', []).factory("assets", ['$http', '$q', function($h
     return linesStartingWithQuotes;
   }
 
-	var getData = function(url) {
+	var getData = function(article) {
     // url = url || '/assets/articles/article0.json';
-    url = "/assets/articles/article" + 1 + ".json";
+    article = article || 0;
+    url = "/assets/articles/article"+article+".json";
     if (cache[url]) {
       return $q(function(resolve){ resolve(cache[url]); });
     }
