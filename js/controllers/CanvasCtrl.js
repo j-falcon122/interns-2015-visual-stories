@@ -26,6 +26,9 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     $scope.getParams = function(){
         var regex = /(\?|\&)([^=]+)\=([^&]+)/;
         var params = (regex.exec($(window.location).attr("search")));
+        if (!params) {
+            return;
+        }
         params.forEach(function(data, it){
             if (data === "article") {
                 Config.settings.article = params[it+1];
@@ -34,7 +37,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     }
 
     $scope.chooseImage = function(id) {
-        $scope.clearCanvas();
         var img = new fabric.Image(id);
         var ratioX = $scope.canvas.width / img.width;
         var ratioY = $scope.canvas.height / img.height;
@@ -42,11 +44,11 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         img.set({
             selectable: false,
             scaleX: ratio,
-            // scaleY: $scope.canvas.height / img.height,
             scaleY: ratio
 
         });
         $scope.canvas.add(img);
+        img.sendToBack();
     };
 
     $scope.chooseQuote = function(quote, options) {
@@ -177,16 +179,10 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         $scope.canvas.loadFromJSON(data, $scope.canvas.renderAll.bind($scope.canvas));
     };
 
-    /***************************
-    **  Creating Slides       **
-    ***************************/
-    // $scope.effectHandler = function(data) {
-
-    // };
-
     $scope.createSlides = function() {
         assets.getData(Config.settings.article).then(function(data) {
             data.images.forEach(function(image, it){
+                $scope.clearCanvas();
                 $scope.chooseImage("image"+it);
                 var data = {};
                 data.thumb = image.url;
