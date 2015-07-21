@@ -36,10 +36,15 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     $scope.chooseImage = function(id) {
         $scope.clearCanvas();
         var img = new fabric.Image(id);
+        var ratioX = $scope.canvas.width / img.width;
+        var ratioY = $scope.canvas.height / img.height;
+        var ratio = ratioX > ratioY ? ratioX : ratioY;
         img.set({
             selectable: false,
-            scaleY: $scope.canvas.height / img.height,
-            scaleX: $scope.canvas.width / img.width
+            scaleX: ratio,
+            // scaleY: $scope.canvas.height / img.height,
+            scaleY: ratio
+
         });
         $scope.canvas.add(img);
     };
@@ -174,16 +179,19 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     /***************************
     **  Creating Slides       **
     ***************************/
+    // $scope.effectHandler = function(data) {
+
+    // };
 
     $scope.createSlides = function() {
         assets.getData(Config.settings.article).then(function(data) {
             data.images.forEach(function(image, it){
                 $scope.chooseImage("image"+it);
                 var data = {};
-                data.json = $scope.saveSlide();
                 data.thumb = image.url;
                 $scope.setDefaults(data);
                 data.title = "image"+it;
+                data.json = $scope.saveSlide();
                 timeline.slides.push(data);
             });
 
@@ -242,7 +250,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
 
     $scope.currentSlide = 0;
 
-    $scope.playSlides = function() {
+    $scope.playSlides = function(recording) {
         $scope.currentSlide = 0;
         var changeSlide = function() {
             var current = timeline.slides[$scope.currentSlide];
@@ -255,18 +263,20 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
                     console.log("NO FADE OUT");
                     setTimeout(changeSlide, current.duration);
                 }
-
                 $scope.currentSlide++;
             }
         };
+
         var fadeSlide = function() {
+            // $scope.panning();
             if ($scope.currentSlide < timeline.slides.length + 1){
                 $scope.fade(true);
                 setTimeout(changeSlide, Config.settings.fadeTime)
             }
         }
+
         console.log("Length = " + (timeline.videoDuration()*50/1000 + " seconds"));
-        if (Config.settings.recording) {
+        if (recording) {
             console.log("Recording...");
             $scope.addFrame();
         } else {
@@ -279,10 +289,23 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         duration = duration || Config.settings.fadeTime;
 
         _.each($scope.canvas._objects, function(obj) {
+            console.log(obj);
             obj.animate('opacity', out ? 0 : 100, {
                 onChange: $scope.canvas.renderAll.bind($scope.canvas),
                 duration: duration,
                 from: out ? obj.opacity : 0
+            });
+        });
+    }
+    $scope.panning = function(){
+        var duration = Config.settings.duration;
+
+        _.each($scope.canvas._objects, function(obj) {
+            console.log(duration);
+            obj.animate('left', -60, {
+                duration: 1000,
+                onChange: $scope.canvas.renderAll.bind($scope.canvas),
+                // easing: fabric.util.ease.easeOutElastic
             });
         });
     }

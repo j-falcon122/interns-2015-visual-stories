@@ -31,8 +31,9 @@
             <input class="btn btn-sm btn-primary" ng-click="createSlides()" id="create" value="Queue" type="button">
             <input class="btn btn-sm btn-primary" ng-click="playSlides()" id="play" value="Play" type="button">
             <input class="btn btn-sm btn-primary" ng-click="showCanvas = !showCanvas" id="toggle" value="Toggle" type="button">
-            <input type="button" class="btn btn-sm btn-primary" ng-click="getParams();" value="get params">
+            <input type="button" class="btn btn-sm btn-primary" ng-click="playSlides(true)" value="Render">
             <input class="btn btn-sm btn-primary" value="Clear" type="button" ng-click="clearCanvas()" />
+            <input class="btn btn-sm btn-primary" value="Panning" type="button" ng-click="panning()" />
 
             <span id="videoMode">{{showCanvas ? 'Editor Mode' : 'Video Player'}}</span>
         </div>
