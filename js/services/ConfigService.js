@@ -4,7 +4,7 @@ angular.module('ConfigService', []).factory('Config', [function() {
     var settings = {
         article: 0,
         duration: 1000,
-        fadeTime: 400,
+        fadeTime: 750,
         fadeOut: true,
         fadeIn: true,
         recording: true

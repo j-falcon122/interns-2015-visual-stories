@@ -138,7 +138,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
 
     $scope.progress = 0;
     $scope.end_time = 0;
-
+    $scope.continueRender = true;
     // $scope.getPercentage = function(){
     //     return Math.floor(($scope.progress/$scope.end_time)*100);
     // }
@@ -146,7 +146,8 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     $scope.addFrame = function() {
         $scope.progress++;
         $scope.video.add($scope.canvas.getContext("2d"),60);
-        if($scope.progress / $scope.end_time < 1){
+        // if($scope.progress / $scope.end_time < 1){
+        if($scope.continueRender) {
             requestAnimationFrame($scope.addFrame);
         } else {
             requestAnimationFrame($scope.finalizeVideo);
@@ -251,19 +252,21 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     $scope.currentSlide = 0;
 
     $scope.playSlides = function(recording) {
+        $scope.continueRender = true;
         $scope.currentSlide = 0;
         var changeSlide = function() {
             var current = timeline.slides[$scope.currentSlide];
             if ($scope.currentSlide < timeline.slides.length) {
                 $scope.loadSlide(current.json);
                 if(current.fadeOut){
-                    console.log("FADE OUT");
                     setTimeout(fadeSlide, (current.duration - Config.settings.fadeTime));
                 } else {
-                    console.log("NO FADE OUT");
                     setTimeout(changeSlide, current.duration);
                 }
                 $scope.currentSlide++;
+            }
+            else{
+                $scope.continueRender = false;
             }
         };
 
@@ -289,7 +292,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         duration = duration || Config.settings.fadeTime;
 
         _.each($scope.canvas._objects, function(obj) {
-            console.log(obj);
             obj.animate('opacity', out ? 0 : 100, {
                 onChange: $scope.canvas.renderAll.bind($scope.canvas),
                 duration: duration,
@@ -301,7 +303,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         var duration = Config.settings.duration;
 
         _.each($scope.canvas._objects, function(obj) {
-            console.log(duration);
             obj.animate('left', -60, {
                 duration: 1000,
                 onChange: $scope.canvas.renderAll.bind($scope.canvas),
