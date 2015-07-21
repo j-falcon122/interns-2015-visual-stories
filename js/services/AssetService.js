@@ -6,7 +6,7 @@ angular.module('AssetService', []).factory("assets", ['$http', '$q', function($h
       fadeTime: 250,
       fadeOut: true,
       fadeIn: true
-  }
+  };
 
   var cache = {};
   function getMetadata(article) {
