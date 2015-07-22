@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/assets.css">
     <link rel=”shortcut icon” href=”/favicon.ico”>
-    <script src="js/vendor/vhs-2.x.min.js"></script>
+    <script src="http://static01.nyt.com/video/vhs/vhs-2.x.min.js"></script>
     <script src="js/vendor/jquery-ui.min.js"></script>
     <script src="js/vendor/underscore-min.js"></script>
     <script src="js/vendor/angular.min.js"></script>
@@ -50,7 +50,7 @@
         </div>
         <div id="mediaWrapper">
             <canvas ng-show="showCanvas" id="canvas" class="media" width="600" height="400"></canvas>
-            <video ng-show="!showCanvas" id="player" class="media" width="600" height="400" controls></video>
+            <div ng-show="!showCanvas" class="media" id="nyt-player"></div>
         </div>
         <div ng-controller="TimelineCtrl as loki">
             <div id="timeline" class="slideup">
@@ -71,9 +71,6 @@
                 </div>
             </div>
         </div>
-<!--         <div id="nyt-player">
-        <figure data-nytd="100000001903850" data-setup='{"name":"mobileweb", "type":"player-test", "width": "100%", "height": "100%"}'></figure>
-        </div> -->
     </div>
 
     <div class="right">

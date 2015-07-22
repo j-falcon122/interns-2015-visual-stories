@@ -81,7 +81,7 @@
 }
 
 #canvas,
-#player {
+#nyt-player {
     border: 1px solid black;
 }
 
@@ -89,7 +89,9 @@
     margin-top: 15px;
 }
 
-#player {
+#nyt-player {
+    height:400px;
+    width:600px;
     background-color: "black" !important;
 }
 

@@ -3,11 +3,13 @@ angular.module('ConfigService', []).factory('Config', [function() {
 
     var settings = {
         article: 0,
-        duration: 1000,
-        fadeTime: 750,
+        duration: 300,
+        fadeTime: 200,
         fadeOut: true,
         fadeIn: true,
-        recording: true
+        recording: true,
+        width: 600,
+        height: 400
     };
 
     return {
