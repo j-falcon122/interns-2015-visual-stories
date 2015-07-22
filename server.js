@@ -5,27 +5,33 @@ var bodyParser 		= require('body-parser');
 var port 			= process.env.PORT || 8080;
 var router 			= express.Router();
 var ffmpeg 			= require('fluent-ffmpeg');
-
+var request         = require("request");
 
 // //middleware
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(bodyParser.json());
 app.use('/', express.static(__dirname+'/'));
 
-// router.route('/data')
-// 	.post(function(req, res){
-// 		req.body.frames.forEach(function(data,it){
-// 			parser.toPNG(data.frame,data.number,function(){
-// 				console.log("working on frame: " + data.number);
-// 			});
-// 		});
-// 		res.json({ message: 'received'});
-// 	})
-// 	.get(function(req, res){
-// 		res.json({ message: 'hello' });
-// 	});
-
-
 app.use('/api', router);
+router.route('/*')
+	.get(function(req, res){
+        var url = papi + req.url.split('.com/')[1].split('?')[0];
+		request.get(url, {
+        'auth': {
+            'user': username,
+            'pass': password,
+            'sendImmediately': false
+        }}, function(err, res2, body) {
+            res.send(JSON.parse(body));
+        });
+	});
+
+
+var username = 'human';
+var password = 'R3plicant';
+var papi = 'http://cms-publishapi.prd.nytimes.com/v1/publish/scoop/';
+
 app.listen(port);
 console.log('hosting on port ' + port);
+
+

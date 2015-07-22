@@ -16,6 +16,7 @@
     <script src="js/vendor/fabric.js"></script>
     <script src="js/vendor/ui-bootstrap-tpls-0.13.0.min.js"></script>
     <script src="js/vendor/angular-dragdrop.min.js"></script>
+    <script src="js/controllers/ArticleCtrl.js"></script>
     <script src="js/controllers/CanvasCtrl.js"></script>
     <script src="js/services/ConfigService.js"></script>
     <script src="js/services/TimelineService.js"></script>
@@ -24,9 +25,18 @@
     <script src="js/controllers/AssetCtrl.js"></script>
     <script src="js/controllers/TimelineCtrl.js"></script>
 </head>
-
+<nav class="navbar navbar-static-top" ng-controller="ArticleCtrl">
+    <div class="container-fluid">
+        <h1 class="navbar-left" id="title">NYTimes Article Trailer</h1>
+        <form ng-submit="getArticle()" id="search" class="navbar-right input-group input-group-lg row-fluid">
+            <input ng-model="url" type="text" class="form-control" placeholder="Enter article URL here">
+            <button type="submit" class="input-group-addon btn btn-lg">
+                <span class="glyphicon glyphicon-search"></span>
+            </button>
+        </form>
+    </div>
+</nav>
 <body ng-init="initialize()" ng-controller="CanvasCtrl">
-    <h1 id="title">NYTimes Article Trailer</h1>
     <div class="left">
         <div id="modeWrapper">
             <input class="btn btn-sm btn-primary" ng-click="createSlides()" id="create" value="Queue" type="button">

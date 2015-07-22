@@ -19,10 +19,26 @@
     float: left;
 }
 
-#title {
-    padding: 15px 15px 0 15px;
+.navbar {
+    margin-top: 15px;
+    border-bottom: 2px solid rgb(191, 191, 191);
+}
+
+.navbar > * {
     font-family: 'NYTKarnakDisplay';
+}
+
+#title {
     font-size: 40px;
+}
+
+#search {
+    width: 500px;
+    margin-right: 0;
+}
+
+#search > input {
+    padding-top: 17px;
 }
 
 #font-holder {

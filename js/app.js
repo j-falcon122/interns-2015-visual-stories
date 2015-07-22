@@ -5,7 +5,7 @@ setItem(key)
 removeItem(key)
 clear()
 */
-var app = angular.module ('timesTrailer', ['Assets', 'Editor', 'Canvas', 'Timeline', 'ConfigService', 'TimelineService', 'AssetService', 'ngDragDrop']);
+var app = angular.module ('timesTrailer', ['Assets', 'Editor', 'Canvas', 'Article', 'Timeline', 'ConfigService', 'TimelineService', 'AssetService', 'ngDragDrop']);
 app.directive("scroll", function ($window) {
     return function($scope, element, attrs) {
         var eltWidth = 200;

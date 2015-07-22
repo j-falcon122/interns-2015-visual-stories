@@ -91,9 +91,8 @@ angular.module('AssetService', []).factory("assets", ['$http', '$q', function($h
   }
 
 	var getData = function(article) {
-    // url = url || '/assets/articles/article0.json';
-    article = article || 0;
-    url = "/assets/articles/article"+article+".json";
+    url = "/assets/articles/article0.json";
+    url = '/api/' + article;
     if (cache[url]) {
       return $q(function(resolve){ resolve(cache[url]); });
     }

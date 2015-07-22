@@ -10,15 +10,13 @@ angular.module('Assets', ['AssetService', 'ConfigService', 'TimelineService', 'u
 	};
 
 
+	$scope.$on('article:load', function(event, url) {
+		assets.getData(url).then(function(data) {
+			$scope.assets = data;
+		});
+	});
+
 	$scope.trustHTML = function(string) {
 		return $sce.trustAsHtml(string);
 	};
-
-	$scope.getArticle = function() {
-		assets.getData(Config.settings.article).then(function(data) {
-			$scope.assets = data;
-		});
-	}
-
-	$scope.getArticle();
 });
