@@ -94,7 +94,7 @@ angular.module('AssetService', []).factory("assets", ['$http', '$q', function($h
 	var getData = function(article) {
     var url;
     if (!article) {
-      url = lastUrl
+      url = "/assets/articles/article0.json";
     } else {
       url = '/api/' + article;
     }

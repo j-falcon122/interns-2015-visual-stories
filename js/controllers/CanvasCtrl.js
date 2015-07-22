@@ -9,7 +9,7 @@
 angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).controller('CanvasCtrl', function($scope, Config, assets, timeline) {
 
     $scope.canvas = null;
-    $scope.canvas_width = 1000;
+    $scope.canvas_width = 600;
     $scope.canvas_height = 400;
     $scope.video = null;
     $scope.showCanvas = true;
@@ -26,9 +26,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     $scope.getParams = function(){
         var regex = /(\?|\&)([^=]+)\=([^&]+)/;
         var params = (regex.exec($(window.location).attr("search")));
-        if (!params) {
-            return;
-        }
         params.forEach(function(data, it){
             if (data === "article") {
                 Config.settings.article = params[it+1];
@@ -37,6 +34,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     }
 
     $scope.chooseImage = function(id) {
+        $scope.clearCanvas();
         var img = new fabric.Image(id);
         var ratioX = $scope.canvas.width / img.width;
         var ratioY = $scope.canvas.height / img.height;
@@ -44,11 +42,11 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         img.set({
             selectable: false,
             scaleX: ratio,
+            // scaleY: $scope.canvas.height / img.height,
             scaleY: ratio
 
         });
         $scope.canvas.add(img);
-        img.sendToBack();
     };
 
     $scope.chooseQuote = function(quote, options) {
@@ -188,10 +186,16 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         $scope.canvas.loadFromJSON(data, $scope.canvas.renderAll.bind($scope.canvas));
     };
 
+    /***************************
+    **  Creating Slides       **
+    ***************************/
+    // $scope.effectHandler = function(data) {
+
+    // };
+
     $scope.createSlides = function() {
         assets.getData().then(function(data) {
             data.images.forEach(function(image, it){
-                $scope.clearCanvas();
                 $scope.chooseImage("image"+it);
                 var data = {};
                 data.thumb = image.url;
@@ -308,7 +312,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         var duration = Config.settings.duration;
 
         _.each($scope.canvas._objects, function(obj) {
-            obj.animate('left', -60, {
+            obj.animate('up', -200, {
                 duration: 1000,
                 onChange: $scope.canvas.renderAll.bind($scope.canvas),
                 // easing: fabric.util.ease.easeOutElastic

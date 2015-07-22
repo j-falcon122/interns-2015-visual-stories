@@ -1,6 +1,6 @@
 .thumbnail {
-    height:auto;
     width: 200px;
+    height:auto;
 }
 
 .assets-scroll {
@@ -9,7 +9,10 @@
 }
 
 .asset-container {
+    margin:2px 0 2px 0;
     padding-left: 0px;
+/*    max-height: 133px;
+    overflow: hidden;*/
 }
 
 .assets-scroll::-webkit-scrollbar {
@@ -30,6 +33,7 @@
 
 .quote-container {
     margin: 3px;
+    background-color: black;
 }
 
 .asset-key,
