@@ -9,6 +9,7 @@ angular.module('AssetService', []).factory("assets", ['$http', '$q', function($h
   };
 
   var cache = {};
+  var lastUrl = '';
   function getMetadata(article) {
     return [
       { "name": "Headline",
@@ -91,8 +92,14 @@ angular.module('AssetService', []).factory("assets", ['$http', '$q', function($h
   }
 
 	var getData = function(article) {
-    url = "/assets/articles/article0.json";
-    url = '/api/' + article;
+    var url;
+    if (!article) {
+      url = lastUrl
+    } else {
+      url = '/api/' + article;
+    }
+    lastUrl = url;
+
     if (cache[url]) {
       return $q(function(resolve){ resolve(cache[url]); });
     }

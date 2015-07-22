@@ -189,7 +189,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     };
 
     $scope.createSlides = function() {
-        assets.getData(Config.settings.article).then(function(data) {
+        assets.getData().then(function(data) {
             data.images.forEach(function(image, it){
                 $scope.clearCanvas();
                 $scope.chooseImage("image"+it);
