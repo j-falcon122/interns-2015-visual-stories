@@ -91,11 +91,17 @@ angular.module('AssetService', []).factory("assets", ['$http', '$q', function($h
     return linesStartingWithQuotes;
   }
 
+  var stubbed = true;
+
 	var getData = function(article) {
     var url;
-    if (!article) {
+    if (!article && stubbed) {
+      stubbed = true;
       url = "/assets/articles/article0.json";
+    } else if (!article && !stubbed) {
+      url = lastUrl;
     } else {
+      stubbed = false
       url = '/api/' + article;
     }
     lastUrl = url;

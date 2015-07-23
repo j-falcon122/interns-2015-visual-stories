@@ -11,8 +11,8 @@
 .asset-container {
     margin:2px 0 2px 0;
     padding-left: 0px;
-/*    max-height: 133px;
-    overflow: hidden;*/
+    max-height: 133px;
+    overflow: hidden;
 }
 
 .assets-scroll::-webkit-scrollbar {

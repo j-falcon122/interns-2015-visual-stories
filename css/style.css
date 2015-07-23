@@ -146,8 +146,9 @@
 }
 
 .element {
-    height: 120px;
     width: 120px;
+    max-height:80px;
+    overflow-y:hidden;
     text-align: center;
     padding-top: 0px;
 	transition: none;
