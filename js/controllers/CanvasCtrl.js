@@ -78,6 +78,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             compensateHeightOnWrap: true
         });
         var rect = [0, $scope.canvas_height * 2 / 5, $scope.canvas_width, $scope.canvas_height * 3 / 5];
+        // x y w h
         var text = $scope.createText(rect, options);
         $scope.canvas.add(text);
     }
