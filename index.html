@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/assets.css">
     <link rel=”shortcut icon” href=”/favicon.ico”>
-    <script src="http://static01.nyt.com/video/vhs/vhs-2.x.min.js"></script>
+    <script src="js/vendor/vhs-2.x.min.js"></script>
     <script src="js/vendor/jquery-ui.min.js"></script>
     <script src="js/vendor/underscore-min.js"></script>
     <script src="js/vendor/angular.min.js"></script>
@@ -44,16 +44,12 @@
             <input class="btn btn-sm btn-primary" ng-click="showCanvas = !showCanvas" id="toggle" value="Toggle" type="button">
             <input type="button" class="btn btn-sm btn-primary" ng-click="playSlides(true)" value="Render">
             <input class="btn btn-sm btn-primary" value="Clear" type="button" ng-click="clearCanvas()" />
-            <input class="btn btn-sm btn-primary" value="Panning" type="button" ng-click="panning()" />
             <span id="videoMode">{{showCanvas ? 'Editor Mode' : 'Video Player'}}</span>
         </div>
         <div id="mediaWrapper">
             <canvas ng-show="showCanvas" id="canvas" class="media" width="600" height="400"></canvas>
             <div ng-show="!showCanvas" class="media" id="nyt-player"></div>
         </div>
-<!--         <div id="module">
-            <h2>Hello</h2>
-        </div> -->
         <div ng-controller="TimelineCtrl as loki">
             <div id="timeline" class="slideup">
                 <input class="btn btn-sm btn-primary" ng-click="slide()" value="reveal/hide" type="button">
