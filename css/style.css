@@ -147,8 +147,7 @@
 
 .element {
     width: 120px;
-    max-height:80px;
-    overflow-y:hidden;
+    height: 120px;
     text-align: center;
     padding-top: 0px;
 	transition: none;
@@ -165,6 +164,19 @@
 .element img{
 	width: 120px;
 	height: auto;
+    border-top-left-radius: 4px;
+}
+
+.element-cutoff{
+    max-height:80px;
+    overflow-y:hidden;
+}
+
+.remove{
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:10;
 }
 
 .thumbnail span{

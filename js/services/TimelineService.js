@@ -1,6 +1,7 @@
 angular.module('TimelineService', ['ConfigService']).factory('timeline', [function(Config) {
 
     var slides = [];
+    var active = [];
 
     var videoDuration = function(){
         var time = 0;
@@ -9,6 +10,7 @@ angular.module('TimelineService', ['ConfigService']).factory('timeline', [functi
         })
         return time/50;
     }
+
 
     return {
         slides: slides,

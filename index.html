@@ -56,14 +56,18 @@
             <div id="timeline" class="slideup">
                 <input class="btn btn-sm btn-primary" ng-click="slide()" value="reveal/hide" type="button">
                 <input class="btn btn-sm btn-primary" ng-click="status()" value="status" type="button">
+                <input class="btn btn-sm btn-primary" ng-click="$parent.addSlide()" value="add slide" type="button">
                 <div="templates" style="display:none">
                     <img id="ender" src="assets/slides/ender.jpg">
                 </div="templates">
                 <div class='slideWrapper'>
                     <ul class="row-fluid no-overflow">
-                        <li class="slideView" ng-repeat="item in slides" data-drop="true" ng-model='slides' jqyoui-droppable="{index: {{$index}}, onDrop:'loki.dropCallback(item.title, $index)'}">
+                        <li class="slideView" ng-repeat="item in slides" data-drop="true" ng-model='slides' jqyoui-droppable="{index: {{$index}}, onDrop:'loki.dropCallback(item.title, $index)', onStart:logging(item.title)}">
                             <div class="element" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="slides" jqyoui-draggable="{index: {{$index}}}" >
-                                <img class="ng-binding" src="{{item.thumb}}">
+                                <div class="element-cutoff">
+                                    <img class="ng-binding" src="{{item.thumb}}">
+                                </div>
+                                <button type="button" class="remove btn btn-default btn-xs" ng-click="removeSlide($index);">X</button>
                                 <span class="ng-binding">{{item.duration/1000}} secs</span>
                             </div>
                         </li>

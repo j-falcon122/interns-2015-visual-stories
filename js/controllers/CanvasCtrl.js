@@ -20,18 +20,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         });
         $scope.video = new Whammy.Video(15);
         getAnimationFrames();
-        $scope.getParams();
     };
-
-    $scope.getParams = function(){
-        var regex = /(\?|\&)([^=]+)\=([^&]+)/;
-        var params = (regex.exec($(window.location).attr("search")));
-        params.forEach(function(data, it){
-            if (data === "article") {
-                Config.settings.article = params[it+1];
-            }
-        })
-    }
 
     $scope.chooseImage = function(id) {
         $scope.clearCanvas();
@@ -192,15 +181,20 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     // $scope.effectHandler = function(data) {
 
     // };
+    $scope.addSlide = function(){
+        console.log("working!");
+    }
 
+    $scope.slideCount = 0;
     $scope.createSlides = function() {
         assets.getData().then(function(data) {
             data.images.forEach(function(image, it){
+                $scope.slideCount++
                 $scope.chooseImage("image"+it);
                 var data = {};
                 data.thumb = image.url;
                 $scope.setDefaults(data);
-                data.title = "image"+it;
+                data.title = "image"+$scope.slideCount;
                 data.json = $scope.saveSlide();
                 timeline.slides.push(data);
             });
@@ -299,7 +293,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
 
     $scope.fade = function(out, duration) {
         duration = duration || Config.settings.fadeTime;
-
         _.each($scope.canvas._objects, function(obj) {
             obj.animate('opacity', out ? 0 : 100, {
                 onChange: $scope.canvas.renderAll.bind($scope.canvas),
@@ -308,6 +301,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             });
         });
     }
+
     $scope.panning = function(){
         var duration = Config.settings.duration;
 
