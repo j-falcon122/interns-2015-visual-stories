@@ -24,18 +24,36 @@
     <script src="js/controllers/EditorCtrl.js"></script>
     <script src="js/controllers/AssetCtrl.js"></script>
     <script src="js/controllers/TimelineCtrl.js"></script>
+    <script type="text/ng-template" id="modal.html">
+        <div id="modalPage">
+            <div id="modalWrapper">
+                <img src="./assets/slides/logo.png"><br>
+                <button class="close_menu btn btn-sm btn-muted" ng-click="modalInstance.close();">Close</button>
+                <h1 class="navbar-left karnak" >Times Trailer</h1>
+                <form ng-submit="$parent.getArticle()" id="search" class="navbar-right input-group input-group-lg row-fluid">
+                    <input autofocus ng-model="$parent.url" type="text" class="form-control karnak" placeholder="Enter article URL here">
+                    <button type="submit" class="input-group-addon btn btn-lg"><span class="glyphicon glyphicon-search"></span></button>
+                </form>
+                <button class="show_more btn btn-sm btn-primary" ng-click="$parent.recents();">show recent articles</button>
+                <div id="recents">
+                    <ul class="list-unstyled">
+                        <li ng-repeat="item in $parent.recentArticles" ng-click="$parent.url = item.url; $parent.getArticle();">
+                            {{item.headline}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </script>
 </head>
+
 <nav class="navbar navbar-static-top" ng-controller="ArticleCtrl" ng-init="open()">
     <div class="container-fluid">
-        <h1 class="navbar-left" id="title">NYTimes Article Trailer</h1>
-        <form ng-submit="getArticle()" id="search" class="navbar-right input-group input-group-lg row-fluid">
-            <input ng-model="url" type="text" class="form-control" placeholder="Enter article URL here">
-            <button type="submit" class="input-group-addon btn btn-lg">
-                <span class="glyphicon glyphicon-search"></span>
-            </button>
-        </form>
+        <h1 class="karnak">NYTimes Article Trailer</h1>
+        <button type="button" ng-click="open();" class="openModal btn btn-primary">Article Modal</button>
     </div>
 </nav>
+
 <body ng-init="initialize()" ng-controller="CanvasCtrl">
     <div class="left">
         <div id="modeWrapper">
@@ -53,20 +71,20 @@
         <div ng-controller="TimelineCtrl as loki">
             <div id="timeline" class="slideup">
                 <input class="btn btn-sm btn-primary" ng-click="slide()" value="reveal/hide" type="button">
-                <input class="btn btn-sm btn-primary" ng-click="status()" value="status" type="button">
+                <input class="btn btn-sm btn-primary" ng-click="createThumbnail()" value="thumbTest" type="button">
                 <input class="btn btn-sm btn-primary" ng-click="$parent.addSlide()" value="add slide" type="button">
                 <div="templates" style="display:none">
                     <img id="ender" src="assets/slides/ender.jpg">
                 </div="templates">
-                <div class='slideWrapper'>
+                <div class="slideWrapper">
                     <ul class="row-fluid no-overflow">
                         <li class="slideView" ng-repeat="item in slides" data-drop="true" ng-model='slides' jqyoui-droppable="{index: {{$index}}, onDrop:'loki.dropCallback(item.title, $index)', onStart:logging(item.title)}">
-                            <div class="element" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="slides" jqyoui-draggable="{index: {{$index}}}" >
+                            <div class="element" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="slides" jqyoui-draggable="{index: {{$index}}}">
                                 <div class="element-cutoff">
                                     <img class="ng-binding" src="{{item.thumb}}" ng-click="$parent.restoreSlide($index)">
                                 </div>
                                 <button type="button" class="remove btn btn-default btn-xs" ng-click="removeSlide($index);">X</button>
-                                <span class="ng-binding">{{item.duration/1000}} secs</span>
+                                <select class="form-control duration" ng-model="item.duration" ng-options="option for option in durations" ng-change="log()"></select>
                             </div>
                         </li>
                     </ul>
@@ -74,7 +92,6 @@
             </div>
         </div>
     </div>
-
     <div class="right">
         <div ng-controller="AssetCtrl" class="assets">
             <tabset class="assets-tabs container-fluid">
@@ -113,12 +130,12 @@
                 <input ng-model="overlay.enabled" id="overlay" type="checkbox" />
                 <div class="form-group form-inline">
                     <label class="control-label">Automatic Placement</label>
-                        <select class="form-control" ng-model="autoPosition" ng-options="option.label for option in autoPositions track by option.value" id="position">
-                        </select>
-                        <input class="form-control" ng-model="overlay.opacity" type="number" min="0" max="1" id="overlay-opacity" step=".1">
-                        <div class="form-group">
-                            <input class="form-control" ng-model="overlay.overlayColor" type="color" id="overlay-color">
-                        </div>
+                    <select class="form-control" ng-model="autoPosition" ng-options="option.label for option in autoPositions track by option.value" id="position">
+                    </select>
+                    <input class="form-control" ng-model="overlay.opacity" type="number" min="0" max="1" id="overlay-opacity" step=".1">
+                    <div class="form-group">
+                        <input class="form-control" ng-model="overlay.overlayColor" type="color" id="overlay-color">
+                    </div>
                 </div>
                 <div id="size" class="form-group form-inline">
                     <label class="control-label">X</label>

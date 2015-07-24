@@ -60,7 +60,56 @@
 .row-fluid {
     display: inline-flex;
 }
+/******************************
+        Welcome Portal
+*******************************/
+/*outside*/
+.openModal{
+    position:absolute;
+    right:20;
+    top:5px;
+}
+#modalPage {
+    height:500px;
+    width:400px;
+    margin:auto;
+    text-align:center;
+    overflow:hidden;
+}
 
+#modalPage img{
+    width: 100px;
+    height: auto;
+    padding-top:25px;
+    padding-bottom:25px;
+}
+
+#modalPage h1{
+    padding-bottom:15px;
+    margin-left: 71px;
+}
+/*inside*/
+#modalWrapper{
+}
+
+#modalWrapper, #modalWrapper form{
+    text-align:center;
+    width:400px;
+}
+
+#recents{
+    margin-top:10px;
+    height:150px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    display:none;
+}
+
+.close_menu{
+    position:absolute;
+    left:3;
+    top:3;
+}
 /******************************
        Editing Module
 *******************************/
@@ -109,37 +158,21 @@
     position: relative;
 }
 
-.progress {
-    width: 600px;
-    position: absolute;
-    top: 175px;
-    height: 50px;
-    z-index: 1;
-}
-
-.progress span {
-    position: absolute;
-    text-align: center;
-    top: 12px;
-    left: 0;
-    font-size: 25px;
-}
-
 
 /******************************
 		Timeline
 *******************************/
 
-#timeline {
+#timeline, #backdrop {
     padding-top: 3px;
     padding-left:10px;
-    border-top: 2px #7F7F7F solid;
-    background-color: #BFBFBF;
+    /*border-top: 2px #7F7F7F solid;*/
     position: fixed;
     width: 100%;
     left: 0;
     bottom: 0;
     z-index:5;
+    background-color:rgba(225,225,225,0.9) ;
 }
 
 .slideup,
@@ -152,7 +185,7 @@
 }
 
 .slidedown {
-    height: 220px;
+    height: 180px;
 }
 
 .element {
@@ -160,10 +193,6 @@
     height: 120px;
     text-align: center;
     padding-top: 0px;
-	transition: none;
-	-webkit-transition: none;
-	-moz-transition: none;
-	-o-transition: none;
     cursor: pointer;
 }
 
@@ -175,6 +204,7 @@
 	width: 120px;
 	height: auto;
     border-top-left-radius: 4px;
+    z-index:7;
 }
 
 .element-cutoff{
@@ -189,10 +219,6 @@
     z-index:10;
 }
 
-.thumbnail span{
-	margin-top:100px;
-}
-
 .slideView {
 	display: inline-block;
     height: 120px;
@@ -203,7 +229,7 @@
 
 .slideWrapper{
 	position:absolute;
-	padding-top:20px;
+	padding-top:10px;
     width: 100%;
     max-height: 100%;
     overflow-x:auto;
@@ -211,6 +237,12 @@
 
 .no-overflow{
 	overflow-y:hidden;
+}
+
+.durations{
+    margin-top:-5px;
+    text-align: center;
+    z-index:5;
 }
 
 

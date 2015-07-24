@@ -4,20 +4,30 @@ angular.module('Article', ['AssetService', 'ui.bootstrap']).controller("ArticleC
 
     $scope.getArticle = function() {
         $scope.modalInstance.close();
-        console.log($scope.url);
         $rootScope.$broadcast('article:load', $scope.url);
     }
-
-    var template = '<form ng-submit="$parent.getArticle()" id="search" class="navbar-right input-group input-group-lg row-fluid"><input ng-model="$parent.url" type="text" class="form-control karnak" placeholder="Enter article URL here"><button type="submit" class="input-group-addon btn btn-lg"><span class="glyphicon glyphicon-search"></span></button></form>'
-
 
     $scope.open = function() {
         $scope.modalInstance = $modal.open({
             animation: true,
-            template: template,
+            templateUrl: 'modal.html',
             controller: 'ArticleCtrl',
             backdrop: 'static',
             scope: $scope, //the parent of the modal scope.
         });
     };
+
+    $scope.recentArticles = [];
+
+    $scope.recents = function(){
+        $("#recents").css("display","block");
+        console.log("working!");
+        for (var i = 0; i < localStorage.length; i++){
+            $scope.recentArticles.push({
+                headline: localStorage.key(i),
+                url: localStorage.getItem(localStorage.key(i)).slice(5)
+            });
+            console.log($scope.recentArticles);
+        }
+    }
 });

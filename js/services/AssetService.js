@@ -10,6 +10,7 @@ angular.module('AssetService', []).factory("assets", ['$http', '$q', function($h
 
   var cache = {};
   var lastUrl = '';
+
   function getMetadata(article) {
     return [
       { "name": "Headline",
@@ -100,6 +101,7 @@ angular.module('AssetService', []).factory("assets", ['$http', '$q', function($h
       url = "/assets/articles/article0.json";
     } else if (!article && !stubbed) {
       url = lastUrl;
+
     } else {
       stubbed = false
       url = '/api/' + article;
@@ -114,7 +116,6 @@ angular.module('AssetService', []).factory("assets", ['$http', '$q', function($h
     	url: url
 		}).then(function(response) {
       var quotes = getQuotes(response.data.result.article.body);
-
       var topImages = response.data.result.regions.Top.modules[0].modules;
       var embeddedImages = response.data.result.regions.Embedded.modules[0].modules;
       var images = getImages(topImages);
@@ -126,6 +127,9 @@ angular.module('AssetService', []).factory("assets", ['$http', '$q', function($h
         images: images,
         metadata: metadata
       };
+      if(article){
+        localStorage.setItem(response.data.result.headline, url)
+      }
       cache[url] = result;
       return result;
     });

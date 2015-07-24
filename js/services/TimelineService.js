@@ -11,7 +11,6 @@ angular.module('TimelineService', ['ConfigService']).factory('timeline', [functi
         return time/50;
     }
 
-
     return {
         slides: slides,
         videoDuration: videoDuration

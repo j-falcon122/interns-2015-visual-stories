@@ -3,6 +3,9 @@
     Make it easier to create rectangles
     Work on timeline interface
     Get Ken Burns working!
+    Video Algorithm
+    add fadeIn fadeOut times
+
 
 */
 // fabric.fastCanvas = function(_super){
@@ -150,13 +153,11 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         window.requestAnimationFrame = requestAnimationFrame;
     };
 
-    $scope.progress = 0;
     $scope.end_time = 0;
     $scope.continueRender = true;
 
     $scope.addFrame = function() {
-        $scope.progress++;
-        $scope.video.add($scope.canvas.getContext("2d"),60);
+        $scope.video.add($scope.canvas.getContext("2d"),17);
         if($scope.continueRender) {
             requestAnimationFrame($scope.addFrame);
         } else {
@@ -191,6 +192,11 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         return saved;
     };
 
+    $scope.restoreSlide = function(index){
+        $scope.canvas.loadFromJSON(timeline.slides[index].json, $scope.canvas.renderAll.bind($scope.canvas));
+    };
+
+
     $scope.loadSlide = function(indexOrData, callback){
         if (_.isNumber(indexOrData)) {
             indexOrData = timeline.slides[indexOrData].json;
@@ -203,7 +209,8 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     ***************************/
     $scope.addSlide = function(){
         var data = {};
-        data.thumb = $("#"+$scope.lastChosen).attr("src");
+        // data.thumb = $("#"+$scope.lastChosen).attr("src");
+        data.thumb = document.getElementById("canvas").toDataURL("image/png",0.5);
         $scope.setDefaults(data);
         data.title = $scope.lastChosen;
         data.json = $scope.saveSlide();
@@ -219,6 +226,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
                 $scope.setDefaults(data);
                 data.title = $scope.lastChosen;
                 data.json = $scope.saveSlide();
+
                 timeline.slides.push(data);
             });
 
@@ -310,6 +318,17 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             }
         };
 
+
+        var fadeSlide = function() {
+            $scope.panning();
+            if ($scope.currentSlide < timeline.slides.length + 1){
+                $scope.fade(true);
+                setTimeout(changeSlide, Config.settings.fadeTime)
+            }
+        }
+
+        console.log("Length = " + (timeline.videoDuration()*50/1000 + " seconds"));
+
         if (recording) {
             $scope.addFrame();
         }
@@ -361,19 +380,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             onComplete: onComplete
         });
     }
-
-    $scope.showAll = function() {
-        _.each($scope.canvas._objects, function(obj) {
-            obj.opacity = 100;
-        });
-    }
-
-    $scope.hideAll = function() {
-        _.each($scope.canvas._objects, function(obj) {
-            obj.opacity = 0;
-        });
-    }
-
 });
 
 function wrapCanvasText(t, canvas, options) {
