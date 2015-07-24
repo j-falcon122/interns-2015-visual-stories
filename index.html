@@ -25,7 +25,7 @@
     <script src="js/controllers/AssetCtrl.js"></script>
     <script src="js/controllers/TimelineCtrl.js"></script>
 </head>
-<nav class="navbar navbar-static-top" ng-controller="ArticleCtrl">
+<nav class="navbar navbar-static-top" ng-controller="ArticleCtrl" ng-init="open()">
     <div class="container-fluid">
         <h1 class="navbar-left" id="title">NYTimes Article Trailer</h1>
         <form ng-submit="getArticle()" id="search" class="navbar-right input-group input-group-lg row-fluid">
@@ -45,7 +45,6 @@
             <input type="button" class="btn btn-sm btn-primary" ng-click="playSlides(true)" value="Render">
             <input class="btn btn-sm btn-primary" value="Clear" type="button" ng-click="clearCanvas()" />
             <input class="btn btn-sm btn-primary" value="Panning" type="button" ng-click="panning()" />
-
             <span id="videoMode">{{showCanvas ? 'Editor Mode' : 'Video Player'}}</span>
         </div>
         <div id="mediaWrapper">

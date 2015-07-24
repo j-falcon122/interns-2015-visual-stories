@@ -24,7 +24,8 @@
     border-bottom: 2px solid rgb(191, 191, 191);
 }
 
-.navbar > * {
+.navbar > *,
+.karnak {
     font-family: 'NYTKarnakDisplay';
 }
 
