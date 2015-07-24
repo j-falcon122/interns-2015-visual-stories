@@ -152,15 +152,12 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
 
     $scope.progress = 0;
     $scope.end_time = 0;
-    $scope.continueRender = true;
+    $scope.continueRender = false;
 
-    $scope.addFrame = function() {
-        $scope.progress++;
-        $scope.video.add($scope.canvas.getContext("2d"),60);
-        if($scope.continueRender) {
-            requestAnimationFrame($scope.addFrame);
-        } else {
-            requestAnimationFrame($scope.finalizeVideo);
+    $scope.drawFrame = function() {
+        $scope.canvas.renderAll.bind($scope.canvas)();
+        if ($scope.continueRender) {
+            $scope.video.add($scope.canvas.getContext("2d"),17);
         }
     }
 
@@ -307,11 +304,12 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
                 var slideDuration = $scope.playSlide($scope.currentSlide, changeSlide);
             } else {
                 $scope.continueRender = false;
+                $scope.finalizeVideo();
             }
         };
 
         if (recording) {
-            $scope.addFrame();
+            // $scope.addFrame();
         }
 
         changeSlide();
@@ -324,7 +322,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         obj.opacity = 1;
         console.log(obj.opacity);
         obj.animate('opacity', 0, {
-            onChange: $scope.canvas.renderAll.bind($scope.canvas),
+            onChange: $scope.drawFrame,
             duration: duration,
             onComplete: onComplete
         });
@@ -336,7 +334,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         var obj = $scope.canvas._objects[0];
         obj.opacity = 0;
         obj.animate('opacity', 1, {
-            onChange: $scope.canvas.renderAll.bind($scope.canvas),
+            onChange: $scope.drawFrame,
             duration: duration,
             onComplete: onComplete
         });
@@ -357,7 +355,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         var obj = $scope.canvas._objects[0];
         obj.animate({'right': -100, 'scaleX':1.1, 'scaleY':1.1}, {
             duration: duration,
-            onChange: $scope.canvas.renderAll.bind($scope.canvas),
+            onChange: $scope.drawFrame,
             onComplete: onComplete
         });
     }
