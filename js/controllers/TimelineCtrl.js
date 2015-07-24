@@ -37,6 +37,8 @@ angular.module('Timeline', ['TimelineService']).controller('TimelineCtrl', funct
     	timeline.slides.splice(index, 1);
     }
 
+
+
     this.dropCallback = function(event, ui, title, $index) {
         console.log("event", event);
         console.log("ui", ui);

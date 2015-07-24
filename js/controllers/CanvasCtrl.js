@@ -13,6 +13,12 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     $scope.canvas_height = 400;
     $scope.video = null;
     $scope.showCanvas = true;
+    // Last chosen image;
+    $scope.lastChosen;
+
+    $scope.setLastChosen = function(id){
+        $scope.lastChosen = id;
+    }
 
     $scope.initialize = function() {
         $scope.canvas = new fabric.Canvas('canvas', {
@@ -29,12 +35,12 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         var ratioY = $scope.canvas.height / img.height;
         var ratio = ratioX > ratioY ? ratioX : ratioY;
         img.set({
-            selectable: false,
             scaleX: ratio,
             // scaleY: $scope.canvas.height / img.height,
             scaleY: ratio
 
         });
+        $scope.setLastChosen(id);
         $scope.canvas.add(img);
     };
 
@@ -166,9 +172,15 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     ***************************/
 
     $scope.saveSlide = function(){
+        $scope.canvas.renderAll.bind($scope.canvas);
         var saved = $scope.canvas.toJSON();
+        console.log("saved");
         saved =  JSON.stringify(saved);
+        console.log(saved);
         return saved;
+    };
+    $scope.restoreSlide = function(index){
+        $scope.canvas.loadFromJSON(timeline.slides[index].json, $scope.canvas.renderAll.bind($scope.canvas));
     };
 
     $scope.loadSlide = function(data){
@@ -182,19 +194,22 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
 
     // };
     $scope.addSlide = function(){
-        console.log("working!");
+        var data = {};
+        data.thumb = $("#"+$scope.lastChosen).attr("src");
+        $scope.setDefaults(data);
+        data.title = $scope.lastChosen;
+        data.json = $scope.saveSlide();
+        timeline.slides.push(data);
     }
 
-    $scope.slideCount = 0;
     $scope.createSlides = function() {
         assets.getData().then(function(data) {
             data.images.forEach(function(image, it){
-                $scope.slideCount++
                 $scope.chooseImage("image"+it);
                 var data = {};
                 data.thumb = image.url;
                 $scope.setDefaults(data);
-                data.title = "image"+$scope.slideCount;
+                data.title = $scope.lastChosen;
                 data.json = $scope.saveSlide();
                 timeline.slides.push(data);
             });
@@ -306,7 +321,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         var duration = Config.settings.duration;
 
         _.each($scope.canvas._objects, function(obj) {
-            obj.animate('up', -200, {
+            obj.animate('left', -200, {
                 duration: 1000,
                 onChange: $scope.canvas.renderAll.bind($scope.canvas),
                 // easing: fabric.util.ease.easeOutElastic

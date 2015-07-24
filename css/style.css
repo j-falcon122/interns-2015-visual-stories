@@ -61,6 +61,15 @@
     display: inline-flex;
 }
 
+/******************************
+       Editing Module
+*******************************/
+#module{
+    margin-top:25px;
+    border:2px red dotted;
+    height:100px;
+    width:100%;
+}
 
 /******************************
 		Media Player

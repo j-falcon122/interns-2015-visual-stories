@@ -51,6 +51,9 @@
             <canvas ng-show="showCanvas" id="canvas" class="media" width="600" height="400"></canvas>
             <div ng-show="!showCanvas" class="media" id="nyt-player"></div>
         </div>
+<!--         <div id="module">
+            <h2>Hello</h2>
+        </div> -->
         <div ng-controller="TimelineCtrl as loki">
             <div id="timeline" class="slideup">
                 <input class="btn btn-sm btn-primary" ng-click="slide()" value="reveal/hide" type="button">
@@ -64,7 +67,7 @@
                         <li class="slideView" ng-repeat="item in slides" data-drop="true" ng-model='slides' jqyoui-droppable="{index: {{$index}}, onDrop:'loki.dropCallback(item.title, $index)', onStart:logging(item.title)}">
                             <div class="element" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="slides" jqyoui-draggable="{index: {{$index}}}" >
                                 <div class="element-cutoff">
-                                    <img class="ng-binding" src="{{item.thumb}}">
+                                    <img class="ng-binding" src="{{item.thumb}}" ng-click="$parent.restoreSlide($index)">
                                 </div>
                                 <button type="button" class="remove btn btn-default btn-xs" ng-click="removeSlide($index);">X</button>
                                 <span class="ng-binding">{{item.duration/1000}} secs</span>
