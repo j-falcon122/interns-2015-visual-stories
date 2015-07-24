@@ -5,6 +5,27 @@
     Get Ken Burns working!
 
 */
+// fabric.fastCanvas = function(_super){
+//   var __hasProp = {}.hasOwnProperty;
+//   var __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+//   return (function(_super) {
+//     __extends(fastCanvas, _super);
+//     function fastCanvas() {
+//       this.frame;
+//       fastCanvas.__super__.constructor.apply(this, arguments);
+//     }
+//     fastCanvas.prototype.renderAll = function() {
+//       var args = arguments;
+//       var that = this;
+//       window.cancelAnimationFrame(this.frame);
+//       this.frame = window.requestAnimationFrame(function(){
+//         fastCanvas.__super__.renderAll.apply(that, args);
+//       });
+//     };
+//     return fastCanvas;
+//   })(_super || fabric.Canvas);
+// };
+
 
 angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).controller('CanvasCtrl', function($scope, Config, assets, timeline) {
 
@@ -21,11 +42,12 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     }
 
     $scope.initialize = function() {
+        // var fastCanvas = fabric.fastCanvas(fabric.Canvas)
         $scope.canvas = new fabric.Canvas('canvas', {
             backgroundColor: '#000000'
         });
         $scope.video = new Whammy.Video(15);
-        getAnimationFrames();
+        // getAnimationFrames();
     };
 
     $scope.chooseImage = function(id) {
@@ -36,9 +58,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         var ratio = ratioX > ratioY ? ratioX : ratioY;
         img.set({
             scaleX: ratio,
-            // scaleY: $scope.canvas.height / img.height,
-            scaleY: ratio
-
+            scaleY: ratio,
         });
         $scope.setLastChosen(id);
         $scope.canvas.add(img);
@@ -120,7 +140,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     /***************************
     **        Video           **
     ***************************/
-
     var getAnimationFrames = function(){
         var requestAnimationFrame =
             window.requestAnimationFrame        ||
@@ -134,14 +153,10 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     $scope.progress = 0;
     $scope.end_time = 0;
     $scope.continueRender = true;
-    // $scope.getPercentage = function(){
-    //     return Math.floor(($scope.progress/$scope.end_time)*100);
-    // }
 
     $scope.addFrame = function() {
         $scope.progress++;
         $scope.video.add($scope.canvas.getContext("2d"),60);
-        // if($scope.progress / $scope.end_time < 1){
         if($scope.continueRender) {
             requestAnimationFrame($scope.addFrame);
         } else {
@@ -150,7 +165,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     }
 
     $scope.finalizeVideo = function() {
-        $scope.stop
         var output = $scope.video.compile();
         var url = webkitURL.createObjectURL(output);
         document.getElementById('download-link').href = url;
@@ -166,7 +180,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         });
     }
 
-
     /***************************
     **   Loading Slides       **
     ***************************/
@@ -174,25 +187,20 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     $scope.saveSlide = function(){
         $scope.canvas.renderAll.bind($scope.canvas);
         var saved = $scope.canvas.toJSON();
-        console.log("saved");
         saved =  JSON.stringify(saved);
-        console.log(saved);
         return saved;
     };
-    $scope.restoreSlide = function(index){
-        $scope.canvas.loadFromJSON(timeline.slides[index].json, $scope.canvas.renderAll.bind($scope.canvas));
-    };
 
-    $scope.loadSlide = function(data){
-        $scope.canvas.loadFromJSON(data, $scope.canvas.renderAll.bind($scope.canvas));
+    $scope.loadSlide = function(indexOrData, callback){
+        if (_.isNumber(indexOrData)) {
+            indexOrData = timeline.slides[indexOrData].json;
+        }
+        $scope.canvas.loadFromJSON(indexOrData, callback ? callback : $scope.canvas.renderAll.bind($scope.canvas));
     };
 
     /***************************
     **  Creating Slides       **
     ***************************/
-    // $scope.effectHandler = function(data) {
-
-    // };
     $scope.addSlide = function(){
         var data = {};
         data.thumb = $("#"+$scope.lastChosen).attr("src");
@@ -225,6 +233,8 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             data.title = "ender";
             timeline.slides.push(data);
 
+            $scope.clearCanvas();
+
             // Keep this to set video duration:
             $scope.setDuration();
         });
@@ -233,10 +243,10 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     $scope.setDefaults = function(item){
         item.duration = Config.settings.duration;
         item.enable = true;
+        item.kenBurns = 'left';
         item.drag = true;
         item.fadeOut = Config.settings.fadeOut;
         item.fadeIn = Config.settings.fadeIn;
-        item.fadeFlag = true;
     }
 
     $scope.setDuration = function(){
@@ -269,71 +279,101 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
 
     $scope.currentSlide = 0;
 
+    $scope.playSlide = function(index, nextSlide) {
+        var currentSlide = timeline.slides[index];
+        var duration = currentSlide.duration || 1000;
+        var totalTime = 0;
+        var fadeTime = Config.settings.fadeTime;
+        var nop = function(x, y, cb) {cb()};
+
+        $scope.loadSlide(currentSlide.json,
+            _.partial(currentSlide.fadeIn ? $scope.fade : nop, false, fadeTime,
+            _.partial(currentSlide.kenBurns ? $scope.kenBurns : nop, 'left', duration,
+            _.partial(currentSlide.fadeOut ? $scope.fade : nop, true, fadeTime, nextSlide))));
+
+        totalTime += currentSlide.fadeIn ? fadeTime : 0;
+        totalTime += duration;
+        totalTime += currentSlide.fadeOut ? fadeTime : 0;
+        return fadeTime;
+    }
+
     $scope.playSlides = function(recording) {
         $scope.continueRender = true;
-        $scope.currentSlide = 0;
+        $scope.currentSlide = -1;
         var changeSlide = function() {
-            var current = timeline.slides[$scope.currentSlide];
+            $scope.currentSlide++;
             if ($scope.currentSlide < timeline.slides.length) {
-                $scope.loadSlide(current.json);
-                if(current.fadeOut){
-                    setTimeout(fadeSlide, (current.duration - Config.settings.fadeTime));
-                } else {
-                    setTimeout(changeSlide, current.duration);
-                }
-                $scope.currentSlide++;
-            }
-            else{
+                $scope.clearCanvas();
+                var slideDuration = $scope.playSlide($scope.currentSlide, changeSlide);
+            } else {
                 $scope.continueRender = false;
             }
         };
 
-        var fadeSlide = function() {
-            // $scope.panning();
-            if ($scope.currentSlide < timeline.slides.length + 1){
-                $scope.fade(true);
-                setTimeout(changeSlide, Config.settings.fadeTime)
-            }
+        if (recording) {
+            $scope.addFrame();
         }
 
-        console.log("Length = " + (timeline.videoDuration()*50/1000 + " seconds"));
-        if (recording) {
-            console.log("Recording...");
-            $scope.addFrame();
-        } else {
-            console.log("Not recording...");
-        }
         changeSlide();
     }
 
-    $scope.fade = function(out, duration) {
+    $scope.fadeOut = function(duration, onComplete) {
         duration = duration || Config.settings.fadeTime;
-        _.each($scope.canvas._objects, function(obj) {
-            obj.animate('opacity', out ? 0 : 100, {
-                onChange: $scope.canvas.renderAll.bind($scope.canvas),
-                duration: duration,
-                from: out ? obj.opacity : 0
-            });
+        duration = 2000;
+        var obj = $scope.canvas._objects[0];
+        obj.opacity = 1;
+        console.log(obj.opacity);
+        obj.animate('opacity', 0, {
+            onChange: $scope.canvas.renderAll.bind($scope.canvas),
+            duration: duration,
+            onComplete: onComplete
         });
     }
 
-    $scope.panning = function(){
-        var duration = Config.settings.duration;
-
-        _.each($scope.canvas._objects, function(obj) {
-            obj.animate('left', -200, {
-                duration: 1000,
-                onChange: $scope.canvas.renderAll.bind($scope.canvas),
-                // easing: fabric.util.ease.easeOutElastic
-            });
+    $scope.fadeIn = function(duration, onComplete) {
+        duration = duration || Config.settings.fadeTime;
+        duration = 2000;
+        var obj = $scope.canvas._objects[0];
+        obj.opacity = 0;
+        obj.animate('opacity', 1, {
+            onChange: $scope.canvas.renderAll.bind($scope.canvas),
+            duration: duration,
+            onComplete: onComplete
         });
     }
 
-    /***************************
-    **    Video Player Time   **
-    ***************************/
-    // cover = good
-    // poster = also good
+    $scope.fade = function(out, duration, onComplete) {
+        duration = duration || Config.settings.fadeTime;
+        duration = 2000;
+        if (out) {
+            $scope.fadeOut(duration, onComplete);
+        } else {
+            $scope.fadeIn(duration, onComplete);
+        }
+    }
+
+    $scope.kenBurns = function(direction, duration, onComplete) {
+        console.log('ken burns');
+        var obj = $scope.canvas._objects[0];
+        obj.animate({'right': -100, 'scaleX':1.1, 'scaleY':1.1}, {
+            duration: duration,
+            onChange: $scope.canvas.renderAll.bind($scope.canvas),
+            onComplete: onComplete
+        });
+    }
+
+    $scope.showAll = function() {
+        _.each($scope.canvas._objects, function(obj) {
+            obj.opacity = 100;
+        });
+    }
+
+    $scope.hideAll = function() {
+        _.each($scope.canvas._objects, function(obj) {
+            obj.opacity = 0;
+        });
+    }
+
 });
 
 function wrapCanvasText(t, canvas, options) {
