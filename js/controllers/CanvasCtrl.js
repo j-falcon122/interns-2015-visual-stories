@@ -67,9 +67,9 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         $scope.canvas.add(img);
     };
 
-    $scope.chooseQuote = function(quote, options) {
+    $scope.chooseText = function(string, options, rect) {
         options = _.defaults(options || {}, {
-            content: '“' + quote + '”',
+            content: string,
             color: '#ffffff',
             font: 'NYTCheltenhamExtBd',
             fontStyle: 'italic',
@@ -77,7 +77,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             justify: 'center',
             compensateHeightOnWrap: true
         });
-        var rect = [0, $scope.canvas_height * 2 / 5, $scope.canvas_width, $scope.canvas_height * 3 / 5];
+        rect = rect || [0, $scope.canvas_height * 2 / 5, $scope.canvas_width, $scope.canvas_height * 3 / 5];
         // x y w h
         var text = $scope.createText(rect, options);
         $scope.canvas.add(text);
@@ -158,7 +158,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     $scope.continueRender = true;
 
     $scope.addFrame = function() {
-        $scope.video.add($scope.canvas.getContext("2d"),17);
+        $scope.video.add($scope.canvas.getContext("2d"),60);
         if($scope.continueRender) {
             requestAnimationFrame($scope.addFrame);
         } else {
@@ -218,44 +218,105 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         timeline.slides.push(data);
     }
 
-    $scope.createSlides = function() {
-        assets.getData().then(function(data) {
-            data.images.forEach(function(image, it){
-                $scope.chooseImage("image"+it);
-                var data = {};
-                data.thumb = image.url;
-                $scope.setDefaults(data);
-                data.title = $scope.lastChosen;
-                data.json = $scope.saveSlide();
-
-                timeline.slides.push(data);
-            });
-
-            // add ending image
-            $scope.chooseImage("ender");
-            var data = {};
-            data.json = $scope.saveSlide();
-            $scope.setDefaults(data);
-            data.thumb = $("#ender").attr("src");
-            data.fadeOut = false;
-            data.duration = 1000;
-            data.title = "ender";
-            timeline.slides.push(data);
-
-            $scope.clearCanvas();
-
-            // Keep this to set video duration:
-            $scope.setDuration();
-        });
-    }
-
-    $scope.setDefaults = function(item){
+    $scope.setDefaults = function(title){
+        var item = {};
+        item.json = $scope.saveSlide();
         item.duration = Config.settings.duration;
         item.enable = true;
         item.kenBurns = 'left';
         item.drag = true;
         item.fadeOut = Config.settings.fadeOut;
         item.fadeIn = Config.settings.fadeIn;
+        item.title = title;
+        return item;
+    }
+
+/*    $scope.chooseText = function(string, options, rect) {
+        options = _.defaults(options || {}, {
+            content: string,
+            color: '#ffffff',
+            font: 'NYTCheltenhamExtBd',
+            fontStyle: 'italic',
+            size: 40,
+            justify: 'center',
+            compensateHeightOnWrap: true
+        });
+        rect = rect || [0, $scope.canvas_height * 2 / 5, $scope.canvas_width, $scope.canvas_height * 3 / 5];
+        // x y w h
+        var text = $scope.createText(rect, options);
+        $scope.canvas.add(text);
+    }*/
+
+    $scope.headlineStyle = {
+            fontStyle: 'italic',
+            size: 40
+    };
+    $scope.headlinePosition = [0, $scope.canvas_height * 2 / 5, $scope.canvas_width, $scope.canvas_height * 3 / 5]
+    $scope.bylineStyle = {
+            fontStyle: 'normal',
+            size: 12,
+            justify: 'left'
+    };
+    $scope.bylinePosition = [20, $scope.canvas_height * 9 / 10, $scope.canvas_width, $scope.canvas_height * 1 / 10]
+    // $scope.autoText = function(text, options, rect) {
+    //     options = _.defaults(options || {}, {
+    //         content: text,
+    //         color: '#ffffff',
+    //         font: 'NYTCheltenhamExtBd',
+    //         fontStyle: 'italic',
+    //         size: 40,
+    //         justify: 'left',
+    //         compensateHeightOnWrap: true
+    //     });
+    //     rect = rect || [0, $scope.canvas_height * 2 / 5, $scope.canvas_width, $scope.canvas_height * 8 / 10];
+    //     // rect = rect || [0, $scope.canvas_height * 2 / 5, $scope.canvas_width, $scope.canvas_height * 3 / 5];
+    //     // x y w h
+    //     var text = $scope.createText(rect, options);
+    //     $scope.canvas.add(text);
+    // }
+
+    $scope.createSlides = function() {
+        assets.getData().then(function(loaded) {
+
+            // staring image
+            $scope.chooseImage("starter");
+            var starter = $scope.setDefaults("starter");
+            starter.thumb = $("#starter").attr("src");
+            timeline.slides.push(starter);
+
+
+            // these may change indexes later
+            $scope.headline = loaded.metadata[0].text;
+            $scope.byline = loaded.metadata[4].text;
+
+            $scope.canvas.clear();
+            $scope.chooseText($scope.headline, $scope.headlineStyle, $scope.headlinePosition);
+            $scope.chooseText($scope.byline, $scope.bylineStyle, $scope.bylinePosition);
+            var headliner = $scope.setDefaults("headliner");
+            headliner.thumb = document.getElementById("canvas").toDataURL("image/png",0.5);
+            headliner.fadeOut = false;
+            headliner.fadeIn = false;
+            headliner.kenBurns = false;
+            timeline.slides.push(headliner);
+
+
+            loaded.images.forEach(function(image, it){
+                $scope.chooseImage("image"+it);
+                var data = $scope.setDefaults("image"+it);
+                data.thumb = image.url;
+                timeline.slides.push(data);
+            });
+
+            // add ending image
+            $scope.chooseImage("ender");
+            var ender = $scope.setDefaults("ender")
+            ender.thumb = $("#ender").attr("src");
+            ender.fadeOut = false;
+            ender.duration = 1000;
+            timeline.slides.push(ender);
+
+            $scope.clearCanvas();
+        });
     }
 
     $scope.setDuration = function(){
@@ -264,27 +325,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     /***************************
     **    Animate Slide       **
     ***************************/
-    /*
-    Things to consider:
-    fade in
-    fade out
-    Ken Burns effect
-    Standard
-    Overlapping slides?
-    not affecting text on slide
-
-    Total time = 1000
-    |...............|
-    Fade in = 250
-    |...|
-    Fade Out = 250
-                |...|
-    Ken Burns
-    |...............|
-
-    Object with animation settings
-
-    */
 
     $scope.currentSlide = 0;
 
@@ -311,10 +351,12 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         $scope.currentSlide = -1;
         var changeSlide = function() {
             $scope.currentSlide++;
+            console.log($scope.currentSlide, timeline.slides.length);
             if ($scope.currentSlide < timeline.slides.length) {
                 $scope.clearCanvas();
                 var slideDuration = $scope.playSlide($scope.currentSlide, changeSlide);
             } else {
+                console.log("done!");
                 $scope.continueRender = false;
             }
         };
@@ -342,7 +384,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         duration = 2000;
         var obj = $scope.canvas._objects[0];
         obj.opacity = 1;
-        console.log(obj.opacity);
         obj.animate('opacity', 0, {
             onChange: $scope.canvas.renderAll.bind($scope.canvas),
             duration: duration,

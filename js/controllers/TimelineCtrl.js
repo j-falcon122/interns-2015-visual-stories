@@ -37,15 +37,6 @@ angular.module('Timeline', ['TimelineService']).controller('TimelineCtrl', funct
       }
     });
 
-
-    // $scope.durations = [
-    //     {value: 500, label: "0.5 secs"},
-    //     {value: 1000, label: "1 sec"},
-    //     {value: 1500, label: "1.5 secs"},
-    //     {value: 2000, label: "2 secs"},
-    //     {value: 2500, label: "2.5 secs"},
-    //     {value: 3000, label: "3 secs"}
-    // ]
     $scope.durations = [
         500,
         1000,

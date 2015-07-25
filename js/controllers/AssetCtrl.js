@@ -13,6 +13,7 @@ angular.module('Assets', ['AssetService', 'ConfigService', 'TimelineService', 'u
 	$scope.$on('article:load', function(event, url) {
 		assets.getData(url).then(function(data) {
 			$scope.assets = data;
+			console.log($scope.assets.metadata);
 		});
 	});
 

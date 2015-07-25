@@ -58,7 +58,7 @@ angular.module('Editor', ['ConfigService']).controller('EditorCtrl', function($s
 
     $scope.overlay = {
         enabled : true,
-        opacity: 0.8,
+        opacity: 0.5,
         overlayColor: '#000000',
     };
 

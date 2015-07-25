@@ -3,6 +3,15 @@
     height:auto;
 }
 
+.directions{
+    text-align: center;
+    margin-top: 140px;
+    color: #7F7F7F;
+}
+.assets{
+    margin-top:40px;
+}
+
 .assets-scroll {
     max-height: 400px;
     overflow-y: scroll;
