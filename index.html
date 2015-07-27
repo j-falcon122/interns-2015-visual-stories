@@ -76,11 +76,11 @@
                 </a>
             </div>
         </div>
+        <input class="btn btn-sm btn-primary addSlide" ng-click="addSlide()" value="Add slide" type="button">
         <div ng-controller="TimelineCtrl as loki">
             <div id="timeline" class="slideup">
                 <input class="btn btn-sm btn-primary" ng-click="slide()" value="reveal/hide" type="button">
                 <input class="btn btn-sm btn-primary" ng-click="createThumbnail()" value="thumbTest" type="button">
-                <input class="btn btn-sm btn-primary" ng-click="$parent.addSlide()" value="add slide" type="button">
                 <div="templates" style="display:none">
                     <img id="starter" src="assets/slides/starter.jpg">
                     <img id="ender" src="assets/slides/ender.jpg">
@@ -131,68 +131,71 @@
                         </div>
                     </div>
                 </tab>
-                <tab heading="Overlay">
+                <tab heading="Overlay" ng-controller="EditorCtrl">
+                    <div class="overlay-preview-backdrop" style="background-color:{{overlay.overlayColor}}; opacity:{{overlay.opacity}}"></div>
+                    <div class="overlay-preview">
+                        <span>
+                            <h3 style="color:{{text.color}}; font-family:{{text.font}}; font-size:{{text.size}};">
+                                {{text.content || 'hi sam'}}
+                            </h3>
+                        </span>
+                    </div>
+                    <input class="btn btn-sm btn-primary overlay-draw" value="Draw text" type="button" ng-click="saveConfigs(true);" />
                     <div class="assets-scroll overlay">
-                    <form ng-init="initialize()" ng-controller="EditorCtrl">
-                        <fieldset id="text" class="editor">
-                        <div class="overlay-preview" style="background-color:{{overlay.overlayColor}}">
-                            <span>
-                                <h3 style="color:{{text.color}}; font-family:{{text.font}}; font-size:{{text.size}};">
-                                    {{text.content || 'hi sam'}}
-                                </h3>
-                            </span>
-                             <input class="btn btn-sm btn-primary overlay-draw" value="Draw text" type="button" ng-click="saveConfigs(true);" />
-                        </div>
-                            <legend>Text</legend>
-                            <div class="form-group form-inline">
-                                <label class="control-label overlay-label">Text</label>
-                                <input class="form-control" ng-model="text.content" placeholder="text here" id="text-content" type="text"/>
+                        <form ng-init="initialize()">
+                            <div>
+                                <fieldset id="text" class="editor">
+                                    <legend>Text</legend>
+                                    <div class="form-group form-inline">
+                                        <label class="control-label overlay-label">Text</label>
+                                        <input class="form-control" ng-model="text.content" placeholder="text here" id="text-content" type="text"/>
+                                    </div>
+                                    <div class="form-group form-inline">
+                                        <label class="control-label overlay-label">Size</label>
+                                        <input class="form-control" ng-model="text.size" placeholder="font-size" id="font-size" type="text" />
+                                    </div>
+                                    <div class="form-group form-inline">
+                                        <div id="font-button" dropdown dropdown-append-to-body>
+                                            <label class="control-label overlay-label">Font</label>
+                                            <button class="btn btn-sm btn-muted" dropdown-toggle class="dropdown">Choose Font</button>
+                                            <ul role="menu" class="dropdown-menu" id="font-holder">
+                                                <li ng-repeat="font in fonts" id="{{font}}" class="font-family" ng-class="{'active': font == text.font}" style="font-family:{{font}}" ng-click="text.font = font">{{font}}</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control overlay-color" ng-model="text.color" type="color" id="text-color"/>
+                                    </div>
+                                </fieldset>
+                                <fieldset class="editor">
+                                    <legend>Overlay<span class="overlay-checkbox">enable/disable</span><input ng-model="overlay.enabled" id="overlay" type="checkbox" /></legend>
+                                    <div class="form-group form-inline">
+                                        <label class="control-label overlay-label">Auto</label>
+                                        <select class="form-control" ng-model="autoPosition" ng-options="option.label for option in autoPositions track by option.value" id="position">
+                                        </select>
+                                    </div>
+                                    <div class="form-group form-inline">
+                                        <label class="control-label overlay-label">Opacity</label>
+                                        <input class="form-control" ng-model="overlay.opacity" type="number" min="0" max="1" id="overlay-opacity" step=".1">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <input class="form-control overlay-color" ng-model="overlay.overlayColor" type="color" id="overlay-color">
+                                        </div>
+                                    </div>
+                                    <div id="size" class="form-group form-inline">
+                                        <label class="control-label overlay-label">X</label>
+                                        <input class="form-control overlay-input" ng-model="manualPosition[0]" type="number" id="manual-x">
+                                        <label class="control-label overlay-label">Y</label>
+                                        <input class="form-control overlay-input" ng-model="manualPosition[1]" type="number" id="manual-y">
+                                        <br>
+                                        <label class="control-label overlay-label">Width</label>
+                                        <input class="form-control overlay-input" ng-model="manualPosition[2]" id="width" type="text" placeholder="width">
+                                        <label class="control-label overlay-label">Height</label>
+                                        <input class="form-control overlay-input" ng-model="manualPosition[3]" id="height" type="text" placeholder="height">
+                                    </div>
+                                </fieldset>
                             </div>
-                            <div class="form-group form-inline">
-                                <label class="control-label overlay-label">Size</label>
-                                <input class="form-control" ng-model="text.size" placeholder="font-size" id="font-size" type="text" />
-                            </div>
-                            <div class="form-group form-inline">
-                                <div id="font-button" dropdown dropdown-append-to-body>
-                                    <label class="control-label overlay-label">Font</label>
-                                    <button class="btn btn-sm btn-muted" dropdown-toggle class="dropdown">Choose Font</button>
-                                    <ul role="menu" class="dropdown-menu" id="font-holder">
-                                        <li ng-repeat="font in fonts" id="{{font}}" class="font-family" ng-class="{'active': font == text.font}" style="font-family:{{font}}" ng-click="text.font = font">{{font}}</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control overlay-color" ng-model="text.color" type="color" id="text-color"/>
-                            </div>
-                        </fieldset>
-                        <fieldset class="editor">
-                            <legend>Overlay<span class="overlay-checkbox">enable/disable</span><input ng-model="overlay.enabled" id="overlay" type="checkbox" /></legend>
-                            <div class="form-group form-inline">
-                                <label class="control-label overlay-label">Auto</label>
-                                <select class="form-control" ng-model="autoPosition" ng-options="option.label for option in autoPositions track by option.value" id="position">
-                                </select>
-                            </div>
-                            <div class="form-group form-inline">
-                                <label class="control-label overlay-label">Opacity</label>
-                                <input class="form-control" ng-model="overlay.opacity" type="number" min="0" max="1" id="overlay-opacity" step=".1">
-                            </div>
-                            <div class="form-group">
-                                <div class="form-group">
-                                    <input class="form-control overlay-color" ng-model="overlay.overlayColor" type="color" id="overlay-color">
-                                </div>
-                            </div>
-                            <div id="size" class="form-group form-inline">
-                                <label class="control-label overlay-label">X</label>
-                                <input class="form-control overlay-input" ng-model="manualPosition[0]" type="number" id="manual-x">
-                                <label class="control-label overlay-label">Y</label>
-                                <input class="form-control overlay-input" ng-model="manualPosition[1]" type="number" id="manual-y">
-                                <br>
-                                <label class="control-label overlay-label">Width</label>
-                                <input class="form-control overlay-input" ng-model="manualPosition[2]" id="width" type="text" placeholder="width">
-                                <label class="control-label overlay-label">Height</label>
-                                <input class="form-control overlay-input" ng-model="manualPosition[3]" id="height" type="text" placeholder="height">
-                            </div>
-                        </fieldset>
                         </form>
                     </div>
                 </tab>

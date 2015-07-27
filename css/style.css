@@ -132,17 +132,19 @@ body{
     padding-top:15px;
 }
 
-.overlay-preview{
+.overlay-preview, .overlay-preview-backdrop{
     position: absolute;
-    height: 100px;
-    width: 232px;
-    right: 31px;
-    top: 75px;
-    background: rgba(225,225,225,0.9);
-    /*border: 10px #BFBFBF dotted;*/
-    border-radius:4px;
+    height: 400px;
+    width: 600px;
+    left: 4%;
+    top: 145px;
+    border: 5px #BFBFBF dotted;
     text-align: center;
 }
+
+ .overlay-preview-backdrop{
+    border:none;
+ }
 
 .overlay-preview:after{
     content: "PREVIEW";
@@ -150,25 +152,17 @@ body{
     position: absolute;
     top: 0px;
     left: 6px;
-
-}
-
-.overlay-preview span{
-    overflow: hidden;
-    white-space: nowrap;
 }
 
 .overlay-preview h3{
-    position:absolute;
-    left:5;
-    bottom:0;
+    margin-top:25px;
 }
 
-.overlay-draw{
-    top: 103px;
+.overlay-draw, .addSlide{
+    top: 551px;
     position: absolute;
-    left: 0;
-    width: 232px;
+    left: 4%;
+    width: 600px;
 }
 
 .overlay-label{
