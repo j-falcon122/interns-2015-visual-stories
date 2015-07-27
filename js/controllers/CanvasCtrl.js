@@ -242,10 +242,9 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     **  Creating Slides       **
     ***************************/
     $scope.addSlide = function(){
-        var data = {};
+        var data = $scope.setDefaults("headliner");
         // data.thumb = $("#"+$scope.lastChosen).attr("src");
         data.thumb = document.getElementById("canvas").toDataURL("image/png",0.5);
-        $scope.setDefaults(data);
         data.title = $scope.lastChosen;
         data.json = $scope.saveSlide();
         timeline.slides.push(data);
