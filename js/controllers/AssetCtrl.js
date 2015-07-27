@@ -9,6 +9,9 @@ angular.module('Assets', ['AssetService', 'ConfigService', 'TimelineService', 'u
 		metadata: []
 	};
 
+	$scope.setClicked = function(data){
+		Config.clicked = data;
+	};
 
 	$scope.$on('article:load', function(event, url) {
 		assets.getData(url).then(function(data) {

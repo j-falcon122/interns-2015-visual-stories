@@ -8,6 +8,11 @@
 		General CSS
 *******************************/
 
+
+body{
+    margin-top:80px;
+}
+
 .right {
     width: 45%;
     float: right;
@@ -20,10 +25,18 @@
     float: left;
     margin: 0 1% 0 4%;
 }
-
+.navbar h1{
+    margin-top:0;
+}
 .navbar {
-    margin-top: 15px;
-    border-bottom: 2px solid rgb(191, 191, 191);
+    width:100%;
+    /*background-color:rgba(225,225,225,0.9);*/
+    padding-top: 15px;
+    position:fixed;
+    top:0;
+    background: rgba(225,225,225,0.9);
+    left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,rgba(225,225,225,0.9))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #ffffff 0%,rgba(225,225,225,0.9) 100%); /* Chrome10+,Safari5.1+ */
 }
 
 .navbar > *,
@@ -69,8 +82,10 @@
 /*outside*/
 .openModal{
     position:absolute;
-    right:20;
+    right:20px;
+    top:15px;
 }
+
 #modalPage {
     height:500px;
     width:400px;
@@ -89,9 +104,6 @@
 #modalPage h1{
     padding-bottom:15px;
     margin-left: 71px;
-}
-/*inside*/
-#modalWrapper{
 }
 
 #modalWrapper, #modalWrapper form{
@@ -112,6 +124,82 @@
     left:3;
     top:3;
 }
+
+/******************************
+        Overlay
+*******************************/
+.overlay{
+    padding-top:15px;
+}
+
+.overlay-preview{
+    position: absolute;
+    height: 100px;
+    width: 232px;
+    right: 31px;
+    top: 75px;
+    background: rgba(225,225,225,0.9);
+    /*border: 10px #BFBFBF dotted;*/
+    border-radius:4px;
+    text-align: center;
+}
+
+.overlay-preview:after{
+    content: "PREVIEW";
+    color: #dddddd;
+    position: absolute;
+    top: 0px;
+    left: 6px;
+
+}
+
+.overlay-preview span{
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.overlay-preview h3{
+    position:absolute;
+    left:5;
+    bottom:0;
+}
+
+.overlay-draw{
+    top: 103px;
+    position: absolute;
+    left: 0;
+    width: 232px;
+}
+
+.overlay-label{
+    width:50px;
+    text-align:right;
+}
+
+.overlay-input{
+    width:100px;
+}
+
+.overlay-color{
+    margin-left:54px;
+    width:176px;
+}
+.overlay-color:before{
+    content: "Color";
+    position: absolute;
+    font-weight: bold;
+    -webkit-transform: translatex(-55px);
+    color: #333333;
+}
+
+.overlay-checkbox{
+    padding: 5px;
+    font-size:12px;
+    color: #aaaaaa;
+}
+
+
+
 /******************************
        Editing Module
 *******************************/
@@ -153,7 +241,6 @@
 #nyt-player {
     height:400px;
     width:600px;
-    background-color: "black" !important;
 }
 
 #mediaWrapper {
@@ -174,7 +261,9 @@
     left: 0;
     bottom: 0;
     z-index:5;
-    background-color:rgba(225,225,225,0.9) ;
+    background: rgba(225,225,225,0.9);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(225,225,225,0.9)), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, rgba(225,225,225,0.9) 0%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
 }
 
 .slideup,
@@ -247,7 +336,21 @@
     z-index:5;
 }
 
+/******************************
+        Media Query
+*******************************/
+@media (max-width: 1250px) {
+    .right {
+        width: 90%;
+        margin: 0 5% 0 5%;
+        margin-bottom: 120px;
+    }
 
+    .left {
+        width: 90%;
+        margin: 0 5% 0 5%;
+    }
+}
 /******************************
 		buggy fonts
 *******************************/

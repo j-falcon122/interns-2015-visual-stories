@@ -49,11 +49,32 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         $scope.canvas = new fabric.Canvas('canvas', {
             backgroundColor: '#000000'
         });
+        $scope.undo = [$scope.saveSlide()];
         $scope.video = new Whammy.Video(15);
         // getAnimationFrames();
     };
 
-    $scope.chooseImage = function(id) {
+    $scope.qUndo = function(){
+        var saved = $scope.saveSlide();
+        if (saved === $scope.undo[$scope.undo.length - 1]) {
+            console.log("not saved");
+        } else {
+            $scope.undo.push(saved);
+            console.log("saved!");
+        }
+    }
+
+    $scope.popUndo = function(){
+        $scope.undo.pop();
+        $scope.canvas.loadFromJSON($scope.undo.pop(), $scope.canvas.renderAll.bind($scope.canvas));
+        console.log($scope.undo);
+        if($scope.undo.length = 1){
+            $scope.canvas.clear();
+            $scope.qUndo();
+        }
+    }
+
+    $scope.chooseImage = function(id, ignoreUndo) {
         $scope.clearCanvas();
         var img = new fabric.Image(id);
         var ratioX = $scope.canvas.width / img.width;
@@ -65,9 +86,10 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         });
         $scope.setLastChosen(id);
         $scope.canvas.add(img);
+        if(!ignoreUndo) $scope.qUndo();
     };
 
-    $scope.chooseText = function(string, options, rect) {
+    $scope.chooseText = function(string, options, rect, ignoreUndo) {
         options = _.defaults(options || {}, {
             content: string,
             color: '#ffffff',
@@ -81,6 +103,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         // x y w h
         var text = $scope.createText(rect, options);
         $scope.canvas.add(text);
+        if (!ignoreUndo) $scope.qUndo();
     }
 
     $scope.clearCanvas = function() {
@@ -187,14 +210,16 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     ***************************/
 
     $scope.saveSlide = function(){
-        $scope.canvas.renderAll.bind($scope.canvas);
         var saved = $scope.canvas.toJSON();
         saved =  JSON.stringify(saved);
         return saved;
     };
 
     $scope.restoreSlide = function(index){
+        console.log("restore slide");
         $scope.canvas.loadFromJSON(timeline.slides[index].json, $scope.canvas.renderAll.bind($scope.canvas));
+        // account for async loadFromJSON... make this better in the future
+        setTimeout($scope.qUndo, 100);
     };
 
 
@@ -231,22 +256,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         return item;
     }
 
-/*    $scope.chooseText = function(string, options, rect) {
-        options = _.defaults(options || {}, {
-            content: string,
-            color: '#ffffff',
-            font: 'NYTCheltenhamExtBd',
-            fontStyle: 'italic',
-            size: 40,
-            justify: 'center',
-            compensateHeightOnWrap: true
-        });
-        rect = rect || [0, $scope.canvas_height * 2 / 5, $scope.canvas_width, $scope.canvas_height * 3 / 5];
-        // x y w h
-        var text = $scope.createText(rect, options);
-        $scope.canvas.add(text);
-    }*/
-
     $scope.headlineStyle = {
             fontStyle: 'italic',
             size: 40
@@ -258,28 +267,12 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             justify: 'left'
     };
     $scope.bylinePosition = [20, $scope.canvas_height * 9 / 10, $scope.canvas_width, $scope.canvas_height * 1 / 10]
-    // $scope.autoText = function(text, options, rect) {
-    //     options = _.defaults(options || {}, {
-    //         content: text,
-    //         color: '#ffffff',
-    //         font: 'NYTCheltenhamExtBd',
-    //         fontStyle: 'italic',
-    //         size: 40,
-    //         justify: 'left',
-    //         compensateHeightOnWrap: true
-    //     });
-    //     rect = rect || [0, $scope.canvas_height * 2 / 5, $scope.canvas_width, $scope.canvas_height * 8 / 10];
-    //     // rect = rect || [0, $scope.canvas_height * 2 / 5, $scope.canvas_width, $scope.canvas_height * 3 / 5];
-    //     // x y w h
-    //     var text = $scope.createText(rect, options);
-    //     $scope.canvas.add(text);
-    // }
 
     $scope.createSlides = function() {
         assets.getData().then(function(loaded) {
 
             // staring image
-            $scope.chooseImage("starter");
+            $scope.chooseImage("starter", true);
             var starter = $scope.setDefaults("starter");
             starter.thumb = $("#starter").attr("src");
             timeline.slides.push(starter);
@@ -290,8 +283,8 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             $scope.byline = loaded.metadata[4].text;
 
             $scope.canvas.clear();
-            $scope.chooseText($scope.headline, $scope.headlineStyle, $scope.headlinePosition);
-            $scope.chooseText($scope.byline, $scope.bylineStyle, $scope.bylinePosition);
+            $scope.chooseText($scope.headline, $scope.headlineStyle, $scope.headlinePosition, true);
+            $scope.chooseText($scope.byline, $scope.bylineStyle, $scope.bylinePosition, true);
             var headliner = $scope.setDefaults("headliner");
             headliner.thumb = document.getElementById("canvas").toDataURL("image/png",0.5);
             headliner.fadeOut = false;
@@ -301,14 +294,14 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
 
 
             loaded.images.forEach(function(image, it){
-                $scope.chooseImage("image"+it);
+                $scope.chooseImage("image"+it, true);
                 var data = $scope.setDefaults("image"+it);
                 data.thumb = image.url;
                 timeline.slides.push(data);
             });
 
             // add ending image
-            $scope.chooseImage("ender");
+            $scope.chooseImage("ender", true);
             var ender = $scope.setDefaults("ender")
             ender.thumb = $("#ender").attr("src");
             ender.fadeOut = false;
@@ -356,6 +349,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
                 $scope.clearCanvas();
                 var slideDuration = $scope.playSlide($scope.currentSlide, changeSlide);
             } else {
+                $scope.finalizeVideo();
                 console.log("done!");
                 $scope.continueRender = false;
             }

@@ -20,7 +20,7 @@ angular.module('Timeline', ['TimelineService']).controller('TimelineCtrl', funct
     $scope.slide = function() {
         $scope.fillSlides();
         if ($("#timeline").hasClass("slideup")) {
-            $(".right, .left").css("margin-bottom", 250);
+            $(".right").css("margin-bottom", 250);
             $("#timeline").removeClass("slideup").addClass("slidedown");
         } else {
             $("#timeline").removeClass("slidedown").addClass("slideup");

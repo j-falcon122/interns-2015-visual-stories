@@ -3,6 +3,10 @@ angular.module('Editor', ['ConfigService']).controller('EditorCtrl', function($s
     $scope.initialize = function() {
         $scope.$parent.canvas.on('mouse:down', $scope.dragStart);
         $scope.$parent.canvas.on('mouse:up', $scope.dragEnd);
+        $scope.$parent.canvas.on('mouse:up', function(){
+            console.log("working");
+            $scope.$parent.qUndo();
+        });
     }
 
     $scope.dragStart = function(event) {
@@ -53,7 +57,7 @@ angular.module('Editor', ['ConfigService']).controller('EditorCtrl', function($s
         {value:"bri", label:'bottom right inset'},
         {value:"bb", label:'bottom banner'}
     ];
-    $scope.autoPosition = $scope.autoPositions[1];
+    $scope.autoPosition = $scope.autoPositions[7];
     $scope.manualPosition = [0, 0, 0, 0];
 
     $scope.overlay = {
@@ -66,8 +70,8 @@ angular.module('Editor', ['ConfigService']).controller('EditorCtrl', function($s
     $scope.text = {
         content: '',
         color: '#ffffff',
-        size: 24,
-        font: $scope.fonts[0],
+        size: 40,
+        font: $scope.fonts[2],
         justify: 'center',
         compensateHeightOnWrap: false
     };
