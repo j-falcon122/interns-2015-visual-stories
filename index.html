@@ -76,7 +76,7 @@
                 </a>
             </div>
         </div>
-        <input class="btn btn-sm btn-primary addSlide" ng-click="addSlide()" value="Add slide" type="button">
+        <input ng-show="showCanvas" class="btn btn-sm btn-primary addSlide" ng-click="addSlide()" value="Add slide" type="button">
         <div ng-controller="TimelineCtrl as loki">
             <div id="timeline" class="slideup">
                 <input class="btn btn-sm btn-primary" ng-click="slide()" value="reveal/hide" type="button">
@@ -136,7 +136,7 @@
                     <div class="overlay-preview">
                         <span>
                             <h3 style="color:{{text.color}}; font-family:{{text.font}}; font-size:{{text.size}};">
-                                {{text.content || 'hi sam'}}
+                                {{text.content}}
                             </h3>
                         </span>
                     </div>
@@ -152,7 +152,7 @@
                                     </div>
                                     <div class="form-group form-inline">
                                         <label class="control-label overlay-label">Size</label>
-                                        <input class="form-control" ng-model="text.size" placeholder="font-size" id="font-size" type="text" />
+                                        <input class="form-control" ng-model="text.size" placeholder="font-size" id="font-size" type="number" />
                                     </div>
                                     <div class="form-group form-inline">
                                         <div id="font-button" dropdown dropdown-append-to-body>
