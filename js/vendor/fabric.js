@@ -10355,7 +10355,7 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
 
     var cbIfLoaded = function () {
       if (loaded.backgroundImage && loaded.overlayImage && loaded.backgroundColor && loaded.overlayColor) {
-        _this.renderAll();
+        // _this.renderAll();
         callback && callback();
       }
     };

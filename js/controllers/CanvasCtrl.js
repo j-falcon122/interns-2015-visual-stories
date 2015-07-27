@@ -333,10 +333,11 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         var fadeTime = Config.settings.fadeTime;
         var nop = function(x, y, cb) {cb()};
 
-        $scope.loadSlide(currentSlide.json,
+        $scope.loadSlide(currentSlide.json, function() {
             _.partial(currentSlide.fadeIn ? $scope.fade : nop, false, fadeTime,
             _.partial(currentSlide.kenBurns ? $scope.kenBurns : nop, 'left', duration,
-            _.partial(currentSlide.fadeOut ? $scope.fade : nop, true, fadeTime, nextSlide))));
+            _.partial(currentSlide.fadeOut ? $scope.fade : nop, true, fadeTime, nextSlide)))();
+        });
 
         totalTime += currentSlide.fadeIn ? fadeTime : 0;
         totalTime += duration;
@@ -361,15 +362,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
                 $scope.continueRender = false;
             }
         };
-
-
-        var fadeSlide = function() {
-            $scope.panning();
-            if ($scope.currentSlide < timeline.slides.length + 1){
-                $scope.fade(true);
-                setTimeout(changeSlide, Config.settings.fadeTime)
-            }
-        }
 
         console.log("Length = " + (timeline.videoDuration() / 1000 + " seconds"));
 
@@ -423,6 +415,13 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             onComplete: onComplete
         });
     }
+
+    $scope.hideAll = function() {
+        _.each($scope.canvas._objects, function(obj, idx) {
+            obj.opacity = 0;
+        });
+    }
+
 });
 
 function wrapCanvasText(t, canvas, options) {
