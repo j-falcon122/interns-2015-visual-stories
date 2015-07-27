@@ -93,6 +93,7 @@ angular.module('Editor', ['ConfigService']).controller('EditorCtrl', function($s
 
         if (draw) {
             $scope.$parent.drawAll();
+            $scope.qUndo();
         }
     }
 

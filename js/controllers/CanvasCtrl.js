@@ -58,17 +58,24 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         var saved = $scope.saveSlide();
         if (saved === $scope.undo[$scope.undo.length - 1]) {
             console.log("not saved");
+            console.log($scope.undo.length);
         } else {
             $scope.undo.push(saved);
+            console.log(JSON.parse(saved));
+            console.log($scope.undo);
+            console.log($scope.undo.length);
             console.log("saved!");
         }
     }
 
     $scope.popUndo = function(){
+        console.log("before pop", $scope.undo.length);
         $scope.undo.pop();
-        $scope.canvas.loadFromJSON($scope.undo.pop(), $scope.canvas.renderAll.bind($scope.canvas));
+        console.log("after pop", $scope.undo.length);
+        $scope.canvas.loadFromJSON($scope.undo[$scope.undo.length-1], $scope.canvas.renderAll.bind($scope.canvas));
+        console.log("after load", $scope.undo.length)
         console.log($scope.undo);
-        if($scope.undo.length = 1){
+        if($scope.undo.length === 0){
             $scope.canvas.clear();
             $scope.qUndo();
         }
