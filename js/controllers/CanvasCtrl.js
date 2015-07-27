@@ -184,11 +184,10 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         window.requestAnimationFrame = requestAnimationFrame;
     };
 
-    $scope.end_time = 0;
     $scope.continueRender = true;
 
     $scope.addFrame = function() {
-        $scope.video.add($scope.canvas.getContext("2d"),60);
+        $scope.video.add($scope.canvas.getContext("2d"),17);
         if($scope.continueRender) {
             requestAnimationFrame($scope.addFrame);
         } else {
@@ -286,8 +285,8 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
 
 
             // these may change indexes later
-            $scope.headline = loaded.metadata[0].text;
-            $scope.byline = loaded.metadata[4].text;
+            $scope.headline = _.findWhere(loaded.metadata, {name: 'Headline'}).text;
+            $scope.byline = _.findWhere(loaded.metadata, {name: 'Byline'}).text;
 
             $scope.canvas.clear();
             $scope.chooseText($scope.headline, $scope.headlineStyle, $scope.headlinePosition, true);
@@ -301,6 +300,8 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
 
 
             loaded.images.forEach(function(image, it){
+                if (it > 1) return;
+
                 $scope.chooseImage("image"+it, true);
                 var data = $scope.setDefaults("image"+it);
                 data.thumb = image.url;
@@ -319,9 +320,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         });
     }
 
-    $scope.setDuration = function(){
-        $scope.end_time = timeline.videoDuration();
-    }
     /***************************
     **    Animate Slide       **
     ***************************/
@@ -349,6 +347,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     $scope.playSlides = function(recording) {
         $scope.continueRender = true;
         $scope.currentSlide = -1;
+
         var changeSlide = function() {
             $scope.currentSlide++;
             console.log($scope.currentSlide, timeline.slides.length);
@@ -372,7 +371,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             }
         }
 
-        console.log("Length = " + (timeline.videoDuration()*50/1000 + " seconds"));
+        console.log("Length = " + (timeline.videoDuration() / 1000 + " seconds"));
 
         if (recording) {
             $scope.addFrame();
