@@ -295,8 +295,8 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             $scope.chooseText($scope.byline, $scope.bylineStyle, $scope.bylinePosition, true);
             var headliner = $scope.setDefaults("headliner");
             headliner.thumb = document.getElementById("canvas").toDataURL("image/png",0.5);
-            headliner.fadeOut = false;
-            headliner.fadeIn = false;
+            headliner.fadeOut = 0;
+            headliner.fadeIn = 0;
             headliner.kenBurns = false;
             timeline.slides.push(headliner);
 
@@ -314,7 +314,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             $scope.chooseImage("ender", true);
             var ender = $scope.setDefaults("ender")
             ender.thumb = $("#ender").attr("src");
-            ender.fadeOut = false;
+            ender.fadeOut = 0;
             ender.duration = 1000;
             timeline.slides.push(ender);
 
@@ -336,14 +336,14 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         var nop = function(x, y, cb) {cb()};
 
         $scope.loadSlide(currentSlide.json, function() {
-            _.partial(currentSlide.fadeIn ? $scope.fade : nop, false, fadeTime,
+            _.partial(currentSlide.fadeIn ? $scope.fade : nop, false, currentSlide.fadeIn,
             _.partial(currentSlide.kenBurns ? $scope.kenBurns : nop, 'left', duration,
-            _.partial(currentSlide.fadeOut ? $scope.fade : nop, true, fadeTime, nextSlide)))();
+            _.partial(currentSlide.fadeOut ? $scope.fade : nop, true, currentSlide.fadeOut, nextSlide)))();
         });
 
-        totalTime += currentSlide.fadeIn ? fadeTime : 0;
+        totalTime += currentSlide.fadeIn;
         totalTime += duration;
-        totalTime += currentSlide.fadeOut ? fadeTime : 0;
+        totalTime += currentSlide.fadeOut;
         return fadeTime;
     }
 

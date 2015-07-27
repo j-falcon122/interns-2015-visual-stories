@@ -5,8 +5,8 @@ angular.module('ConfigService', []).factory('Config', [function() {
         article: 0,
         duration: 1500,
         fadeTime: 600,
-        fadeOut: true,
-        fadeIn: true,
+        fadeOut: 600,
+        fadeIn: 600,
         recording: true,
         width: 600,
         height: 400
