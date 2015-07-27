@@ -12,7 +12,6 @@ angular.module('Article', ['AssetService', 'ui.bootstrap']).controller("ArticleC
             animation: true,
             templateUrl: 'modal.html',
             controller: 'ArticleCtrl',
-            backdrop: 'static',
             scope: $scope, //the parent of the modal scope.
         });
     };

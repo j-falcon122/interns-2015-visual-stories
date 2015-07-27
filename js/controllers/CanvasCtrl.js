@@ -356,8 +356,9 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
                 $scope.clearCanvas();
                 var slideDuration = $scope.playSlide($scope.currentSlide, changeSlide);
             } else {
-                $scope.finalizeVideo();
-                console.log("done!");
+                if (recording) {
+                    $scope.finalizeVideo();
+                }
                 $scope.continueRender = false;
             }
         };
