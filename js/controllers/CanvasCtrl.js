@@ -188,16 +188,18 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
 
     $scope.addFrame = function() {
         $scope.video.add($scope.canvas.getContext("2d"),17);
-        if($scope.continueRender) {
+        if ($scope.continueRender) {
             requestAnimationFrame($scope.addFrame);
-        } else {
-            requestAnimationFrame($scope.finalizeVideo);
         }
     }
 
     $scope.finalizeVideo = function() {
         var output = $scope.video.compile();
         var url = webkitURL.createObjectURL(output);
+        if ($scope.player) {
+            $scope.player.destroy();
+            $('#video-container').append("<div id='nyt-player'></div>");
+        }
         document.getElementById('download-link').href = url;
         $scope.player = VHS.player({
             container: 'nyt-player',

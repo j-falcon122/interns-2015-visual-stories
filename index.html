@@ -68,7 +68,9 @@
         <div id="mediaWrapper">
             <canvas ng-show="showCanvas" id="canvas" class="media" width="600" height="400"></canvas>
             <div ng-show="!showCanvas">
-                <div class="media" id="nyt-player"></div>
+                <div id="video-container">
+                    <div class="media" id="nyt-player"></div>
+                </div>
                 <a id="download-link" download="example.webm" href="">
                     <input class="btn btn-sm btn-primary" value="download" type="button" />
                 </a>
