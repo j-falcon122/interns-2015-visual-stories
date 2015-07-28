@@ -10,7 +10,7 @@
 
 
 body{
-    margin-top:80px;
+    margin-top:70px;
 }
 
 .right {
@@ -26,7 +26,8 @@ body{
     margin: 0 1% 0 4%;
 }
 .navbar h1{
-    margin-top:0;
+    line-height: 0.4;
+    margin-top: 5px;
 }
 .navbar {
     width:100%;
@@ -83,7 +84,7 @@ body{
 .openModal{
     position:absolute;
     right:20px;
-    top:15px;
+    top:6px;
 }
 
 #modalPage {
@@ -137,7 +138,7 @@ body{
     height: 400px;
     width: 600px;
     left: 4%;
-    top: 130px;
+    top: 112px;
     border: 5px #BFBFBF dotted;
     text-align: center;
 }
@@ -159,7 +160,7 @@ body{
 }
 
 .overlay-draw, .addSlide{
-    top: 536px;
+    top: 514px;
     position: absolute;
     left: 4%;
     width: 600px;
@@ -211,21 +212,24 @@ body{
 #modeWrapper {
     background-color: #E3E3E3;
     width: 600px;
-    padding: 10px;
+    padding: 6px;
     position: relative;
 }
 
 #videoMode {
     position: absolute;
     right: 0;
-    bottom: 0;
-    font-size: 35px;
+    top: 0;
+    font-size: 30px;
     padding: 0 15px 0 15px;
+    font-family: 'NYTFranklinHeadline';
 }
 
-#canvas,
-#nyt-player {
-    border: 1px solid black;
+#mainWrapper{
+    width:600px;
+    -webkit-box-shadow: 3px 3px 19px 1px rgba(148,148,148,1);
+    -moz-box-shadow: 3px 3px 19px 1px rgba(148,148,148,1);
+    box-shadow: 3px 3px 19px 1px rgba(148,148,148,1);
 }
 
 #canvas {
@@ -262,7 +266,7 @@ body{
 
 .slideup,
 .slidedown {
-    height: 40px;
+    height: 38px;
     -webkit-transition: height 0.2s ease-in-out;
     -moz-transition: height 0.2s ease-in-out;
     -o-transition: height 0.2s ease-in-out;
@@ -270,7 +274,7 @@ body{
 }
 
 .slidedown {
-    height: 180px;
+    height: 164px;
 }
 
 .element {
@@ -314,7 +318,6 @@ body{
 
 .slideWrapper{
 	position:absolute;
-	padding-top:10px;
     width: 100%;
     max-height: 100%;
     overflow-x:auto;
@@ -325,7 +328,7 @@ body{
 }
 
 .durations{
-    margin-top:-5px;
+    /*margin-top:-5px;*/
     text-align: center;
     z-index:5;
 }
@@ -336,14 +339,19 @@ body{
 @media (max-width: 1250px) {
     .right {
         width: 90%;
-        margin: 0 5% 0 5%;
+        margin: 40px 5% 0 5%;
         margin-bottom: 120px;
     }
 
     .left {
         width: 90%;
-        margin: 0 5% 0 5%;
+        margin: 0 4% 0 4%;
     }
+
+    .overlay-draw, .addSlide{
+        margin-top: -31px;
+    }
+
 }
 /******************************
 		buggy fonts

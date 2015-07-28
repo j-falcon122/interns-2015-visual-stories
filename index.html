@@ -56,31 +56,32 @@
 
 <body ng-init="initialize()" ng-controller="CanvasCtrl">
     <div class="left">
-        <div id="modeWrapper">
-            <input class="btn btn-sm btn-primary" ng-click="createSlides()" id="create" value="Queue" type="button">
-            <input class="btn btn-sm btn-primary" ng-click="playSlides()" id="play" value="Play" type="button">
-            <input class="btn btn-sm btn-primary" ng-click="showCanvas = !showCanvas" id="toggle" value="Toggle" type="button">
-            <input type="button" class="btn btn-sm btn-primary" ng-click="playSlides(true)" value="Render">
-            <input type="button" class="btn btn-sm btn-primary" ng-click="popUndo()" value="UNDO">
-            <input class="btn btn-sm btn-primary" value="Clear" type="button" ng-click="clearCanvas()" />
-            <span id="videoMode">{{showCanvas ? 'Editor Mode' : 'Video Player'}}</span>
-        </div>
-        <div id="mediaWrapper">
-            <canvas ng-show="showCanvas" id="canvas" class="media" width="600" height="400"></canvas>
-            <div ng-show="!showCanvas">
-                <div id="video-container">
-                    <div class="media" id="nyt-player"></div>
-                </div>
-                <a id="download-link" download="example.webm" href="">
-                    <input class="btn btn-sm btn-primary" value="download" type="button" />
-                </a>
+        <div id="mainWrapper">
+            <div id="modeWrapper">
+                <input class="btn btn-sm btn-primary" ng-click="createSlides()" id="create" value="Queue" type="button">
+                <input class="btn btn-sm btn-primary" ng-click="playSlides()" id="play" value="Play" type="button">
+                <input class="btn btn-sm btn-primary" ng-click="showCanvas = !showCanvas" id="toggle" value="Toggle" type="button">
+                <input type="button" class="btn btn-sm btn-primary" ng-click="playSlides(true)" value="Render">
+                <input type="button" class="btn btn-sm btn-primary" ng-click="popUndo()" value="UNDO">
+                <input class="btn btn-sm btn-primary" value="Clear" type="button" ng-click="clearCanvas()" />
+                <span id="videoMode">{{showCanvas ? 'EDITOR' : 'PLAYER'}}</span>
             </div>
+            <div id="mediaWrapper">
+                <canvas ng-show="showCanvas" id="canvas" class="media" width="600" height="400"></canvas>
+                <div ng-show="!showCanvas">
+                    <div id="video-container">
+                        <div class="media" id="nyt-player"></div>
+                    </div>
+                    <a id="download-link" download="example.webm" href="">
+                        <input class="btn btn-sm btn-primary" value="download" type="button" />
+                    </a>
+                </div>
+            </div>
+            <input ng-show="showCanvas" class="btn btn-sm btn-primary addSlide" ng-click="addSlide()" value="Add slide" type="button">
         </div>
-        <input ng-show="showCanvas" class="btn btn-sm btn-primary addSlide" ng-click="addSlide()" value="Add slide" type="button">
         <div ng-controller="TimelineCtrl as loki">
             <div id="timeline" class="slideup">
                 <input class="btn btn-sm btn-primary" ng-click="slide()" value="reveal/hide" type="button">
-                <input class="btn btn-sm btn-primary" ng-click="createThumbnail()" value="thumbTest" type="button">
                 <div="templates" style="display:none">
                     <img id="starter" src="assets/slides/starter.jpg">
                     <img id="ender" src="assets/slides/ender.jpg">

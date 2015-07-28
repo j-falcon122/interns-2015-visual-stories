@@ -56,25 +56,14 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
 
     $scope.qUndo = function(){
         var saved = $scope.saveSlide();
-        if (saved === $scope.undo[$scope.undo.length - 1]) {
-            console.log("not saved");
-            console.log($scope.undo.length);
-        } else {
+        if (saved !== $scope.undo[$scope.undo.length - 1]) {
             $scope.undo.push(saved);
-            console.log(JSON.parse(saved));
-            console.log($scope.undo);
-            console.log($scope.undo.length);
-            console.log("saved!");
         }
     }
 
     $scope.popUndo = function(){
-        console.log("before pop", $scope.undo.length);
         $scope.undo.pop();
-        console.log("after pop", $scope.undo.length);
         $scope.canvas.loadFromJSON($scope.undo[$scope.undo.length-1], $scope.canvas.renderAll.bind($scope.canvas));
-        console.log("after load", $scope.undo.length)
-        console.log($scope.undo);
         if($scope.undo.length === 0){
             $scope.canvas.clear();
             $scope.qUndo();
@@ -91,6 +80,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             scaleX: ratio,
             scaleY: ratio,
         });
+        console.log(img);
         $scope.setLastChosen(id);
         $scope.canvas.add(img);
         if(!ignoreUndo) $scope.qUndo();
@@ -200,6 +190,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             $scope.player.destroy();
             $('#video-container').append("<div id='nyt-player'></div>");
         }
+
         document.getElementById('download-link').href = url;
         $scope.player = VHS.player({
             container: 'nyt-player',
@@ -227,6 +218,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         console.log("restore slide");
         $scope.canvas.loadFromJSON(timeline.slides[index].json, $scope.canvas.renderAll.bind($scope.canvas));
         // account for async loadFromJSON... make this better in the future
+        console.log(timeline.slides[index].json);
         setTimeout($scope.qUndo, 100);
     };
 
@@ -242,12 +234,12 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     **  Creating Slides       **
     ***************************/
     $scope.addSlide = function(){
-        var data = $scope.setDefaults("headliner");
+        var data = $scope.setDefaults($scope.lastChosen);
         // data.thumb = $("#"+$scope.lastChosen).attr("src");
         data.thumb = document.getElementById("canvas").toDataURL("image/png",0.5);
-        data.title = $scope.lastChosen;
-        data.json = $scope.saveSlide();
+        console.log(data.json);
         timeline.slides.push(data);
+        console.log(timeline.slides);
     }
 
     $scope.setDefaults = function(title){
@@ -294,9 +286,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             $scope.chooseText($scope.byline, $scope.bylineStyle, $scope.bylinePosition, true);
             var headliner = $scope.setDefaults("headliner");
             headliner.thumb = document.getElementById("canvas").toDataURL("image/png",0.5);
-            headliner.fadeOut = 0;
-            headliner.fadeIn = 0;
-            headliner.kenBurns = false;
             timeline.slides.push(headliner);
 
 
@@ -339,6 +328,11 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             _.partial(currentSlide.kenBurns ? $scope.kenBurns : nop, 'left', duration,
             _.partial(currentSlide.fadeOut ? $scope.fade : nop, true, currentSlide.fadeOut, nextSlide)))();
         });
+
+        // $scope.loadSlide(currentSlide.json, function() {
+        //     _.partial(currentSlide.fadeIn ? $scope.fade : nop, false, currentSlide.fadeIn,
+        //     _.partial(currentSlide.fadeOut ? $scope.fade : nop, true, currentSlide.fadeOut, nextSlide))();
+        // });
 
         totalTime += currentSlide.fadeIn;
         totalTime += duration;
@@ -387,13 +381,16 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
 
     $scope.fadeIn = function(duration, onComplete) {
         duration = duration || Config.settings.fadeTime;
-        duration = 2000;
+        duration = 5000;
         var obj = $scope.canvas._objects[0];
         obj.opacity = 0;
-        obj.animate('opacity', 1, {
+        obj.height = $scope.canvas.height;
+        obj.width = $scope.canvas.width;
+        console.log(obj);
+        obj.animate({'opacity': 5, 'up': -100, 'right': -100, 'scaleX':(obj.width*1.1) / (obj.width), 'scaleY':(obj.height*1.1) / (obj.height)}, {
             onChange: $scope.canvas.renderAll.bind($scope.canvas),
             duration: duration,
-            onComplete: onComplete
+            onComplete: onComplete,
         });
     }
 
@@ -406,11 +403,13 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             $scope.fadeIn(duration, onComplete);
         }
     }
+    $scope.opacity = 0;
 
     $scope.kenBurns = function(direction, duration, onComplete) {
         console.log('ken burns');
         var obj = $scope.canvas._objects[0];
-        obj.animate({'right': -100, 'scaleX':1.1, 'scaleY':1.1}, {
+        console.log(obj.width);
+        obj.animate({'right': -100, 'scaleX':(obj.width*1.2) / (obj.width), 'scaleY':(obj.height*1.2) / (obj.height)}, {
             duration: duration,
             onChange: $scope.canvas.renderAll.bind($scope.canvas),
             onComplete: onComplete
