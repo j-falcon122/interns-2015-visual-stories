@@ -1,13 +1,14 @@
-/*THINGS TO ADD
+/*
+THINGS TO ADD
     Remove quote feature (preventDefault on delete key?)
     Make it easier to create rectangles
     Work on timeline interface
     Get Ken Burns working!
     Video Algorithm
     add fadeIn fadeOut times
-
-
+    OG video tags
 */
+
 // fabric.fastCanvas = function(_super){
 //   var __hasProp = {}.hasOwnProperty;
 //   var __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -323,11 +324,11 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         var currentSlide = timeline.slides[index];
         var duration = currentSlide.duration || 1000;
         var totalTime = 0;
-        var fadeTime = Config.settings.fadeTime;
+        var fadeTime = Config.settings.fadeIn + Config.settings.fadeOut;
         var nop = function(x, y, cb) {cb()};
 
         $scope.loadSlide(currentSlide.json,
-            _.partial(currentSlide.fadeIn ? $scope.fade : nop, false, currentSlide.fadeIn,
+            _.partial(currentSlide.fadeIn ? $scope.fade : nop, false, currentSlide,
             _.partial(currentSlide.fadeOut ? $scope.fade : nop, true, currentSlide.fadeOut, nextSlide)));
 
 
@@ -370,24 +371,31 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         $scope.canvas.clear();
     };
 
-    $scope.fadeIn = function(duration, onComplete) {
-        duration = duration || Config.settings.fadeTime;
-        duration = 1500;
+    $scope.fadeIn = function(slide, onComplete) {
+        var duration = 1500;
         var obj = $scope.canvas._objects[0];
         obj.opacity = 0;
         if (!obj) return;
         // -50, -25
         //
-        obj.animate({'opacity': duration/1000, 'left': -50, 'top': -25, 'scaleX':(obj.width*1.05) / (obj.width), 'scaleY':(obj.height*1.05) / (obj.height)}, {
-        // obj.animate({'opacity': 2, 'right' : -2000}, {
-            onChange: $scope.canvas.renderAll.bind($scope.canvas),
-            duration: duration,
-            onComplete: onComplete,
-        });
+        var animation = {
+            'opacity': duration/1000,
+            'left': -50,
+            'top': -25,
+            'scaleX': (obj.scaleX+0.1),
+            'scaleY': (obj.scaleY+0.1)
+        };
+
+        obj.animate( animation,
+            {
+                onChange: $scope.canvas.renderAll.bind($scope.canvas),
+                duration: duration,
+                onComplete: onComplete,
+            });
     }
 
     $scope.fadeOut = function(duration, onComplete) {
-        duration = duration || Config.settings.fadeTime;
+        duration = duration;
         duration = 1000;
         var obj = $scope.canvas._objects[0];
         obj.opacity = 1;
@@ -400,7 +408,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     }
 
     $scope.fade = function(out, duration, onComplete) {
-        duration = duration || Config.settings.fadeTime;
+        duration = duration;
         duration = 2000;
         if (out) {
             $scope.fadeOut(duration, onComplete);
