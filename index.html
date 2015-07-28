@@ -58,12 +58,13 @@
     <div class="left">
         <div id="mainWrapper">
             <div id="modeWrapper">
-                <input class="btn btn-sm btn-primary" ng-click="createSlides()" id="create" value="Queue" type="button">
+                <input class="btn btn-sm btn-primary" ng-click="createSlides(); $broadcast('openSlide');" id="create" value="Queue" type="button">
                 <input class="btn btn-sm btn-primary" ng-click="playSlides()" id="play" value="Play" type="button">
-                <input class="btn btn-sm btn-primary" ng-click="showCanvas = !showCanvas" id="toggle" value="Toggle" type="button">
+                <input type="button" class="btn btn-sm btn-primary" ng-click="restart()" value="Stop">
                 <input type="button" class="btn btn-sm btn-primary" ng-click="playSlides(true)" value="Render">
                 <input type="button" class="btn btn-sm btn-primary" ng-click="popUndo()" value="UNDO">
                 <input class="btn btn-sm btn-primary" value="Clear" type="button" ng-click="clearCanvas()" />
+                <input class="btn btn-sm btn-primary" ng-click="showCanvas = !showCanvas" id="toggle" value="Toggle" type="button">
                 <span id="videoMode">{{showCanvas ? 'EDITOR' : 'PLAYER'}}</span>
             </div>
             <div id="mediaWrapper">
@@ -77,11 +78,11 @@
                     </a>
                 </div>
             </div>
-            <input ng-show="showCanvas" class="btn btn-sm btn-primary addSlide" ng-click="addSlide()" value="Add slide" type="button">
+            <input ng-show="showCanvas" class="btn btn-sm btn-primary addSlide" ng-click="addSlide(); $broadcast('openSlide')" value="Add slide" type="button">
         </div>
         <div ng-controller="TimelineCtrl as loki">
-            <div id="timeline" class="slideup">
-                <input class="btn btn-sm btn-primary" ng-click="slide()" value="reveal/hide" type="button">
+            <div id="timeline" class="sliding" ng-class="{timelineHide: slideHidden}">
+                <input class="btn btn-sm btn-primary" ng-click="slideHidden=!slideHidden; fillSlides();" value="reveal/hide" type="button">
                 <div="templates" style="display:none">
                     <img id="starter" src="assets/slides/starter.jpg">
                     <img id="ender" src="assets/slides/ender.jpg">

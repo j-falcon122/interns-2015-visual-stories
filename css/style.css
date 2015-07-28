@@ -11,6 +11,7 @@
 
 body{
     margin-top:70px;
+    min-height:650px;
 }
 
 .right {
@@ -234,6 +235,7 @@ body{
 
 #canvas {
     margin-top: 0px;
+    position:absolute;
 }
 
 #nyt-player {
@@ -264,17 +266,15 @@ body{
     background: -webkit-linear-gradient(top, rgba(225,225,225,0.9) 0%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
 }
 
-.slideup,
-.slidedown {
-    height: 38px;
-    -webkit-transition: height 0.2s ease-in-out;
-    -moz-transition: height 0.2s ease-in-out;
-    -o-transition: height 0.2s ease-in-out;
-    transition: height 0.2s ease-in-out;
+
+.sliding{
+    height: 165px;
+    -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.2s;
+    transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.2s;
 }
 
-.slidedown {
-    height: 164px;
+.timelineHide {
+    height: 38px;
 }
 
 .element {

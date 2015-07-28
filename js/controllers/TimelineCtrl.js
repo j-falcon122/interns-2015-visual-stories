@@ -17,25 +17,12 @@ angular.module('Timeline', ['TimelineService']).controller('TimelineCtrl', funct
         console.log($scope.slides);
     }
 
-    $scope.slide = function() {
+    $scope.$on("openSlide", function(){
+        $scope.slideHidden = false;
         $scope.fillSlides();
-        if ($("#timeline").hasClass("slideup")) {
-            $(".right").css("margin-bottom", 250);
-            $("#timeline").removeClass("slideup").addClass("slidedown");
-        } else {
-            $("#timeline").removeClass("slidedown").addClass("slideup");
-        }
-    };
+    })
 
-    $("#duration").slider({
-      min: 10,
-      max: 100,
-      value: 50,
-      slide: function(event, ui) {
-        fontsize = ui.value;
-        return render();
-      }
-    });
+    $scope.slideHidden = true;
 
     $scope.durations = [
         500,
@@ -45,6 +32,13 @@ angular.module('Timeline', ['TimelineService']).controller('TimelineCtrl', funct
         2500,
         3000,
     ];
+
+    // "0.5 secs",
+    // "1 sec",
+    // "1.5 secs",
+    // "2.0 secs",
+    // "2.5 secs",
+    // "3.0 secs"
 
     $scope.duration = 1000;
 
