@@ -28,7 +28,7 @@ angular.module('AssetService', []).factory("assets", ['$http', '$q', function($h
       { "name": "Kicker",
         "text": article.result.kicker},
       { "name": "Link",
-        "text": article.result.url}
+        "text": article.result.short_url ? article.result.short_url : article.result.url}
     ];
   }
 

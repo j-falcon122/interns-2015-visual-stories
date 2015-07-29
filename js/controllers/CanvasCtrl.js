@@ -3,10 +3,10 @@ THINGS TO ADD
     Remove quote feature (preventDefault on delete key?)
     Make it easier to create rectangles
     Work on timeline interface
-    Get Ken Burns working!
     Video Algorithm
     add fadeIn fadeOut times
     OG video tags
+    gif export
 */
 
 // fabric.fastCanvas = function(_super){
@@ -237,7 +237,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     ***************************/
     $scope.addSlide = function(){
         var data = $scope.setDefaults($scope.lastChosen);
-        // data.thumb = $("#"+$scope.lastChosen).attr("src");
         data.thumb = document.getElementById("canvas").toDataURL("image/png",0.5);
         timeline.slides.push(data);
     };
@@ -250,7 +249,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         item.kenBurns = Config.settings.kenBurns;
         item.drag = true;
         item.fadeOut = Config.settings.fadeOut;
-        item.fadeIn = Config.settings.fadeIn;
+        item.fadeIn = Math.random() > .8 ? Config.settings.fadeIn : 0;
         item.hasFade = Config.settings.hasFade;
         item.title = title;
         return item;
@@ -330,7 +329,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     $scope.playSlide = function(index, nextSlide) {
         var currentSlide = timeline.slides[index];
         var duration = currentSlide.duration || 1000;
-        var totalTime = 0;
         var fadeTime = Config.settings.fadeIn + Config.settings.fadeOut;
         var nop = function(x, y, cb) {cb()};
 
@@ -349,7 +347,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         var changeSlide = function() {
             $scope.currentSlide++;
             if ($scope.currentSlide < timeline.slides.length) {
-                $scope.clearCanvas();
                 var slideDuration = $scope.playSlide($scope.currentSlide, changeSlide);
             } else {
                 if (recording) {
@@ -382,12 +379,11 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
 
         var animation = $scope.refactor(slide, obj, duration);
 
-        obj.animate( animation,
-            {
-                onChange: $scope.canvas.renderAll.bind($scope.canvas),
-                duration: duration,
-                onComplete: onComplete,
-            });
+        obj.animate(animation, {
+            onChange: $scope.canvas.renderAll.bind($scope.canvas),
+            duration: duration,
+            onComplete: onComplete,
+        });
     };
 
     $scope.fadeOut = function(duration, onComplete) {
@@ -403,9 +399,9 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
 
     $scope.refactor = function(slide, obj, duration) {
         var animation = {};
-        if(slide.hasFade){
-            // obj.opacity = 0;
-            animation['opacity'] = duration/slide.fadeIn;
+        if (slide.fadeIn) {
+            obj.opacity = 0;
+            animation['opacity'] = duration / slide.fadeIn;
         }
 
         var direction = 1;
