@@ -9,28 +9,6 @@ THINGS TO ADD
     gif export
 */
 
-// fabric.fastCanvas = function(_super){
-//   var __hasProp = {}.hasOwnProperty;
-//   var __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
-//   return (function(_super) {
-//     __extends(fastCanvas, _super);
-//     function fastCanvas() {
-//       this.frame;
-//       fastCanvas.__super__.constructor.apply(this, arguments);
-//     }
-//     fastCanvas.prototype.renderAll = function() {
-//       var args = arguments;
-//       var that = this;
-//       window.cancelAnimationFrame(this.frame);
-//       this.frame = window.requestAnimationFrame(function(){
-//         fastCanvas.__super__.renderAll.apply(that, args);
-//       });
-//     };
-//     return fastCanvas;
-//   })(_super || fabric.Canvas);
-// };
-
-
 angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).controller('CanvasCtrl', function($scope, Config, assets, timeline) {
 
     $scope.canvas = null;
@@ -256,16 +234,23 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     };
 
     $scope.headlineStyle = {
-            fontStyle: 'italic',
-            size: 40
+        fontStyle: 'italic',
+        size: 40
     };
-    $scope.headlinePosition = [0, $scope.canvas_height * 2 / 5, $scope.canvas_width, $scope.canvas_height * 3 / 5]
+    $scope.headlinePosition = [0, $scope.canvas_height * 2 / 5, $scope.canvas_width, $scope.canvas_height * 3 / 5];
     $scope.bylineStyle = {
-            fontStyle: 'normal',
-            size: 12,
-            justify: 'left'
+        fontStyle: 'normal',
+        size: 12,
+        justify: 'left'
     };
-    $scope.bylinePosition = [20, $scope.canvas_height * 9 / 10, $scope.canvas_width, $scope.canvas_height * 1 / 10]
+    $scope.bylinePosition = [20, $scope.canvas_height * 9 / 10, $scope.canvas_width, $scope.canvas_height * 1 / 10];
+    $scope.summaryStyle = {
+        fontStyle: 'normal',
+        size: 21
+    };
+    // x y w h
+
+    $scope.summaryPosition = [0, $scope.canvas_height * 8.5 / 10, 700, $scope.canvas_height * 4 / 10];
 
     $scope.createSlides = function() {
         assets.getData().then(function(loaded) {
@@ -278,10 +263,9 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             starter.kenBurns = 0;
             timeline.slides.push(starter);
 
-
-            // these may change indexes later
             $scope.headline = _.findWhere(loaded.metadata, {name: 'Headline'}).text;
             $scope.byline = _.findWhere(loaded.metadata, {name: 'Byline'}).text;
+            $scope.summary = _.findWhere(loaded.metadata, {name: 'Summary'}).text;
 
             $scope.canvas.clear();
             $scope.chooseText($scope.headline, $scope.headlineStyle, $scope.headlinePosition, true);
@@ -292,13 +276,16 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             headliner.kenBurns = 0;
             timeline.slides.push(headliner);
 
-
             loaded.images.forEach(function(image, it){
                 if (it > 5) return;
                 $scope.chooseImage("image"+it, true);
+                if(it == 0 || it == 1){
+                    console.log("iterator worked!");
+                    $scope.chooseText($scope.summary, $scope.summaryStyle, $scope.summaryPosition, true);
+                }
                 var data = $scope.setDefaults("image"+it);
                 data.kenBurns = it%4 + 1;
-                data.thumb = image.url;
+                data.thumb = document.getElementById("canvas").toDataURL("image/png",0.5);
                 timeline.slides.push(data);
             });
 
@@ -403,9 +390,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             obj.opacity = 0;
             animation['opacity'] = duration / slide.fadeIn;
         }
-
-        var direction = 1;
-
         switch (slide.kenBurns) {
             case 0:
                 animation["scaleX"] = obj.scaleX;
@@ -419,11 +403,14 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
                 animation['scaleY'] = (obj.scaleY + scale);
                 break;
             case 2:
-                // zoom into center
-                var scale = 0.1;
-                animation['left'] = (obj.width*(obj.scaleX) - obj.width*(obj.scaleX + scale)) / 2;
-                animation['scaleX'] = (obj.scaleX + scale);
-                animation['scaleY'] = (obj.scaleY + scale);
+                // panning left/up w/o zoom
+                var scale = 0.25;
+                obj.scaleX = (obj.scaleX + scale);
+                obj.scaleY = (obj.scaleY + scale);
+                obj.top = -75;
+                obj.left = -100;
+                animation['left'] = obj.getLeft()+100;
+                animation['top'] = obj.getTop()+20;
                 break;
             case 3:
                 // zoom into center
@@ -443,14 +430,11 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
                 animation['left'] = -100;
                 break;
             case 5:
-                // panning left/up w/o zoom
-                var scale = 0.25;
-                obj.scaleX = (obj.scaleX + scale);
-                obj.scaleY = (obj.scaleY + scale);
-                obj.top = -75;
-                obj.left = -100;
-                animation['left'] = obj.getLeft()+100;
-                animation['top'] = obj.getTop()+20;
+                // zoom into center
+                var scale = 0.1;
+                animation['left'] = (obj.width*(obj.scaleX) - obj.width*(obj.scaleX + scale)) / 2;
+                animation['scaleX'] = (obj.scaleX + scale);
+                animation['scaleY'] = (obj.scaleY + scale);
                 break;
             default:
                 console.log("no kenBurns in switch");
