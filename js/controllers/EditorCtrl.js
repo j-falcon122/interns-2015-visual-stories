@@ -4,7 +4,6 @@ angular.module('Editor', ['ConfigService']).controller('EditorCtrl', function($s
         $scope.$parent.canvas.on('mouse:down', $scope.dragStart);
         $scope.$parent.canvas.on('mouse:up', $scope.dragEnd);
         $scope.$parent.canvas.on('mouse:up', function(){
-            console.log("working");
             $scope.$parent.qUndo();
         });
     }
