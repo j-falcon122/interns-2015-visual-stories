@@ -24,13 +24,11 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     };
 
     $scope.initialize = function() {
-        // var fastCanvas = fabric.fastCanvas(fabric.Canvas)
         $scope.canvas = new fabric.Canvas('canvas', {
             backgroundColor: '#000000'
         });
         $scope.undo = [$scope.saveSlide()];
         $scope.video = new Whammy.Video(15);
-        // getAnimationFrames();
     };
 
     $scope.qUndo = function(){
@@ -56,9 +54,9 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         var ratioY = $scope.canvas.height / img.height;
         if (ratioX > ratioY){
             img.width = $scope.canvas.width;
-            img.height = img.height*ratioX;
+            img.height = img.height * ratioX;
         } else {
-            img.width = img.width*ratioY;
+            img.width = img.width * ratioY;
             img.height = $scope.canvas.height;
         }
         $scope.setLastChosen(id);
@@ -207,7 +205,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         if (_.isNumber(indexOrData)) {
             indexOrData = timeline.slides[indexOrData].json;
         }
-        $scope.canvas.loadFromJSON(indexOrData, callback ? callback : $scope.canvas.renderAll.bind($scope.canvas));
+        $scope.canvas.loadFromJSONWithoutClearing(indexOrData, callback ? callback : $scope.canvas.renderAll.bind($scope.canvas));
     };
 
     /***************************
@@ -343,7 +341,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             }
         };
 
-        console.log("Length = " + (timeline.videoDuration() / 1000 + " seconds"));
         if (recording) {
             $scope.addFrame();
         }
@@ -387,7 +384,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     $scope.refactor = function(slide, obj, duration) {
         var animation = {};
         if (slide.fadeIn) {
-            obj.opacity = 0;
             animation['opacity'] = duration / slide.fadeIn;
         }
         switch (slide.kenBurns) {

@@ -10334,6 +10334,24 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
     return this;
   },
 
+  loadFromJSONWithoutClearing: function (json, callback, reviver) {
+    if (!json) {
+      return;
+    }
+
+    // serialize if it wasn't already
+    var serialized = (typeof json === 'string')
+      ? JSON.parse(json)
+      : json;
+
+    var _this = this;
+    this._enlivenObjects(serialized.objects, function () {
+      _this._setBgOverlay(serialized, callback);
+    }, reviver, true);
+
+    return this;
+  },
+
   /**
    * @private
    * @param {Object} serialized Object with background and overlay information
@@ -10404,7 +10422,7 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
    * @param {Function} callback
    * @param {Function} [reviver]
    */
-  _enlivenObjects: function (objects, callback, reviver) {
+  _enlivenObjects: function (objects, callback, reviver, removeExisting) {
     var _this = this;
 
     if (!objects || objects.length === 0) {
@@ -10417,6 +10435,10 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
 
     fabric.util.enlivenObjects(objects, function(enlivenedObjects) {
       enlivenedObjects.forEach(function(obj, index) {
+        var objects = _this.getObjects();
+        if (removeExisting && objects[index]) {
+          objects[index].remove();
+        }
         _this.insertAt(obj, index, true);
       });
 
