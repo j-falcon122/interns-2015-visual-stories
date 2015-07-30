@@ -12,8 +12,16 @@ app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(bodyParser.json());
 app.use('/', express.static(__dirname+'/'));
 
+app.use('/convert', router);
+router.route('/convert')
+    .get(function(req, res){
+        var finalString = req.data + " hello again";
+        res.send(finalString);
+    });
+
+
 app.use('/api', router);
-router.route('/*')
+router.route('/api')
 	.get(function(req, res){
         var url = papi + req.url.split('.com/')[1].split('?')[0];
 		request.get(url, {

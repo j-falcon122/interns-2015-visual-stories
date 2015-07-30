@@ -18,7 +18,6 @@ angular.module('ConfigService', []).factory('Config', [function() {
         get: function() {
             return configs;
         },
-
         //Create new batch of people
         set: function(new_configs) {
             configs = new_configs;

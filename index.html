@@ -15,6 +15,7 @@
     <script src="js/vendor/fabric.js"></script>
     <script src="js/vendor/ui-bootstrap-tpls-0.13.0.min.js"></script>
     <script src="js/vendor/angular-dragdrop.min.js"></script>
+    <script src='js/vendor/gifshot.js'></script>
     <script src="js/controllers/ArticleCtrl.js"></script>
     <script src="js/controllers/CanvasCtrl.js"></script>
     <script src="js/services/ConfigService.js"></script>
@@ -57,7 +58,7 @@
     <div class="left">
         <div id="mainWrapper">
             <div id="modeWrapper">
-                <input class="btn btn-sm btn-primary" ng-click="createSlides(); $broadcast('openSlide');" id="create" value="Queue" type="button">
+                <input class="btn btn-sm btn-primary" ng-click="createSlides(); $broadcast('openSlide'); " id="create" value="Queue" type="button">
                 <input class="btn btn-sm btn-primary" ng-click="playSlides()" id="play" value="Play" type="button">
                 <input type="button" class="btn btn-sm btn-primary" ng-click="restart()" value="Stop">
                 <input type="button" class="btn btn-sm btn-primary" ng-click="playSlides(true)" value="Render">
@@ -67,18 +68,25 @@
                 <span id="videoMode">{{showCanvas ? 'EDITOR' : 'PLAYER'}}</span>
             </div>
             <div id="mediaWrapper">
-                <canvas ng-show="showCanvas" id="canvas" class="media" width="600" height="400"></canvas>
+                <canvas ng-show="showCanvas" id="canvas" class="media" width="600" height="337.5"></canvas>
                 <div ng-show="!showCanvas">
                     <div id="video-container">
-                        <div class="media" id="nyt-player"></div>
+                        <div class="media" id="nyt-player">
+                        </div>
                     </div>
-                    <a id="download-link" download="example.webm" href="">
-                        <input class="btn btn-sm btn-primary" value="download" type="button" />
-                    </a>
                 </div>
             </div>
-            <input ng-show="showCanvas" class="btn btn-sm btn-primary addSlide" ng-click="addSlide(); $broadcast('openSlide')" value="Add slide" type="button">
         </div>
+            <div ng-show="!showCanvas" id="socialWrapper">
+                <a id="download-link" download="example.webm" href="">
+                    <input class="btn btn-sm btn-primary" value="Download" type="button" />
+                </a>
+               <input class="btn btn-sm btn-primary" value="Convert to .gif" type="button" ng-click="convertToGIF()" />
+               <div id="finished">
+
+               </div>
+            </div>
+            <input ng-show="showCanvas" class="btn btn-sm btn-primary addSlide" ng-click="addSlide(); $broadcast('openSlide'); " value="Add slide" type="button">
         <div ng-controller="TimelineCtrl as loki">
             <div id="timeline" class="sliding" ng-class="{timelineHide: slideHidden}">
                 <input class="btn btn-sm btn-primary" ng-click="slideHidden=!slideHidden; fillSlides();" value="reveal/hide" type="button">
@@ -91,7 +99,7 @@
                         <li class="slideView" ng-repeat="item in slides" data-drop="true" ng-model='slides' jqyoui-droppable="{index: {{$index}}, onDrop:'loki.dropCallback(item.title, $index)', onStart:logging(item.title)}">
                             <div class="element" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="slides" jqyoui-draggable="{index: {{$index}}}">
                                 <div class="element-cutoff">
-                                    <img class="ng-binding" src="{{item.thumb}}" ng-click="$parent.restoreSlide($index)">
+                                    <img class="ng-binding" src="{{item.thumb}}" ng-click="$parent.restoreSlide($index)" ng-class="{selectedBorder: $index == lastChosen}">
                                 </div>
                                 <button type="button" class="remove btn btn-default btn-xs" ng-click="removeSlide($index);">X</button>
                                 <select class="form-control duration" ng-model="item.duration" ng-options="option for option in durations" ng-change="log()"></select>
@@ -123,6 +131,15 @@
                         </div>
                     </div>
                 </tab>
+                <tab class="container-flud" heading="Defaults">
+                    <div class="assets-scroll">
+                        <div class="row nomargin">
+                            <div class=" col-md-4 asset-container" ng-repeat="(index, image) in $parent.defaultSlides">
+                                <img class="thumbnail" crossorigin="anonymous" ng-click="$parent.chooseImage(image.name)" id="default{{index}}" ng-src="{{image.url}}">
+                            </div>
+                        </div>
+                    </div>
+                </tab>
                 <tab heading="Quotes">
                     <div class="assets-scroll">
                         <div class="quote-container asset-container" ng-repeat="quote in assets.quotes" ng-click="$parent.chooseText('“' + quote + '”')">
@@ -133,15 +150,15 @@
                     </div>
                 </tab>
                 <tab heading="Overlay" ng-controller="EditorCtrl">
-                    <div class="overlay-preview-backdrop" style="background-color:{{overlay.overlayColor}}; opacity:{{overlay.opacity}}"></div>
-                    <div class="overlay-preview">
+                    <div ng-show="$parent.showCanvas" class="overlay-preview-backdrop" style="background-color:{{overlay.overlayColor}}; opacity:{{overlay.opacity}}"></div>
+                    <div ng-show="$parent.showCanvas" class="overlay-preview">
                         <span>
                             <h3 style="color:{{text.color}}; font-family:{{text.font}}; font-size:{{text.size}};">
                                 {{text.content}}
                             </h3>
                         </span>
                     </div>
-                    <input class="btn btn-sm btn-primary overlay-draw" value="Draw text" type="button" ng-click="saveConfigs(true);" />
+                    <input ng-show="$parent.showCanvas" class="btn btn-sm btn-primary overlay-draw" value="Draw text" type="button" ng-click="saveConfigs(true);" />
                     <div class="assets-scroll overlay">
                         <form ng-init="initialize()">
                             <div>

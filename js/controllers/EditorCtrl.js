@@ -69,7 +69,7 @@ angular.module('Editor', ['ConfigService']).controller('EditorCtrl', function($s
     $scope.text = {
         content: '',
         color: '#ffffff',
-        size: 40,
+        size: 30,
         font: $scope.fonts[2],
         justify: 'center',
         compensateHeightOnWrap: false
@@ -103,7 +103,7 @@ function getRectangle(type, width, height) {
     var inset_margin_height = height / 10;
     var inset_width = width * .6
 
-    var banner_height = height * .2
+    var banner_height = height * .3
     var banner_inset = 0.25 * width;
 
     var dimensions;

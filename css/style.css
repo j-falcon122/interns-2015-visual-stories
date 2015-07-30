@@ -136,7 +136,7 @@ body{
 
 .overlay-preview, .overlay-preview-backdrop{
     position: absolute;
-    height: 400px;
+    height: 337.5px;
     width: 600px;
     left: 4%;
     top: 112px;
@@ -161,7 +161,7 @@ body{
 }
 
 .overlay-draw, .addSlide{
-    top: 514px;
+    top: 453px;
     position: absolute;
     left: 4%;
     width: 600px;
@@ -239,8 +239,14 @@ body{
 }
 
 #nyt-player {
-    height:400px;
+    min-height:337.5px;
     width:600px;
+}
+
+#nyt-player h2{
+    text-align: center;
+    margin-top:140px;
+    color:#aaaaaa;
 }
 
 #mediaWrapper {
@@ -333,6 +339,10 @@ body{
     z-index:5;
 }
 
+.selectedBorder{
+    border:3px #4395e5 solid;
+}
+
 /******************************
         Media Query
 *******************************/
@@ -349,9 +359,8 @@ body{
     }
 
     .overlay-draw, .addSlide{
-        margin-top: -31px;
+        top: 453px;
     }
-
 }
 /******************************
 		buggy fonts

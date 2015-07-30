@@ -13,14 +13,26 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
 
     $scope.canvas = null;
     $scope.canvas_width = 600;
-    $scope.canvas_height = 400;
+    $scope.canvas_height = 337.5;
     $scope.video = null;
     $scope.showCanvas = true;
-    // Last chosen image;
-    $scope.lastChosen;
+    $scope.defaultSlides = [];
 
-    $scope.setLastChosen = function(id){
-        $scope.lastChosen = id;
+    $scope.convertToGIF = function(){
+        gifshot.createGIF({
+            gifWidth: 600,
+            gifHeight: 338,
+            video: [
+                $scope.link
+            ],
+            numFrames: 100
+        }, function (obj) {
+            if (!obj.error) {
+                var image = obj.image, animatedImage = document.createElement('img');
+                animatedImage.src = image;
+                $("#finished").append(animatedImage);
+            }
+        });
     };
 
     $scope.initialize = function() {
@@ -59,7 +71,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             img.width = img.width * ratioY;
             img.height = $scope.canvas.height;
         }
-        $scope.setLastChosen(id);
         $scope.canvas.add(img);
         if(!ignoreUndo) $scope.qUndo();
     };
@@ -163,20 +174,19 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
 
     $scope.finalizeVideo = function() {
         var output = $scope.video.compile();
-        var url = webkitURL.createObjectURL(output);
+        $scope.link = webkitURL.createObjectURL(output);
         if ($scope.player) {
             $scope.player.destroy();
             $('#video-container').append("<div id='nyt-player'></div>");
         }
-
-        document.getElementById('download-link').href = url;
+        document.getElementById('download-link').href = $scope.link;
         $scope.player = VHS.player({
             container: 'nyt-player',
             analytics: false,
             id: 123567890,
             ads: false,
             name: 'nyt-trailer',
-            src: url,
+            src: $scope.link,
             api: false,
             mode: "html5"
         });
@@ -187,6 +197,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     /***************************
     **   Loading Slides       **
     ***************************/
+    $scope.lastChosen = -1;
 
     $scope.saveSlide = function(){
         var saved = $scope.canvas.toJSON();
@@ -196,6 +207,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
 
     $scope.restoreSlide = function(index){
         $scope.canvas.loadFromJSON(timeline.slides[index].json, $scope.canvas.renderAll.bind($scope.canvas));
+        $scope.lastChosen = index;
         // account for async loadFromJSON... make this better in the future
         setTimeout($scope.qUndo, 100);
     };
@@ -212,9 +224,15 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     **  Creating Slides       **
     ***************************/
     $scope.addSlide = function(){
-        var data = $scope.setDefaults($scope.lastChosen);
+        var data = $scope.setDefaults("added");
+        // data.thumb = $("#"+$scope.lastChosen).attr("src");
         data.thumb = document.getElementById("canvas").toDataURL("image/png",0.5);
-        timeline.slides.push(data);
+        if($scope.lastChosen !== -1){
+            timeline.slides[$scope.lastChosen] = data;
+        } else {
+            timeline.slides.push(data);
+        }
+        $scope.lastChosen = -1;
     };
 
     $scope.setDefaults = function(title){
@@ -246,9 +264,16 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         fontStyle: 'normal',
         size: 21
     };
-    // x y w h
 
-    $scope.summaryPosition = [0, $scope.canvas_height * 8.5 / 10, 700, $scope.canvas_height * 4 / 10];
+    $scope.summaryPosition = [0, $scope.canvas_height * 8 / 10, 600, $scope.canvas_height * 4 / 10];
+    $scope.summaryOverlay = new fabric.Rect({
+        left: 0,
+        top: $scope.canvas_height * 7 / 10,
+        fill: "#000000",
+        opacity: 0.5,
+        width: 600,
+        height: $scope.canvas_height * 4 / 10
+    });
 
     $scope.createSlides = function() {
         assets.getData().then(function(loaded) {
@@ -256,22 +281,31 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             // staring image
             $scope.chooseImage("starter", true);
             var starter = $scope.setDefaults("starter");
-            starter.thumb = $("#starter").attr("src");
+            starter.thumb = document.getElementById("canvas").toDataURL("image/png", 0.5);
             starter.duration = 1000;
             starter.kenBurns = 0;
+            $scope.defaultSlides.push({
+                name: "starter",
+                url: $("#starter").attr("src"),
+            });
             timeline.slides.push(starter);
 
             $scope.headline = _.findWhere(loaded.metadata, {name: 'Headline'}).text;
             $scope.byline = _.findWhere(loaded.metadata, {name: 'Byline'}).text;
             $scope.summary = _.findWhere(loaded.metadata, {name: 'Summary'}).text;
+            $scope.link = _.findWhere(loaded.metadata, {name: 'Link'}).text;
 
             $scope.canvas.clear();
             $scope.chooseText($scope.headline, $scope.headlineStyle, $scope.headlinePosition, true);
             $scope.chooseText($scope.byline, $scope.bylineStyle, $scope.bylinePosition, true);
             var headliner = $scope.setDefaults("headliner");
-            headliner.thumb = document.getElementById("canvas").toDataURL("image/png",0.5);
+            headliner.thumb = document.getElementById("canvas").toDataURL("image/png");
             headliner.hasFade = true;
             headliner.kenBurns = 0;
+            $scope.defaultSlides.push({
+                name: "headliner",
+                url: document.getElementById("canvas").toDataURL("image/png"),
+            });
             timeline.slides.push(headliner);
 
             loaded.images.forEach(function(image, it){
@@ -279,6 +313,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
                 $scope.chooseImage("image"+it, true);
                 if(it == 0 || it == 1){
                     console.log("iterator worked!");
+                    $scope.canvas.add($scope.summaryOverlay);
                     $scope.chooseText($scope.summary, $scope.summaryStyle, $scope.summaryPosition, true);
                 }
                 var data = $scope.setDefaults("image"+it);
@@ -290,12 +325,16 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             // add ending image
             $scope.chooseImage("ender", true);
             var ender = $scope.setDefaults("ender")
-            ender.thumb = $("#ender").attr("src");
+            ender.thumb = document.getElementById("canvas").toDataURL("image/png",0.5);
             ender.fadeOut = 1000;
             ender.duration = 200;
             ender.kenBurns = 0;
+            $scope.defaultSlides.push({
+                name: "ender",
+                url: $("#ender").attr("src"),
+            });
+            console.log($scope.defaultSlides);
             timeline.slides.push(ender);
-
             $scope.clearCanvas();
         });
     };
