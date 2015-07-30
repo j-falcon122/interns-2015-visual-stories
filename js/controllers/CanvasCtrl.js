@@ -278,7 +278,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
 
     $scope.createSlides = function() {
         assets.getData().then(function(loaded) {
-
             // staring image
             $scope.chooseImage("starter", true);
             var starter = $scope.setDefaults("starter");
@@ -403,7 +402,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         var obj = $scope.canvas._objects[0];
         if (!obj) return;
 
-        var animation = $scope.refactor(slide, obj, duration);
+        var animation = $scope.createAnimation(slide, obj, duration);
 
         obj.animate(animation, {
             onChange: $scope.canvas.renderAll.bind($scope.canvas),
@@ -424,7 +423,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         });
     };
 
-    $scope.refactor = function(slide, obj, duration) {
+    $scope.createAnimation = function(slide, obj, duration) {
         var animation = {};
         if (slide.hasFade) {
             obj.opacity = 0;
