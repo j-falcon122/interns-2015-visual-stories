@@ -4,7 +4,7 @@ angular.module('ConfigService', []).factory('Config', [function() {
     var settings = {
         article: 0,
         duration: 2500,
-        fadeOut: true,
+        fadeOut: 1000,
         fadeIn: 1000,
         hasFade: false,
         kenBurns: 5,
@@ -21,6 +21,19 @@ angular.module('ConfigService', []).factory('Config', [function() {
         //Create new batch of people
         set: function(new_configs) {
             configs = new_configs;
+        },
+        defaultSlide: function(json) {
+            var slide = {};
+            slide.json = json;
+            slide.duration = settings.duration;
+            slide.enable = true;
+            slide.kenBurns = settings.kenBurns;
+            slide.drag = true;
+            slide.fadeOut = settings.fadeOut;
+            slide.fadeIn = settings.fadeIn;
+            slide.hasFade = Math.random() > .8 ? true : false;
+            slide.panning = slide.kenBurns > 0;
+            return slide;
         },
         settings: settings,
     };

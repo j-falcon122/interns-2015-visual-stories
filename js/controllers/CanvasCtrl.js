@@ -17,6 +17,8 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     $scope.video = null;
     $scope.showCanvas = true;
     $scope.defaultSlides = [];
+    $scope.continueRender = true;
+
 
     $scope.convertToGIF = function(){
         gifshot.createGIF({
@@ -53,7 +55,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     $scope.popUndo = function(){
         $scope.undo.pop();
         $scope.canvas.loadFromJSON($scope.undo[$scope.undo.length-1], $scope.canvas.renderAll.bind($scope.canvas));
-        if($scope.undo.length === 0){
+        if ($scope.undo.length === 0) {
             $scope.canvas.clear();
             $scope.qUndo();
         }
@@ -153,18 +155,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     /***************************
     **        Video           **
     ***************************/
-    var getAnimationFrames = function(){
-        var requestAnimationFrame =
-            window.requestAnimationFrame        ||
-            window.mozRequestAnimationFrame     ||
-            window.webkitRequestAnimationFrame  ||
-            window.msRequestAnimationFrame;
-
-        window.requestAnimationFrame = requestAnimationFrame;
-    };
-
-    $scope.continueRender = true;
-
     $scope.addFrame = function() {
         $scope.video.add($scope.canvas.getContext("2d"),17);
         if ($scope.continueRender) {
@@ -174,19 +164,19 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
 
     $scope.finalizeVideo = function() {
         var output = $scope.video.compile();
-        $scope.link = webkitURL.createObjectURL(output);
+        var link = webkitURL.createObjectURL(output);
         if ($scope.player) {
             $scope.player.destroy();
             $('#video-container').append("<div id='nyt-player'></div>");
         }
-        document.getElementById('download-link').href = $scope.link;
+        $('#download-link').attr('href', link);
         $scope.player = VHS.player({
             container: 'nyt-player',
             analytics: false,
             id: 123567890,
             ads: false,
             name: 'nyt-trailer',
-            src: $scope.link,
+            src: link,
             api: false,
             mode: "html5"
         });
@@ -206,10 +196,11 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     };
 
     $scope.restoreSlide = function(index){
-        $scope.canvas.loadFromJSON(timeline.slides[index].json, $scope.canvas.renderAll.bind($scope.canvas));
+        $scope.loadSlide(index, function() {
+            $scope.canvas.renderAll();
+            $scope.qUndo();
+        })
         $scope.lastChosen = index;
-        // account for async loadFromJSON... make this better in the future
-        setTimeout($scope.qUndo, 100);
     };
 
 
@@ -224,30 +215,15 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     **  Creating Slides       **
     ***************************/
     $scope.addSlide = function(){
-        var data = $scope.setDefaults("added");
-        // data.thumb = $("#"+$scope.lastChosen).attr("src");
-        data.thumb = document.getElementById("canvas").toDataURL("image/png",0.5);
-        if($scope.lastChosen !== -1){
+        var data = Config.defaultSlide($scope.saveSlide());
+        var quality = 0.5;
+        data.thumb = document.getElementById("canvas").toDataURL("image/png",quality);
+        if($scope.lastChosen >= 0) {
             timeline.slides[$scope.lastChosen] = data;
         } else {
             timeline.slides.push(data);
         }
         $scope.lastChosen = -1;
-    };
-
-    $scope.setDefaults = function(title){
-        var item = {};
-        item.json = $scope.saveSlide();
-        item.duration = Config.settings.duration;
-        item.enable = true;
-        item.kenBurns = Config.settings.kenBurns;
-        item.drag = true;
-        item.fadeOut = Config.settings.fadeOut;
-        item.fadeIn = Config.settings.fadeIn;
-        item.hasFade = Math.random() > .8 ? true : false;
-        item.panning = item.kenBurns > 0 ? true : false;
-        item.title = title;
-        return item;
     };
 
     $scope.headlineStyle = {
@@ -280,7 +256,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         assets.getData().then(function(loaded) {
             // staring image
             $scope.chooseImage("starter", true);
-            var starter = $scope.setDefaults("starter");
+            var starter = Config.defaultSlide($scope.saveSlide());
             starter.thumb = document.getElementById("canvas").toDataURL("image/png", 0.5);
             starter.duration = 1000;
             starter.kenBurns = Config.settings.kenBurns;
@@ -301,7 +277,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             $scope.canvas.clear();
             $scope.chooseText($scope.headline, $scope.headlineStyle, $scope.headlinePosition, true);
             $scope.chooseText($scope.byline, $scope.bylineStyle, $scope.bylinePosition, true);
-            var headliner = $scope.setDefaults("headliner");
+            var headliner = Config.defaultSlide($scope.saveSlide());
             headliner.thumb = document.getElementById("canvas").toDataURL("image/png");
             headliner.hasFade = true;
             headliner.kenBurns = Config.settings.kenBurns;
@@ -320,7 +296,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
                     $scope.canvas.add($scope.summaryOverlay);
                     $scope.chooseText($scope.summary, $scope.summaryStyle, $scope.summaryPosition, true);
                 }
-                var data = $scope.setDefaults("image"+it);
+                var data = Config.defaultSlide($scope.saveSlide());
                 data.kenBurns = it%4 + 1;
                 data.thumb = document.getElementById("canvas").toDataURL("image/png",0.5);
                 timeline.slides.push(data);
@@ -328,7 +304,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
 
             // add ending image
             $scope.chooseImage("ender", true);
-            var ender = $scope.setDefaults("ender")
+            var ender = Config.defaultSlide($scope.saveSlide());
             ender.thumb = document.getElementById("canvas").toDataURL("image/png",0.5);
             ender.fadeOut = true;
             ender.duration = 200;
@@ -338,7 +314,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
                 name: "ender",
                 url: $("#ender").attr("src"),
             });
-            console.log($scope.defaultSlides);
             timeline.slides.push(ender);
             $scope.clearCanvas();
         });
@@ -357,12 +332,12 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
 
     $scope.playSlide = function(index, nextSlide) {
         var currentSlide = timeline.slides[index];
-        var duration = currentSlide.duration || 1000;
         var nop = function(x, y, cb) {cb()};
+        console.log('play slide', index);
 
         $scope.loadSlide(currentSlide.json,
             _.partial((currentSlide.duration ? $scope.fade : nop), false, currentSlide,
-            _.partial(currentSlide.fadeOut ? $scope.fade : nop, true, currentSlide.fadeOut, nextSlide)));
+            _.partial(currentSlide.fadeOut ? $scope.fade : nop, true, currentSlide, nextSlide)));
     };
 
     $scope.playSlides = function(recording) {
@@ -388,100 +363,92 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         changeSlide();
     };
 
-    $scope.fade = function(out, duration, onComplete) {
+    $scope.fade = function(out, slide, onComplete) {
         if (out) {
-            $scope.fadeOut(duration, onComplete);
+            $scope.fadeOut(slide, onComplete);
         } else {
-            $scope.fadeIn(duration, onComplete);
+            $scope.fadeIn(slide, onComplete);
         }
     };
 
     $scope.fadeIn = function(slide, onComplete) {
-        var duration = slide.duration;
-
         var obj = $scope.canvas._objects[0];
         if (!obj) return;
 
-        var animation = $scope.createAnimation(slide, obj, duration);
+        var animation = $scope.createAnimation(slide, obj);
 
         obj.animate(animation, {
             onChange: $scope.canvas.renderAll.bind($scope.canvas),
-            duration: duration,
+            duration: slide.duration,
             onComplete: onComplete,
         });
     };
 
-    $scope.fadeOut = function(enabled, onComplete) {
-        var duration = enabled ? 1000 : 0;
+    $scope.fadeOut = function(slide, onComplete) {
         var obj = $scope.canvas._objects[0];
-        obj.opacity = 1;
         if (!obj) return;
+        obj.opacity = 1;
         obj.animate('opacity', 0, {
             onChange: $scope.canvas.renderAll.bind($scope.canvas),
-            duration: duration,
+            duration: slide.fadeOut,
             onComplete: onComplete
         });
     };
 
-    $scope.createAnimation = function(slide, obj, duration) {
+    $scope.createAnimation = function(slide, obj) {
         var animation = {};
-        if (slide.hasFade) {
+        if (slide.fadeIn) {
             obj.opacity = 0;
-            animation['opacity'] = duration / slide.fadeIn;
+            animation['opacity'] = slide.duration / slide.fadeIn;
         }
-        if (slide.panning === true){
-            switch (slide.kenBurns) {
-                case 0:
-                    animation["scaleX"] = obj.scaleX;
-                    break;
-                case 1:
-                    // zoom in, slide to the left/down
-                    var scale = 0.1;
-                    animation['left'] = obj.getLeft() - 10;
-                    animation['top'] = obj.getTop() - 25;
-                    animation['scaleX'] = (obj.scaleX + scale);
-                    animation['scaleY'] = (obj.scaleY + scale);
-                    break;
-                case 2:
-                    // panning left/up w/o zoom
-                    var scale = 0.25;
-                    obj.scaleX = (obj.scaleX + scale);
-                    obj.scaleY = (obj.scaleY + scale);
-                    obj.top = -75;
-                    obj.left = -100;
-                    animation['left'] = obj.getLeft()+100;
-                    animation['top'] = obj.getTop()+20;
-                    break;
-                case 3:
-                    // zoom into center
-                    var scale = 0.1;
-                    animation['top'] = (obj.height*(obj.scaleY) - obj.height*(obj.scaleY + scale)) / 2;
-                    animation['left'] = (obj.width*(obj.scaleX) - obj.width*(obj.scaleX + scale)) / 2;
-                    animation['scaleX'] = (obj.scaleX + scale);
-                    animation['scaleY'] = (obj.scaleY + scale);
-                    break;
-                case 4:
-                    // panning right w/o zoom
-                    var scale = 0.25;
-                    obj.scaleX = (obj.scaleX + scale);
-                    obj.scaleY = (obj.scaleY + scale);
-                    obj.top = -75;
-                    obj.left = 0;
-                    animation['left'] = -100;
-                    break;
-                case 5:
-                    // zoom into center
-                    var scale = 0.1;
-                    animation['left'] = (obj.width*(obj.scaleX) - obj.width*(obj.scaleX + scale)) / 2;
-                    animation['scaleX'] = (obj.scaleX + scale);
-                    animation['scaleY'] = (obj.scaleY + scale);
-                    break;
-                default:
-                    console.log("no kenBurns in switch");
-                    animation["scaleX"] = obj.scaleX;
-                    break;
-            }
+        switch (slide.kenBurns) {
+            case 1:
+                // zoom in, slide to the left/down
+                var scale = 0.1;
+                animation['left'] = obj.getLeft() - 10;
+                animation['top'] = obj.getTop() - 25;
+                animation['scaleX'] = (obj.scaleX + scale);
+                animation['scaleY'] = (obj.scaleY + scale);
+                break;
+            case 2:
+                // panning left/up w/o zoom
+                var scale = 0.25;
+                obj.scaleX = (obj.scaleX + scale);
+                obj.scaleY = (obj.scaleY + scale);
+                obj.top = -75;
+                obj.left = -100;
+                animation['left'] = obj.getLeft()+100;
+                animation['top'] = obj.getTop()+20;
+                break;
+            case 3:
+                // zoom into center
+                var scale = 0.1;
+                animation['top'] = (obj.height*(obj.scaleY) - obj.height*(obj.scaleY + scale)) / 2;
+                animation['left'] = (obj.width*(obj.scaleX) - obj.width*(obj.scaleX + scale)) / 2;
+                animation['scaleX'] = (obj.scaleX + scale);
+                animation['scaleY'] = (obj.scaleY + scale);
+                break;
+            case 4:
+                // panning right w/o zoom
+                var scale = 0.25;
+                obj.scaleX = (obj.scaleX + scale);
+                obj.scaleY = (obj.scaleY + scale);
+                obj.top = -75;
+                obj.left = 0;
+                animation['left'] = -100;
+                break;
+            case 5:
+                // zoom into center
+                var scale = 0.1;
+                animation['left'] = (obj.width * obj.scaleX - obj.width * (obj.scaleX + scale)) / 2;
+                animation['scaleX'] = obj.scaleX + scale;
+                animation['scaleY'] = obj.scaleY + scale;
+                break;
+            default:
+                animation["scaleX"] = obj.scaleX;
+                break;
         }
+
         return animation;
     };
 
