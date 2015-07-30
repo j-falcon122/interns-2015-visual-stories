@@ -55,13 +55,18 @@ angular.module('Timeline', ['TimelineService']).controller('TimelineCtrl', funct
     $scope.removeSlide = function(index){
     	timeline.slides.splice(index, 1);
     }
+    $scope.effectIndex = -1;
 
+    $scope.effectShow = function(index){
+    	if(index == $scope.effectIndex){
+    		$scope.effectIndex = -1
+    	} else {
+    		$scope.effectIndex = index;
+    	}
+    };
 
 
     this.dropCallback = function(event, ui, title, $index) {
-        // console.log("event", event);
-        // console.log("ui", ui);
-        // console.log("title", title);
-        // console.log("$index", $index);
+
     };
 });

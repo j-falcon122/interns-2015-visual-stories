@@ -25,7 +25,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             video: [
                 $scope.link
             ],
-            numFrames: 100
+            numFrames: 20
         }, function (obj) {
             if (!obj.error) {
                 var image = obj.image, animatedImage = document.createElement('img');
@@ -243,8 +243,9 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         item.kenBurns = Config.settings.kenBurns;
         item.drag = true;
         item.fadeOut = Config.settings.fadeOut;
-        item.fadeIn = Math.random() > .8 ? Config.settings.fadeIn : 0;
-        item.hasFade = Config.settings.hasFade;
+        item.fadeIn = Config.settings.fadeIn;
+        item.hasFade = Math.random() > .8 ? true : false;
+        item.panning = item.kenBurns > 0 ? true : false;
         item.title = title;
         return item;
     };
@@ -283,7 +284,10 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             var starter = $scope.setDefaults("starter");
             starter.thumb = document.getElementById("canvas").toDataURL("image/png", 0.5);
             starter.duration = 1000;
-            starter.kenBurns = 0;
+            starter.kenBurns = Config.settings.kenBurns;
+            starter.panning = false;
+            starter.fadeOut = true;
+
             $scope.defaultSlides.push({
                 name: "starter",
                 url: $("#starter").attr("src"),
@@ -301,7 +305,8 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             var headliner = $scope.setDefaults("headliner");
             headliner.thumb = document.getElementById("canvas").toDataURL("image/png");
             headliner.hasFade = true;
-            headliner.kenBurns = 0;
+            headliner.kenBurns = Config.settings.kenBurns;
+            headliner.panning = false;
             $scope.defaultSlides.push({
                 name: "headliner",
                 url: document.getElementById("canvas").toDataURL("image/png"),
@@ -326,9 +331,10 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             $scope.chooseImage("ender", true);
             var ender = $scope.setDefaults("ender")
             ender.thumb = document.getElementById("canvas").toDataURL("image/png",0.5);
-            ender.fadeOut = 1000;
+            ender.fadeOut = true;
             ender.duration = 200;
-            ender.kenBurns = 0;
+            ender.kenBurns = Config.settings.kenBurns;
+            ender.panning = false;
             $scope.defaultSlides.push({
                 name: "ender",
                 url: $("#ender").attr("src"),
@@ -353,14 +359,11 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     $scope.playSlide = function(index, nextSlide) {
         var currentSlide = timeline.slides[index];
         var duration = currentSlide.duration || 1000;
-        var fadeTime = Config.settings.fadeIn + Config.settings.fadeOut;
         var nop = function(x, y, cb) {cb()};
 
         $scope.loadSlide(currentSlide.json,
             _.partial((currentSlide.duration ? $scope.fade : nop), false, currentSlide,
             _.partial(currentSlide.fadeOut ? $scope.fade : nop, true, currentSlide.fadeOut, nextSlide)));
-
-        return fadeTime;
     };
 
     $scope.playSlides = function(recording) {
@@ -409,7 +412,8 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         });
     };
 
-    $scope.fadeOut = function(duration, onComplete) {
+    $scope.fadeOut = function(enabled, onComplete) {
+        var duration = enabled ? 1000 : 0;
         var obj = $scope.canvas._objects[0];
         obj.opacity = 1;
         if (!obj) return;
@@ -422,61 +426,63 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
 
     $scope.refactor = function(slide, obj, duration) {
         var animation = {};
-        if (slide.fadeIn) {
+        if (slide.hasFade) {
+            obj.opacity = 0;
             animation['opacity'] = duration / slide.fadeIn;
         }
-        switch (slide.kenBurns) {
-            case 0:
-                animation["scaleX"] = obj.scaleX;
-                break;
-            case 1:
-                // zoom in, slide to the left/down
-                var scale = 0.1;
-                animation['left'] = obj.getLeft() - 10;
-                animation['top'] = obj.getTop() - 25;
-                animation['scaleX'] = (obj.scaleX + scale);
-                animation['scaleY'] = (obj.scaleY + scale);
-                break;
-            case 2:
-                // panning left/up w/o zoom
-                var scale = 0.25;
-                obj.scaleX = (obj.scaleX + scale);
-                obj.scaleY = (obj.scaleY + scale);
-                obj.top = -75;
-                obj.left = -100;
-                animation['left'] = obj.getLeft()+100;
-                animation['top'] = obj.getTop()+20;
-                break;
-            case 3:
-                // zoom into center
-                var scale = 0.1;
-                animation['top'] = (obj.height*(obj.scaleY) - obj.height*(obj.scaleY + scale)) / 2;
-                animation['left'] = (obj.width*(obj.scaleX) - obj.width*(obj.scaleX + scale)) / 2;
-                animation['scaleX'] = (obj.scaleX + scale);
-                animation['scaleY'] = (obj.scaleY + scale);
-                break;
-            case 4:
-                // panning right w/o zoom
-                var scale = 0.25;
-                obj.scaleX = (obj.scaleX + scale);
-                obj.scaleY = (obj.scaleY + scale);
-                obj.top = -75;
-                obj.left = 0;
-                animation['left'] = -100;
-                break;
-            case 5:
-                // zoom into center
-                var scale = 0.1;
-                animation['left'] = (obj.width*(obj.scaleX) - obj.width*(obj.scaleX + scale)) / 2;
-                animation['scaleX'] = (obj.scaleX + scale);
-                animation['scaleY'] = (obj.scaleY + scale);
-                break;
-            default:
-                console.log("no kenBurns in switch");
-                animation["scaleX"] = obj.scaleX;
-                break;
+        if (slide.panning === true){
+            switch (slide.kenBurns) {
+                case 0:
+                    animation["scaleX"] = obj.scaleX;
+                    break;
+                case 1:
+                    // zoom in, slide to the left/down
+                    var scale = 0.1;
+                    animation['left'] = obj.getLeft() - 10;
+                    animation['top'] = obj.getTop() - 25;
+                    animation['scaleX'] = (obj.scaleX + scale);
+                    animation['scaleY'] = (obj.scaleY + scale);
+                    break;
+                case 2:
+                    // panning left/up w/o zoom
+                    var scale = 0.25;
+                    obj.scaleX = (obj.scaleX + scale);
+                    obj.scaleY = (obj.scaleY + scale);
+                    obj.top = -75;
+                    obj.left = -100;
+                    animation['left'] = obj.getLeft()+100;
+                    animation['top'] = obj.getTop()+20;
+                    break;
+                case 3:
+                    // zoom into center
+                    var scale = 0.1;
+                    animation['top'] = (obj.height*(obj.scaleY) - obj.height*(obj.scaleY + scale)) / 2;
+                    animation['left'] = (obj.width*(obj.scaleX) - obj.width*(obj.scaleX + scale)) / 2;
+                    animation['scaleX'] = (obj.scaleX + scale);
+                    animation['scaleY'] = (obj.scaleY + scale);
+                    break;
+                case 4:
+                    // panning right w/o zoom
+                    var scale = 0.25;
+                    obj.scaleX = (obj.scaleX + scale);
+                    obj.scaleY = (obj.scaleY + scale);
+                    obj.top = -75;
+                    obj.left = 0;
+                    animation['left'] = -100;
+                    break;
+                case 5:
+                    // zoom into center
+                    var scale = 0.1;
+                    animation['left'] = (obj.width*(obj.scaleX) - obj.width*(obj.scaleX + scale)) / 2;
+                    animation['scaleX'] = (obj.scaleX + scale);
+                    animation['scaleY'] = (obj.scaleY + scale);
+                    break;
+                default:
+                    console.log("no kenBurns in switch");
+                    animation["scaleX"] = obj.scaleX;
+                    break;
+            }
         }
-
         return animation;
     };
 

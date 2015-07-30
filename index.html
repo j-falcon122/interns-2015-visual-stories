@@ -58,14 +58,13 @@
     <div class="left">
         <div id="mainWrapper">
             <div id="modeWrapper">
-                <input class="btn btn-sm btn-primary" ng-click="createSlides(); $broadcast('openSlide'); " id="create" value="Queue" type="button">
+                <input class="btn btn-sm btn-primary" ng-click="createSlides(); $broadcast('openSlide');" value="Queue" type="button">
                 <input class="btn btn-sm btn-primary" ng-click="playSlides()" id="play" value="Play" type="button">
                 <input type="button" class="btn btn-sm btn-primary" ng-click="restart()" value="Stop">
                 <input type="button" class="btn btn-sm btn-primary" ng-click="playSlides(true)" value="Render">
                 <input type="button" class="btn btn-sm btn-primary" ng-click="popUndo()" value="UNDO">
                 <input class="btn btn-sm btn-primary" value="Clear" type="button" ng-click="clearCanvas()" />
-                <input class="btn btn-sm btn-primary" ng-click="showCanvas = !showCanvas" id="toggle" value="Toggle" type="button">
-                <span id="videoMode">{{showCanvas ? 'EDITOR' : 'PLAYER'}}</span>
+                <input class="btn btn btn-muted" ng-click="showCanvas = !showCanvas" id="toggle" value="{{showCanvas ? 'EDITOR' : 'PLAYER'}}" type="button">
             </div>
             <div id="mediaWrapper">
                 <canvas ng-show="showCanvas" id="canvas" class="media" width="600" height="337.5"></canvas>
@@ -96,13 +95,22 @@
                 </div="templates">
                 <div class="slideWrapper">
                     <ul class="row-fluid no-overflow">
-                        <li class="slideView" ng-repeat="item in slides" data-drop="true" ng-model='slides' jqyoui-droppable="{index: {{$index}}, onDrop:'loki.dropCallback(item.title, $index)', onStart:logging(item.title)}">
+                        <li class="slideView" ng-repeat="item in slides" data-drop="true" ng-model='slides' jqyoui-droppable="{index: {{$index}}, onDrop:'loki.dropCallback(item.title, $index)'}">
                             <div class="element" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="slides" jqyoui-draggable="{index: {{$index}}}">
                                 <div class="element-cutoff">
                                     <img class="ng-binding" src="{{item.thumb}}" ng-click="$parent.restoreSlide($index)" ng-class="{selectedBorder: $index == lastChosen}">
                                 </div>
-                                <button type="button" class="remove btn btn-default btn-xs" ng-click="removeSlide($index);">X</button>
-                                <select class="form-control duration" ng-model="item.duration" ng-options="option for option in durations" ng-change="log()"></select>
+                                <button type="button" class="remove btn btn-danger btn-xs" ng-click="removeSlide($index);">X</button>
+                                <select class="form-control duration" ng-model="item.duration" ng-options="option for option in durations"></select>
+                                <div class="effect-controller" ng-class="{active: $index == effectIndex}">
+                                    <input class="effect-checkbox" ng-class="{active: $index == effectIndex}" type="checkbox" checked ng-class="{active: $index == effectIndex}" ng-model="item.hasFade" ng-true-value="true" ng-false-value="false">
+                                    <p class="effect-label" ng-class="{active: $index == effectIndex}">FADE OUT</p>
+                                    <input class="effect-checkbox" ng-class="{active: $index == effectIndex}" type="checkbox" checked ng-class="{active: $index == effectIndex}" ng-model="item.fadeOut">
+                                    <p class="effect-label" ng-class="{active: $index == effectIndex}">PANNING</p>
+                                    <input class="effect-checkbox" ng-class="{active: $index == effectIndex}" type="checkbox" checked ng-class="{active: $index == effectIndex}"  ng-model="item.panning" ng-true-value="true" ng-false-value="false">
+                                    <p class="effect-label" ng-class="{active: $index == effectIndex}">FADE IN</p>
+                                    <button type="button" class="effects btn btn-success btn-xs" ng-click="effectShow($index); status();">fx</button>
+                                </div>
                             </div>
                         </li>
                     </ul>

@@ -4,7 +4,7 @@ angular.module('ConfigService', []).factory('Config', [function() {
     var settings = {
         article: 0,
         duration: 2500,
-        fadeOut: 1000,
+        fadeOut: true,
         fadeIn: 1000,
         hasFade: false,
         kenBurns: 5,
