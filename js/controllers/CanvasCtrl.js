@@ -4,7 +4,7 @@
 
         P2:
         ken burns selection - Dan
-        show the length of the video - Sam
+        show the length of the video - Jordan
         preview doesn't work and breaks custom rects for text - Sam
 
         P3:
