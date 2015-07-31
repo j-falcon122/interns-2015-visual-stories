@@ -1,10 +1,11 @@
 /*
 THINGS TO ADD
+    fix timing (account for ken burns & fadeOut)
+
     Remove quote feature (preventDefault on delete key?)
     Make it easier to create rectangles
-    Work on timeline interface
+    *Work on timeline interface*
     Video Algorithm
-    add fadeIn fadeOut times
     OG video tags
     gif export
 */
@@ -26,7 +27,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
             gifWidth: 600,
             gifHeight: 338,
             video: [
-                $scope.link
+                $('#download-link').attr('href')
             ],
             numFrames: 20
         }, function (obj) {
@@ -174,7 +175,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
     **        Video           **
     ***************************/
     $scope.addFrame = function() {
-        $scope.video.add($scope.canvas.getContext("2d"),17);
+        $scope.video.add($scope.canvas.getContext("2d"),30);
         if ($scope.continueRender) {
             requestAnimationFrame($scope.addFrame);
         }
@@ -382,6 +383,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
                     $scope.finalizeVideo();
                 }
                 $scope.playing = false;
+                $scope.$apply();
             }
         };
 
