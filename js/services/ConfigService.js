@@ -32,9 +32,4 @@ angular.module('ConfigService', []).factory('Config', [function() {
         },
         settings: settings,
     };
-
-
-    // length of assets
-    // photos for each asset
-    // save timeline
 }]);
