@@ -1,4 +1,4 @@
-angular.module('TimelineService', ['ConfigService']).factory('timeline', [function(Config) {
+angular.module('TimelineService', []).factory('timeline', [function() {
 
     var slides = [];
     var active = [];

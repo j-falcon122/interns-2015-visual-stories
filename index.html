@@ -61,7 +61,7 @@
     <div class="left">
         <div id="mainWrapper">
             <div id="modeWrapper">
-                <input class="btn btn-sm btn-primary" ng-click="createSlides(); $broadcast('newSlides');" value="Generate" type="button">
+                <input class="btn btn-sm btn-primary" ng-click="createSlides();" value="Generate" type="button">
                 <input class="btn btn-sm" ng-class='playing ? "btn-danger" : "btn-primary"' ng-click="playing ? stop() : playSlides()" id="play" value="{{playing ? 'Stop' : 'Play'}}" type="button">
                 <input type="button" class="btn btn-sm btn-primary" ng-click="playSlides(true)" value="Render">
                 <input type="button" class="btn btn-sm btn-primary" ng-click="popUndo()" value="UNDO">
@@ -137,7 +137,7 @@
                     <div class="assets-scroll">
                         <div class="row nomargin">
                             <div class=" col-md-4 asset-container" ng-repeat="(index, image) in assets.images" tooltip-append-to-body="true" tooltip-placement="bottom" tooltip="{{image.caption}}">
-                                <img class="thumbnail" crossorigin="anonymous" ng-click="$parent.chooseImage('image' + index)" id="image{{index}}" ng-src="{{image.url}}">
+                                <img imageonload="imageLoaded()" class="thumbnail" crossorigin="anonymous" ng-click="$parent.chooseImage('image' + index)" id="image{{index}}" ng-src="{{image.url}}">
                             </div>
                         </div>
                     </div>

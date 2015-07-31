@@ -29,7 +29,8 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
             video: [
                 $('#download-link').attr('href')
             ],
-            numFrames: 20
+            interval: 20,
+            numFrames: $('video')[0].duration * 2
         }, function (obj) {
             if (!obj.error) {
                 var image = obj.image, animatedImage = document.createElement('img');
@@ -45,6 +46,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
         });
         $scope.undo = [$scope.saveSlide()];
         $scope.video = new Whammy.Video(15);
+        $scope.$on('assets:ready', _.once($scope.createSlides));
     };
 
     $scope.qUndo = function(){
@@ -197,6 +199,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
             name: 'nyt-trailer',
             src: link,
             api: false,
+            autoplay: true,
             mode: "html5"
         });
         $scope.showCanvas = false;
@@ -347,6 +350,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
             }
 
             timeline.slides.push($scope.generateEndingSlide());
+            $scope.$broadcast('newSlides');
         });
     };
 
