@@ -46,7 +46,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
             interval: 20,
             numFrames: 20,
             progressCallback: function(progress) {
-                console.log(progress);
                 $scope.writingGIF = progress * 100;
                 $scope.$apply();
             }
@@ -110,6 +109,14 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
             $scope.deleteSelected();
         }
     });
+    hotkeys.add({
+        combo: 'shift+backspace',
+        description: 'Clear the canvas',
+        callback: function(event) {
+            event.preventDefault();
+            $scope.clearCanvas();
+        }
+    });
 
     $scope.deleteSelected = function() {
         var obj = $scope.canvas.getActiveObject();
@@ -133,6 +140,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
         }
         $scope.canvas.add(img);
         if(!ignoreUndo) $scope.qUndo();
+        return img;
     };
 
     $scope.chooseText = function(string, options, rect, ignoreUndo) {
@@ -143,17 +151,19 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
             fontStyle: 'italic',
             size: 40,
             justify: 'center',
+            textAlign: 'center',
             compensateHeightOnWrap: true
         });
         rect = rect || [0, $scope.canvas_height * 2 / 5, $scope.canvas_width, $scope.canvas_height * 3 / 5];
         // x y w h
         var text = $scope.createText(rect, options);
         $scope.canvas.add(text);
+
         if (!ignoreUndo) $scope.qUndo();
+        return text;
     }
 
     $scope.clearCanvas = function() {
-        console.log('clear cnavas');
         $scope.canvas.clear();
     };
 
@@ -177,6 +187,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
             fontFamily: options.font,
             fontSize: options.size,
             fontStyle: options.fontStyle,
+            textAlign: options.textAlign,
             originY:'top',
             originX:'left',
             fill: options.color
@@ -265,12 +276,26 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
     };
 
 
-    $scope.loadSlide = function(indexOrData, callback){
-        if (_.isNumber(indexOrData)) {
-            indexOrData = timeline.slides[indexOrData].json;
+    $scope.loadSlide = function(slide, callback) {
+        if (_.isNumber(slide)) {
+            slide = timeline.slides[slide];
         }
-        $scope.canvas.loadFromJSONWithoutClearing(indexOrData, callback ? callback : $scope.canvas.renderAll.bind($scope.canvas));
+        $scope.canvas.loadFromJSONWithoutClearing(slide.json, function() {
+            callback ? callback() : $scope.canvas.renderAll();
+            $scope.centerText();
+        });
     };
+
+    $scope.centerText = function(horizontal) {
+        objects = $scope.canvas.getObjects();
+        texts = _.each(objects, function(obj) {
+            if (obj.type == 'text') {
+                if (obj.__textAlign === 'center') {
+                    obj.centerH();
+                }
+            }
+        });
+    }
 
     /***************************
     **  Creating Slides       **
@@ -310,7 +335,8 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
         var bylineStyle = {
             fontStyle: 'normal',
             size: 12,
-            justify: 'left'
+            justify: 'left',
+            textAlign: 'left',
         };
         var bylinePosition = [20, $scope.canvas_height * 9 / 10, $scope.canvas_width, $scope.canvas_height * 1 / 10];
 
@@ -331,12 +357,11 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
         $scope.chooseImage(image, true);
 
         if (caption) {
-            console.log('caption');
             var summaryStyle = {
                 fontStyle: 'normal',
-                size: 21,
+                size: 21
             };
-            var summaryPosition = [0, $scope.canvas_height * 7 / 10, $scope.canvas_width, $scope.canvas_height * 3 / 10];
+            var summaryPosition = [0, $scope.canvas_height * .75, $scope.canvas_width, $scope.canvas_height * .25];
             var summaryOverlay = new fabric.Rect({
                 left: 0,
                 top: $scope.canvas_height * 7 / 10,
@@ -347,7 +372,8 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
             });
 
             $scope.canvas.add(summaryOverlay);
-            $scope.chooseText(caption, summaryStyle, summaryPosition, true);
+            var text = $scope.chooseText(caption, summaryStyle, summaryPosition, true);
+            $scope.moveToBottom(text);
         }
 
         var imageSlide = Config.defaultSlide($scope.saveSlide());
@@ -355,6 +381,13 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
 
         $scope.clearCanvas();
         return imageSlide;
+    }
+
+    $scope.moveToBottom = function(text) {
+        var rect = text.getBoundingRect();
+        var pos = Math.round($scope.canvas_height - rect.height) - 10;
+        text.top = pos;
+        $scope.canvas.renderAll();
     }
 
     $scope.generateEndingSlide = function() {
@@ -410,7 +443,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
         var currentSlide = timeline.slides[index];
         var nop = function(x, y, cb) {cb()};
 
-        $scope.loadSlide(currentSlide.json,
+        $scope.loadSlide(currentSlide,
             _.partial((currentSlide.duration ? $scope.fade : nop), false, currentSlide,
             _.partial(currentSlide.fadeOut ? $scope.fade : nop, true, currentSlide, nextSlide)));
     };
