@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="adcom/dist/css/adcom.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/assets.css">
+    <link rel="stylesheet" type="text/css" href="css/timeline.css">
     <link rel=”shortcut icon” href=”/favicon.ico”>
     <script src="js/vendor/vhs-2.x.min.js"></script>
     <script src="js/vendor/jquery-ui.min.js"></script>
@@ -97,20 +98,20 @@
                 <div class="slideWrapper">
                     <ul class="row-fluid no-overflow">
                         <li class="slideView" ng-repeat="item in slides" data-drop="true" ng-model='slides' jqyoui-droppable="{index: {{$index}}, onDrop:'loki.dropCallback(item.title, $index)'}">
-                            <div class="element" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="slides" jqyoui-draggable="{index: {{$index}}}">
+                            <div class="element" data-drag="true" data-jqyoui-options="{revert: 'invalid'}" ng-model="slides" jqyoui-draggable="{index: {{$index}}}">
                                 <div class="element-cutoff">
                                     <img class="ng-binding" src="{{item.thumb}}" ng-click="$parent.restoreSlide($index)" ng-class="{selectedBorder: $index == lastChosen}">
                                 </div>
                                 <button type="button" class="remove btn btn-danger btn-xs" ng-click="removeSlide($index);">X</button>
                                 <select class="form-control duration" ng-model="item.duration" ng-options="option for option in durations"></select>
+                                <button type="button" class="effects btn btn-success btn-xs" ng-click="effectShow($index);">fx</button>
                                 <div class="effect-controller" ng-class="{active: $index == effectIndex}">
-                                    <input class="effect-checkbox" ng-class="{active: $index == effectIndex}" type="checkbox" checked ng-class="{active: $index == effectIndex}" ng-model="item.hasFade" ng-true-value="true" ng-false-value="false">
-                                    <p class="effect-label" ng-class="{active: $index == effectIndex}">FADE OUT</p>
-                                    <input class="effect-checkbox" ng-class="{active: $index == effectIndex}" type="checkbox" checked ng-class="{active: $index == effectIndex}" ng-model="item.fadeOut">
-                                    <p class="effect-label" ng-class="{active: $index == effectIndex}">PANNING</p>
-                                    <input class="effect-checkbox" ng-class="{active: $index == effectIndex}" type="checkbox" checked ng-class="{active: $index == effectIndex}"  ng-model="item.panning" ng-true-value="true" ng-false-value="false">
-                                    <p class="effect-label" ng-class="{active: $index == effectIndex}">FADE IN</p>
-                                    <button type="button" class="effects btn btn-success btn-xs" ng-click="effectShow($index); status();">fx</button>
+                                    <input class="effect-checkbox" type="checkbox" ng-model="item.fadeIn" ng-true-value="1000" ng-false-value="0">
+                                    <p class="effect-label">FADE OUT</p>
+                                    <input class="effect-checkbox" type="checkbox" ng-model="item.fadeOut" ng-true-value="1000" ng-false-value="0">
+                                    <p class="effect-label">PANNING</p>
+                                    <input class="effect-checkbox" type="checkbox"  ng-model="item.kenBurns" ng-true-value="3" ng-false-value="0">
+                                    <p class="effect-label">FADE IN</p>
                                 </div>
                             </div>
                         </li>

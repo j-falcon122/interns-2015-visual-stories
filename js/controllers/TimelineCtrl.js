@@ -1,5 +1,6 @@
 angular.module('Timeline', ['TimelineService']).controller('TimelineCtrl', function($scope, timeline, Config) {
     var count = localStorage.length;
+    $scope.slides = [];
 
     $scope.save = function() {
         localStorage.setItem(count, count);
@@ -40,23 +41,19 @@ angular.module('Timeline', ['TimelineService']).controller('TimelineCtrl', funct
     // "2.5 secs",
     // "3.0 secs"
 
-    $scope.duration = 1000;
-
-    $scope.status = function() {
-        console.log(timeline.slides);
-    };
-
     $scope.fillSlides = function() {
         $scope.slides = timeline.slides;
     };
 
-    $scope.slides = [];
+    $scope.randomKen = function (slide) {
+        slide.kenBurns = Math.ceil(Math.random() * 5);
+    };
 
     $scope.removeSlide = function(index){
     	timeline.slides.splice(index, 1);
     }
-    $scope.effectIndex = -1;
 
+    $scope.effectIndex = -1;
     $scope.effectShow = function(index){
     	if(index == $scope.effectIndex){
     		$scope.effectIndex = -1

@@ -2,7 +2,6 @@ angular.module('ConfigService', []).factory('Config', [function() {
     var configs = {};
 
     var settings = {
-        article: 0,
         duration: 2500,
         fadeOut: 1000,
         fadeIn: 1000,
@@ -28,7 +27,6 @@ angular.module('ConfigService', []).factory('Config', [function() {
             slide.kenBurns = settings.kenBurns;
             slide.fadeOut = settings.fadeOut;
             slide.fadeIn = settings.fadeIn;
-            slide.hasFade = Math.random() > .8 ? true : false;
             slide.thumb = createThumbnail();
             return slide;
         },
