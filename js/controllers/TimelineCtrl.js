@@ -26,20 +26,13 @@ angular.module('Timeline', ['TimelineService']).controller('TimelineCtrl', funct
     $scope.slideHidden = true;
 
     $scope.durations = [
-        500,
-        1000,
-        1500,
-        2000,
-        2500,
-        3000,
+        {value: 500, label: '0.5 secs'},
+        {value: 1000, label: '1 sec'},
+        {value: 1500, label: '1.5 secs'},
+        {value: 2000, label: '2 secs'},
+        {value: 2500, label: '2.5 secs'},
+        {value: 3000, label: '3 secs'}
     ];
-
-    // "0.5 secs",
-    // "1 sec",
-    // "1.5 secs",
-    // "2.0 secs",
-    // "2.5 secs",
-    // "3.0 secs"
 
     $scope.fillSlides = function() {
         $scope.slides = timeline.slides;

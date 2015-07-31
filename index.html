@@ -103,7 +103,7 @@
                                     <img class="ng-binding" src="{{item.thumb}}" ng-click="$parent.restoreSlide($index)" ng-class="{selectedBorder: $index == lastChosen}">
                                 </div>
                                 <button type="button" class="remove btn btn-danger btn-xs" ng-click="removeSlide($index);">X</button>
-                                <select class="form-control duration" ng-model="item.duration" ng-options="option for option in durations"></select>
+                                <select class="form-control duration" ng-model="item.duration" ng-options="option.value as option.label for option in durations"></select>
                                 <button type="button" class="effects btn btn-success btn-xs" ng-click="effectShow($index);">fx</button>
                                 <div class="effect-controller" ng-class="{active: $index == effectIndex}">
                                     <input class="effect-checkbox" type="checkbox" ng-model="item.fadeIn" ng-true-value="1000" ng-false-value="0">
