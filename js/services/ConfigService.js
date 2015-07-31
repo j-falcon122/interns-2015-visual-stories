@@ -6,7 +6,6 @@ angular.module('ConfigService', []).factory('Config', [function() {
         duration: 2500,
         fadeOut: 1000,
         fadeIn: 1000,
-        hasFade: false,
         kenBurns: 5,
         recording: true,
         width: 600,
@@ -26,13 +25,11 @@ angular.module('ConfigService', []).factory('Config', [function() {
             var slide = {};
             slide.json = json;
             slide.duration = settings.duration;
-            slide.enable = true;
             slide.kenBurns = settings.kenBurns;
-            slide.drag = true;
             slide.fadeOut = settings.fadeOut;
             slide.fadeIn = settings.fadeIn;
             slide.hasFade = Math.random() > .8 ? true : false;
-            slide.panning = slide.kenBurns > 0;
+            slide.thumb = createThumbnail();
             return slide;
         },
         settings: settings,
