@@ -363,20 +363,23 @@ body{
     font-size:16px;
     font-weight: bold;
     right:29px;
-    top:28px;
 }
-
-
 .effect-checkbox.active{
     right:8px;
     top:28px;
 }
 
 .effect-label:nth-child(2).active{
-    top:51px;
+    top:28px;
 }
 .effect-label:nth-child(4).active{
+    top:51px;
+}
+.effect-label:nth-child(6).active{
     top:74px;
+}
+.effect-checkbox:nth-child(1).active{
+    top:28px;
 }
 .effect-checkbox:nth-child(3).active{
     top:51px;
@@ -385,6 +388,7 @@ body{
     top:74px;
 }
 
+/*28 51 74*/
 
 
 .slideView {
@@ -423,7 +427,7 @@ body{
     .right {
         width: 90%;
         margin: 40px 5% 0 5%;
-        margin-bottom: 120px;
+        margin-bottom: 200px;
     }
 
     .left {

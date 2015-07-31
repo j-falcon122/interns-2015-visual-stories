@@ -100,15 +100,18 @@
                                 <div class="element-cutoff">
                                     <img class="ng-binding" src="{{item.thumb}}" ng-click="$parent.restoreSlide($index)" ng-class="{selectedBorder: $index == lastChosen}">
                                 </div>
-                                <button type="button" class="remove btn btn-danger btn-xs" ng-click="removeSlide($index);">X</button>
+                                <button type="button" class="remove btn btn-muted btn-xs" ng-click="removeSlide($index);">X</button>
                                 <select class="form-control duration" ng-model="item.duration" ng-options="option for option in durations"></select>
                                 <div class="effect-controller" ng-class="{active: $index == effectIndex}">
                                     <input class="effect-checkbox" ng-class="{active: $index == effectIndex}" type="checkbox" checked ng-class="{active: $index == effectIndex}" ng-model="item.hasFade" ng-true-value="true" ng-false-value="false">
-                                    <p class="effect-label" ng-class="{active: $index == effectIndex}">FADE OUT</p>
-                                    <input class="effect-checkbox" ng-class="{active: $index == effectIndex}" type="checkbox" checked ng-class="{active: $index == effectIndex}" ng-model="item.fadeOut">
-                                    <p class="effect-label" ng-class="{active: $index == effectIndex}">PANNING</p>
-                                    <input class="effect-checkbox" ng-class="{active: $index == effectIndex}" type="checkbox" checked ng-class="{active: $index == effectIndex}"  ng-model="item.panning" ng-true-value="true" ng-false-value="false">
                                     <p class="effect-label" ng-class="{active: $index == effectIndex}">FADE IN</p>
+
+                                    <input class="effect-checkbox" ng-class="{active: $index == effectIndex}" type="checkbox" checked ng-class="{active: $index == effectIndex}" ng-model="item.fadeOut" ng-true-value="1000" ng-false-value="false">
+                                    <p class="effect-label" ng-class="{active: $index == effectIndex}">FADE OUT</p>
+
+                                    <input class="effect-checkbox" ng-class="{active: $index == effectIndex}" type="checkbox" checked ng-class="{active: $index == effectIndex}"  ng-model="item.panning" ng-true-value="true" ng-false-value="false">
+                                    <p class="effect-label" ng-class="{active: $index == effectIndex}">PANNING</p>
+
                                     <button type="button" class="effects btn btn-success btn-xs" ng-click="effectShow($index); status();">fx</button>
                                 </div>
                             </div>

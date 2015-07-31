@@ -67,6 +67,6 @@ angular.module('Timeline', ['TimelineService']).controller('TimelineCtrl', funct
 
 
     this.dropCallback = function(event, ui, title, $index) {
-
+        console.log("worked");
     };
 });

@@ -316,7 +316,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
                 if (it > 5) return;
                 $scope.chooseImage("image"+it, true);
                 if(it == 0 || it == 1){
-                    console.log("iterator worked!");
                     $scope.canvas.add($scope.summaryOverlay);
                     $scope.chooseText($scope.summary, $scope.summaryStyle, $scope.summaryPosition, true);
                 }
@@ -338,7 +337,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
                 name: "ender",
                 url: $("#ender").attr("src"),
             });
-            console.log($scope.defaultSlides);
             timeline.slides.push(ender);
             $scope.clearCanvas();
         });
