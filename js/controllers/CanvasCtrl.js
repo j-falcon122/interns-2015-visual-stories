@@ -88,6 +88,22 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
             }
         }
     });
+    hotkeys.add({
+        combo: 'backspace',
+        description: 'Delete the selected object',
+        callback: function(event) {
+            event.preventDefault();
+            $scope.deleteSelected();
+        }
+    });
+
+    $scope.deleteSelected = function() {
+        var obj = $scope.canvas.getActiveObject();
+        if (obj) {
+            obj.remove();
+            $scope.qUndo();
+        }
+    }
 
     $scope.chooseImage = function(id, ignoreUndo) {
         $scope.clearCanvas();
