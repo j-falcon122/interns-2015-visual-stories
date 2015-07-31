@@ -3,24 +3,11 @@ angular.module('Assets', ['AssetService', 'ConfigService', 'TimelineService', 'u
 	$scope.showPhoto = false;
 	$scope.showText = false;
 	$scope.showQuotes = false;
-	$scope.assets = {
-		quotes: [],
-		images: [],
-		metadata: []
-	};
-
-	$scope.setClicked = function(data){
-		Config.clicked = data;
-	};
+	$scope.assets = null;
 
 	$scope.$on('article:load', function(event, url) {
 		assets.getData(url).then(function(data) {
 			$scope.assets = data;
-			console.log($scope.assets.metadata);
 		});
 	});
-
-	$scope.trustHTML = function(string) {
-		return $sce.trustAsHtml(string);
-	};
 });

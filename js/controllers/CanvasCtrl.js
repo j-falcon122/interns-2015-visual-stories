@@ -9,7 +9,7 @@ THINGS TO ADD
     gif export
 */
 
-angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).controller('CanvasCtrl', function($scope, Config, assets, timeline) {
+angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'cfp.hotkeys']).controller('CanvasCtrl', function($scope, Config, assets, timeline, hotkeys) {
 
     $scope.canvas = null;
     $scope.canvas_width = 600;
@@ -18,6 +18,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     $scope.showCanvas = true;
     $scope.defaultSlides = [];
     $scope.continueRender = true;
+    $scope.playing = false;
 
 
     $scope.convertToGIF = function(){
@@ -60,6 +61,23 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
             $scope.qUndo();
         }
     };
+
+    hotkeys.add({
+        combo: 'command+z',
+        description: 'Undo the last action.',
+        callback: $scope.popUndo
+    });
+    hotkeys.add({
+        combo: 'p',
+        description: 'Play / Pause',
+        callback: function() {
+            if ($scope.playing) {
+                $scope.stop();
+            } else {
+                $scope.playSlides();
+            }
+        }
+    });
 
     $scope.chooseImage = function(id, ignoreUndo) {
         $scope.clearCanvas();
@@ -335,14 +353,14 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     **    Animate Slide       **
     ***************************/
 
-    $scope.restart = function(){
+    $scope.stop = function(){
+        $scope.playing = false;
         $scope.canvas.clear();
     };
 
     $scope.playSlide = function(index, nextSlide) {
         var currentSlide = timeline.slides[index];
         var nop = function(x, y, cb) {cb()};
-        console.log('play slide', index);
 
         $scope.loadSlide(currentSlide.json,
             _.partial((currentSlide.duration ? $scope.fade : nop), false, currentSlide,
@@ -352,17 +370,18 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
     $scope.playSlides = function(recording) {
         $scope.continueRender = true;
         var currentSlide = -1;
-        $scope.playing = false;
+        $scope.playing = true;
 
         var changeSlide = function() {
             currentSlide++;
-            if (currentSlide < timeline.slides.length) {
+            if ($scope.playing && currentSlide < timeline.slides.length) {
                 $scope.playSlide(currentSlide, changeSlide);
             } else {
+                $scope.continueRender = false;
                 if (recording) {
                     $scope.finalizeVideo();
                 }
-                $scope.continueRender = false;
+                $scope.playing = false;
             }
         };
 
@@ -401,7 +420,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         obj.animate('opacity', 0, {
             onChange: $scope.canvas.renderAll.bind($scope.canvas),
             duration: slide.fadeOut,
-            onComplete: onComplete
+            onComplete: onComplete,
         });
     };
 
@@ -461,5 +480,10 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
 
         return animation;
     };
+
+    /***************************
+    **        Video           **
+    ***************************/
+
 
 });

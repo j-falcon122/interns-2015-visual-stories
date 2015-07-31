@@ -16,13 +16,13 @@
 
 
 .sliding{
-    height: 165px;
+    height: 51px;
     -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.2s;
     transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.2s;
 }
 
-.timelineHide {
-    height: 51px;
+.expanded {
+    height: 165px;
 }
 
 .element {

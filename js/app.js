@@ -1,4 +1,4 @@
-var app = angular.module ('timesTrailer', ['Assets', 'Editor', 'Canvas', 'Article', 'Timeline', 'ConfigService', 'TimelineService', 'AssetService', 'ngDragDrop']);
+var app = angular.module ('timesTrailer', ['Assets', 'Editor', 'Canvas', 'Article', 'Timeline', 'ConfigService', 'TimelineService', 'AssetService', 'ngDragDrop', 'cfp.hotkeys']);
 app.directive("scroll", function ($window) {
     return function($scope, element, attrs) {
         var eltWidth = 200;

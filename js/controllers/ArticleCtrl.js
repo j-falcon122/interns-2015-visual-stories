@@ -20,15 +20,14 @@ angular.module('Article', ['AssetService', 'ui.bootstrap']).controller("ArticleC
     $scope.revealedArticles = false;
     $scope.recents = function(){
         $("#recents").css("display","block");
-        console.log("working!");
-        if($scope.revealedArticles) return;
+
+        if ($scope.revealedArticles) return;
         for (var i = 0; i < localStorage.length; i++){
             $scope.revealedArticles = true;
             $scope.recentArticles.push({
                 headline: localStorage.key(i),
                 url: localStorage.getItem(localStorage.key(i)).slice(5)
             });
-            console.log($scope.recentArticles);
         }
     }
 });

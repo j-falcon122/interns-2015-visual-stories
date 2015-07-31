@@ -1,6 +1,15 @@
-angular.module('Timeline', ['TimelineService']).controller('TimelineCtrl', function($scope, timeline, Config) {
+angular.module('Timeline', ['TimelineService', 'cfp.hotkeys']).controller('TimelineCtrl', function($scope, timeline, hotkeys) {
     var count = localStorage.length;
     $scope.slides = [];
+    $scope.expandTimeline = false;
+
+    hotkeys.add({
+        combo: 't',
+        description: 'Show or hide the timeline.',
+        callback: function() {
+            $scope.expandTimeline = !$scope.expandTimeline;
+        }
+    });
 
     $scope.save = function() {
         localStorage.setItem(count, count);
@@ -14,16 +23,9 @@ angular.module('Timeline', ['TimelineService']).controller('TimelineCtrl', funct
         localStorage.clear();
     };
 
-    $scope.log = function() {
-        console.log($scope.slides);
-    }
-
-    $scope.$on("openSlide", function(){
-        $scope.slideHidden = false;
+    $scope.$on("newSlides", function(){
         $scope.fillSlides();
     })
-
-    $scope.slideHidden = true;
 
     $scope.durations = [
         {value: 500, label: '0.5 secs'},
@@ -36,6 +38,7 @@ angular.module('Timeline', ['TimelineService']).controller('TimelineCtrl', funct
 
     $scope.fillSlides = function() {
         $scope.slides = timeline.slides;
+        $scope.expandTimeline = true;
     };
 
     $scope.randomKen = function (slide) {

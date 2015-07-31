@@ -110,7 +110,6 @@ angular.module('AssetService', []).factory("assets", ['$http', '$q', function($h
 	        method: 'GET',
 	        url: url
 	    }).then(function(response) {
-	    	console.log(url);
 	        var quotes = getQuotes(response.data.result.article.body);
 	        var topImages = response.data.result.regions.Top.modules[0].modules;
 	        var embeddedImages = response.data.result.regions.Embedded.modules[0].modules;
