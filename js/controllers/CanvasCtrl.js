@@ -309,7 +309,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService']).c
         assets.getData().then(function(loaded) {
 
             timeline.slides.push($scope.createStarterSlide());
-
             var headline = _.findWhere(loaded.metadata, {name: 'Headline'}).text;
             var byline = _.findWhere(loaded.metadata, {name: 'Byline'}).text;
             timeline.slides.push($scope.createHeadlineSlide(headline, byline));

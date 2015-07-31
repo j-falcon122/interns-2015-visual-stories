@@ -259,7 +259,6 @@ body{
       width:114px;
 }
 
-
 /******************************
         Media Query
 *******************************/
@@ -267,7 +266,7 @@ body{
     .right {
         width: 90%;
         margin: 40px 5% 0 5%;
-        margin-bottom: 120px;
+        margin-bottom: 200px;
     }
 
     .left {
