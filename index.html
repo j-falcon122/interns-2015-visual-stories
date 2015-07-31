@@ -109,8 +109,7 @@
                                     <input class="effect-checkbox" type="checkbox" ng-model="item.fadeIn" ng-true-value="1000" ng-false-value="0">
                                     <p class="effect-label">FADE OUT</p>
                                     <input class="effect-checkbox" type="checkbox" ng-model="item.fadeOut" ng-true-value="1000" ng-false-value="0">
-                                    <p class="effect-label">PANNING</p>
-                                    <input class="effect-checkbox" type="checkbox"  ng-model="item.kenBurns" ng-true-value="true" ng-false-value="0">
+                                     <select class="form-control kenBurns" ng-model="item.kenBurns" ng-options="option.value as option.label for option in effects"></select>
                                     <p class="effect-label">FADE IN</p>
                                 </div>
                             </div>
