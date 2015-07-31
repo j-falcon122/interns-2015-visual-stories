@@ -15,10 +15,11 @@
 
     BUGS TO FIX:
         P1:
-        caption on two slides. - Sam
+        caption on two slides. - DONE
         panning bug - Dan
         fix timing (account for ken burns & fadeOut) - Dan
         when you drag, selected shouldn't change - Dan
+        Center text appropriately- Sam
         stop? -
 */
 
@@ -152,6 +153,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
     }
 
     $scope.clearCanvas = function() {
+        console.log('clear cnavas');
         $scope.canvas.clear();
     };
 
@@ -254,6 +256,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
     };
 
     $scope.restoreSlide = function(index){
+        $scope.clearCanvas();
         $scope.loadSlide(index, function() {
             $scope.canvas.renderAll();
             $scope.qUndo();
@@ -328,6 +331,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
         $scope.chooseImage(image, true);
 
         if (caption) {
+            console.log('caption');
             var summaryStyle = {
                 fontStyle: 'normal',
                 size: 21,
@@ -347,8 +351,8 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
         }
 
         var imageSlide = Config.defaultSlide($scope.saveSlide());
-
         imageSlide.kenBurns = effects.kenBurns;
+
         $scope.clearCanvas();
         return imageSlide;
     }
