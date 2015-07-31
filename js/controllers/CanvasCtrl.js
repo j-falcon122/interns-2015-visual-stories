@@ -19,7 +19,7 @@
         panning bug - Dan
         fix timing (account for ken burns & fadeOut) - Dan
         when you drag, selected shouldn't change - Dan
-        Center text appropriately- Sam
+        Center text appropriately- DONE
         stop? -
 */
 
