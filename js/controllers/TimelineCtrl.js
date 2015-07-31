@@ -37,12 +37,12 @@ angular.module('Timeline', ['TimelineService', 'cfp.hotkeys']).controller('Timel
     ];
 
     $scope.effects = [
-        {value: 0, label: 'NO PAN'},
+        {value: 0, label: 'NO PANNING'},
         {value:  1, label: 'ZOOM & SLIDE'},
         {value:  2, label: 'PAN LEFT & UP'},
         {value:  3, label: 'ZOOM CENTER'},
-        {value:  4, label: 'PAN RIGHT'},
-        {value:  5, label: 'PAN LEFT'}
+        {value:  4, label: 'PANNING RIGHT'},
+        {value:  5, label: 'PANNING LEFT'}
     ];
 
     $scope.fillSlides = function() {

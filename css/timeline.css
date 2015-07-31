@@ -74,13 +74,16 @@
 
 .effect-controller.active{
     width: 100%;
-    height: 102px;
+    height: 93px;
     background-color: black;
 }
 
-.effect-label, .effect-checkbox{
+.effect-label, .effect-checkbox, .kenBurns{
     -webkit-transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.25s;
     transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.25s;
+}
+
+.effect-label, .effect-checkbox{
     position:absolute;
     top:3px;
     right:3px;
@@ -91,17 +94,17 @@
     font-size:16px;
     font-weight: bold;
     right:29px;
-    top:28px;.
+    top:24px;.
 }
 
 
 .effect-controller.active > .effect-checkbox{
     right:8px;
-    top:28px;
+    top:24px;
 }
 .kenBurns{
     position: absolute;
-    top: 73px;
+    top:2px;
     height: 25px;
     background-color: #000000;
     font-size: 12px;
@@ -111,16 +114,13 @@
 }
 
 .effect-controller.active >.effect-label:nth-child(2){
-    top:51px;
-}
-.effect-controller.active >.effect-label:nth-child(4){
-    top:74px;
+    top:46px;
 }
 .effect-controller.active > .effect-checkbox:nth-child(3){
-    top:51px;
+    top:46px;
 }
-.effect-controller.active > .effect-checkbox:nth-child(5){
-    top:74px;
+.effect-controller.active > .kenBurns{
+    top: 68px;
 }
 
 
