@@ -2,6 +2,14 @@ angular.module('Timeline', ['TimelineService', 'cfp.hotkeys']).controller('Timel
     var count = localStorage.length;
     $scope.slides = [];
     $scope.expandTimeline = false;
+    $scope.time = '0 seconds';
+
+    $scope.getTime = function() {
+        var time = _.reduce($scope.slides, function(memo, slide) {
+            return memo + slide.duration;
+        }, 0);
+        $scope.time = time / 1000 + ' seconds';
+    }
 
     hotkeys.add({
         combo: 't',
@@ -49,6 +57,7 @@ angular.module('Timeline', ['TimelineService', 'cfp.hotkeys']).controller('Timel
         $scope.slides = timeline.slides;
         if ($scope.slides.length) {
             $scope.expandTimeline = true;
+            $scope.getTime();
         }
     };
 
@@ -58,6 +67,7 @@ angular.module('Timeline', ['TimelineService', 'cfp.hotkeys']).controller('Timel
 
     $scope.removeSlide = function(index){
     	timeline.slides.splice(index, 1);
+        $scope.getTime();
     }
 
     $scope.effectIndex = -1;
