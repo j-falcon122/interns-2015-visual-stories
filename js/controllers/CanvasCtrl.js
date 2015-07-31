@@ -153,7 +153,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
     }
 
     $scope.clearCanvas = function() {
-        console.log('clear cnavas');
         $scope.canvas.clear();
     };
 
@@ -352,7 +351,6 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
 
         var imageSlide = Config.defaultSlide($scope.saveSlide());
         imageSlide.kenBurns = effects.kenBurns;
-
         $scope.clearCanvas();
         return imageSlide;
     }
@@ -383,12 +381,11 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
 
             var MAX_NUMBER_OF_IMAGES = 5;
             var numImages = Math.min(loaded.images.length, MAX_NUMBER_OF_IMAGES);
-            var MAX_KEN_BURNS = 2;
 
-            for (var i = 0; i < numImages; i++) {
-                var effects = i < MAX_KEN_BURNS ? {kenBurns: i} : {};
-                var caption = (i == 0) ? summary : null;
-                var slide = $scope.generateImageSlide('image' + i, caption, effects);
+            for (var it = 0; it < numImages; it++) {
+                var effects = {kenBurns: it%6+1}
+                var caption = (it == 0) ? summary : null;
+                var slide = $scope.generateImageSlide('image' + it, caption, effects);
                 timeline.slides.push(slide);
             }
 
@@ -486,6 +483,9 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
             animation['opacity'] = slide.duration / slide.fadeIn;
         }
         switch (slide.kenBurns) {
+            case 0:
+                animation["scaleX"] = obj.scaleX;
+                break;
             case 1:
                 // zoom in, slide to the left/down
                 var scale = 0.1;

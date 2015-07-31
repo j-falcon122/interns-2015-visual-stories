@@ -36,6 +36,15 @@ angular.module('Timeline', ['TimelineService', 'cfp.hotkeys']).controller('Timel
         {value: 3000, label: '3 secs'}
     ];
 
+    $scope.effects = [
+        {value: 0, label: 'NO PAN'},
+        {value:  1, label: 'ZOOM & SLIDE'},
+        {value:  2, label: 'PAN LEFT & UP'},
+        {value:  3, label: 'ZOOM CENTER'},
+        {value:  4, label: 'PAN RIGHT'},
+        {value:  5, label: 'PAN LEFT'}
+    ];
+
     $scope.fillSlides = function() {
         $scope.slides = timeline.slides;
         if ($scope.slides.length) {
