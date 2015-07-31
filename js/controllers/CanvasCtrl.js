@@ -1,13 +1,19 @@
 /*
-THINGS TO ADD
-    fix timing (account for ken burns & fadeOut)
-    deleted selected from canvas.
+
+    THINGS TO ADD
     Make it easier to create rectangles
     *Work on timeline interface - add length and fadeIn/Out times
     Smarter generation? Algorithm
     OG video tags
     gif export
+    push things out of the way
+
+
+    Bugs To Fix:
+    panning bug
+    fix timing (account for ken burns & fadeOut)
     preview doesn't work and breaks custom rects for text.
+    when you drag, selected shouldn't change
 */
 
 angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'cfp.hotkeys']).controller('CanvasCtrl', function($scope, Config, assets, timeline, hotkeys) {
@@ -78,14 +84,15 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
         callback: $scope.popUndo
     });
     hotkeys.add({
-        combo: 'p',
+        combo: 'space',
         description: 'Play / Pause',
-        callback: function() {
+        callback: function(event) {
             if ($scope.playing) {
                 $scope.stop();
             } else {
                 $scope.playSlides();
             }
+            event.preventDefault();
         }
     });
     hotkeys.add({
@@ -422,6 +429,8 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
     };
 
     $scope.fade = function(out, slide, onComplete) {
+        if (!$scope.playing) return;
+
         if (out) {
             $scope.fadeOut(slide, onComplete);
         } else {
@@ -430,6 +439,8 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
     };
 
     $scope.fadeIn = function(slide, onComplete) {
+        if (!$scope.playing) return;
+
         var obj = $scope.canvas._objects[0];
         if (!obj) return;
 
@@ -439,6 +450,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
             onChange: $scope.canvas.renderAll.bind($scope.canvas),
             duration: slide.duration,
             onComplete: onComplete,
+            abort: function() {return !$scope.playing;}
         });
     };
 
@@ -450,6 +462,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
             onChange: $scope.canvas.renderAll.bind($scope.canvas),
             duration: slide.fadeOut,
             onComplete: onComplete,
+            abort: function() {return !$scope.playing;}
         });
     };
 
