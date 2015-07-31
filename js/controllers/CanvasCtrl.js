@@ -1,19 +1,25 @@
 /*
 
     THINGS TO ADD
-    Make it easier to create rectangles
-    *Work on timeline interface - add length and fadeIn/Out times
-    Smarter generation? Algorithm
-    OG video tags
-    gif export
-    push things out of the way
 
+        P2:
+        ken burns selection - Dan
+        show the length of the video - Sam
+        preview doesn't work and breaks custom rects for text - Sam
 
-    Bugs To Fix:
-    panning bug
-    fix timing (account for ken burns & fadeOut)
-    preview doesn't work and breaks custom rects for text.
-    when you drag, selected shouldn't change
+        P3:
+        Smarter generation? Algorithm
+        push things out of the way
+        gif export is slow
+        Make it easier to create rectangles
+
+    BUGS TO FIX:
+        P1:
+        caption on two slides. - Sam
+        panning bug - Dan
+        fix timing (account for ken burns & fadeOut) - Dan
+        when you drag, selected shouldn't change - Dan
+        stop? -
 */
 
 angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'cfp.hotkeys']).controller('CanvasCtrl', function($scope, Config, assets, timeline, hotkeys) {
