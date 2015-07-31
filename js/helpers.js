@@ -16,6 +16,7 @@ function wrapCanvasText(t, canvas, options) {
 
     // This works only with monospace fonts
     var justify = options.justify || 'left';
+    console.log('justify', justify);
 
     // clear newlines
     var sansBreaks = t.text.replace(/(\r\n|\n|\r)/gm, "");

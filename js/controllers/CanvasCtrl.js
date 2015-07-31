@@ -1,13 +1,13 @@
 /*
 THINGS TO ADD
     fix timing (account for ken burns & fadeOut)
-
-    Remove quote feature (preventDefault on delete key?)
+    deleted selected from canvas.
     Make it easier to create rectangles
-    *Work on timeline interface*
-    Video Algorithm
+    *Work on timeline interface - add length and fadeIn/Out times
+    Smarter generation? Algorithm
     OG video tags
     gif export
+    preview doesn't work and breaks custom rects for text.
 */
 
 angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'cfp.hotkeys']).controller('CanvasCtrl', function($scope, Config, assets, timeline, hotkeys) {
@@ -19,6 +19,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
     $scope.showCanvas = true;
     $scope.defaultSlides = [];
     $scope.continueRender = true;
+    $scope.writingGIF = 0;
     $scope.playing = false;
 
 
@@ -30,9 +31,15 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
                 $('#download-link').attr('href')
             ],
             interval: 20,
-            numFrames: $('video')[0].duration * 2
+            numFrames: 20,
+            progressCallback: function(progress) {
+                console.log(progress);
+                $scope.writingGIF = progress * 100;
+                $scope.$apply();
+            }
         }, function (obj) {
             if (!obj.error) {
+                $scope.writingGIF = 0;
                 var image = obj.image, animatedImage = document.createElement('img');
                 animatedImage.src = image;
                 $("#finished").append(animatedImage);
@@ -292,16 +299,16 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
         if (caption) {
             var summaryStyle = {
                 fontStyle: 'normal',
-                size: 21
+                size: 21,
             };
-            var summaryPosition = [0, $scope.canvas_height * 8 / 10, $scope.canvas_width, $scope.canvas_height * 4 / 10];
+            var summaryPosition = [0, $scope.canvas_height * 7 / 10, $scope.canvas_width, $scope.canvas_height * 3 / 10];
             var summaryOverlay = new fabric.Rect({
                 left: 0,
                 top: $scope.canvas_height * 7 / 10,
                 fill: "#000000",
                 opacity: 0.5,
                 width: $scope.canvas_width,
-                height: $scope.canvas_height * 4 / 10
+                height: $scope.canvas_height * 3 / 10
             });
 
             $scope.canvas.add(summaryOverlay);

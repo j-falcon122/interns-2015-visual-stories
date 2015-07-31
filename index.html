@@ -83,8 +83,8 @@
                     <input class="btn btn-sm btn-primary" value="Download" type="button" />
                 </a>
                <input class="btn btn-sm btn-primary" value="Convert to .gif" type="button" ng-click="convertToGIF()" />
+    <progressbar ng-show="writingGIF" class="progress-striped active" value="writingGIF" type="info"></progressbar>
                <div id="finished">
-
                </div>
             </div>
             <input ng-show="showCanvas" class="btn btn-sm btn-primary addSlide" ng-click="addSlide(); $broadcast('newSlides'); " value="Add slide" type="button">
