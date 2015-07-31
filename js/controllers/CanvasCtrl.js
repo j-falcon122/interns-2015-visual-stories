@@ -281,6 +281,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
         var starter = Config.defaultSlide($scope.saveSlide());
         starter.duration = 1000;
         starter.fadeOut = true;
+        starter.kenBurns = 0;
         $scope.canvas.clear();
         return starter;
 
@@ -307,6 +308,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
         $scope.chooseText(headline, headlineStyle, headlinePosition, true);
         $scope.chooseText(byline, bylineStyle, bylinePosition, true);
         var headliner = Config.defaultSlide($scope.saveSlide());
+        headliner.kenBurns = 0;
         $scope.clearCanvas();
         return headliner;
 
@@ -348,6 +350,7 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
     $scope.generateEndingSlide = function() {
         $scope.chooseImage("ender", true);
         var ender = Config.defaultSlide($scope.saveSlide());
+        ender.kenBurns = 0;
         $scope.clearCanvas();
         return ender;
 
@@ -522,10 +525,4 @@ angular.module('Canvas', ['AssetService', 'ConfigService', 'TimelineService', 'c
 
         return animation;
     };
-
-    /***************************
-    **        Video           **
-    ***************************/
-
-
 });
